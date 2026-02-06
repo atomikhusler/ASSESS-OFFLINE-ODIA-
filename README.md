@@ -12,6 +12,11 @@
 * **Zero Server Data:** All data is stored locally on your device's browser cache. We do not (and cannot) see your data.
 * **Excel Export:** Export data to `.xls` for backup or further editing.
 * **Smart Status:** Indicates incomplete or failed students automatically.
+  ## 📸 App Screenshots
+![Dashboard](screenshot1.jpg)
+![Menu Section](screenshot2.jpg)
+![Menu Section](screenshot3.jpg)
+![Add student section](screenshot4.jpg)
 
 ## 🔒 Privacy & Security Policy
 * **Local Storage Only:** This application uses your browser's `LocalStorage` database. No data is ever sent to a cloud server or external database.
