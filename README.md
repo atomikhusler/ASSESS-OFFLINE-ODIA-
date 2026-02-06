@@ -89,3 +89,18 @@ Go to **Menu > Settings** to customize the exam logic.
 * **License:** MIT (Free & Open Source)
 
 **Disclaimer:** This software is provided "as is". The developer is not responsible for data loss caused by clearing browser cache or uninstalling the browser. Please use the "Backup" feature regularly.
+
+---
+
+## 📬 Contact & Support
+Found a bug? Have a feature request?
+* **Telegram:** [@spesium](https://t.me/spesium)
+* **X (Twitter):** [@imsahilrout](https://twitter.com/imsahilrout)
+
+## 💖 Donate
+If this app helps you manage your school registers easily, please consider supporting the development effort.
+
+**UPI (India):** `sahilkumarrout01@axl`  
+*(Copy and pay via PhonePe/GPay/Paytm)*
+
+<a href="https://www.buymeacoffee.com/sahilkumarrout" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
