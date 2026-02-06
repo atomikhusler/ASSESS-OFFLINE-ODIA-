@@ -1,89 +1,126 @@
-# 🏫 Assess Offline (Odia) - v2.0 (Github Edition)
+<div align="center">
 
-**Assess Offline** is a secure, 100% offline Mark Register application designed specifically for Government Schools in Odisha. 
+  <h1>📊 Assess Offline (Odia)</h1>
+  <h3>The Ultimate Mark Register Calculator for Odisha Elementary Schools</h3>
 
-This **v2.0 (Github Edition)** is the "Gold Master" release, featuring a dynamic weightage engine that makes it future-proof for NEP 2020 curriculum changes. It generates professional, official-grade PDF reports with Odia translations.
+  <p>
+    <b>Version 2.6 (Gold Edition)</b> • <i>Stable Release</i>
+  </p>
 
----
+  <p>
+    <a href="https://github.com/atomikhusler/ASSESS-OFFLINE-ODIA-/blob/main/LICENSE">
+      <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
+    </a>
+    <img src="https://img.shields.io/badge/Platform-Web%20%7C%20Mobile-blue" alt="Platform">
+    <img src="https://img.shields.io/badge/Offline-100%25-success" alt="Offline Capable">
+  </p>
 
-## 🚀 Key Features
+  <p>
+    <i>Designed & Developed by <b>Sahil Kumar Rout</b></i>
+  </p>
 
-### 🛡️ 100% Offline & Secure
-* **No Internet Required:** Works completely without data.
-* **Privacy First:** All data is stored locally on your device (LocalStorage). No data is ever sent to a cloud server.
-* **Backup & Restore:** Easily save your school data to a file (`.json`) and restore it on any device.
+  <br>
 
-### 🧮 Dynamic Weightage Engine (New!)
-* **Flexible Logic:** Unlike old apps with hardcoded math, v2.0 allows you to configure **Full Marks** and **Weightage %** in Settings.
-* **NEP 2020 Ready:** If the Govt changes Project marks from 10 to 20 next year, you just update the Settings. No coding required.
-* **Rounding Policy:** Uses `Math.ceil()` (Successor Rounding) to benefit students (e.g., 23.1 becomes 24).
-
-### 📄 Professional Reporting (Print Ready)
-* **Vertical Merge Layout:** The Grand Total and Percentage columns span vertically across all subjects for a clear, readable summary.
-* **Official Styling:** Headers (School Name, UDISE) use **Times New Roman (Bold, Black)** to look like official registers.
-* **Odia Translations:**
-    * Assignment → **ଲିଖିତ କାର୍ଯ୍ୟ**
-    * Project → **ପ୍ରକଳ୍ପ କାର୍ଯ୍ୟ**
-    * Grand Total → **ସର୍ବମୋଟ ପ୍ରାପ୍ତାଙ୍କ**
-
-### 📱 Optimized User Experience
-* **AMOLED Dark Mode:** Pure Black (`#000000`) interface for battery saving and high contrast.
-* **Smart Save:** Warns you if marks are missing/empty before saving (prevents "Ghost Completion").
-* **Input Guards:** Prevents typing marks higher than the exam limit (e.g., typing 26 in a 25-mark exam).
+</div>
 
 ---
 
-## 📖 User Manual
+## 📖 About The Project
+**Assess Offline** is a lightweight, browser-based utility built to simplify the complex evaluation process for Government School teachers in **Odisha**. 
 
-### 1. Getting Started
-1.  Open the app.
-2.  Go to **Menu (☰)** → Enter **School Name**, **UDISE Code**, and **Session**.
-3.  These details will automatically appear on all PDF prints.
+It eliminates manual calculation errors by automating the weightage logic for **Primary (Class 1-5)** and **Upper Primary (Class 6-8)** students. It generates official **21-Column Mark Registers** in **Odia** that are ready to print.
 
-### 2. Adding a Student
-1.  Select a Class from the Menu.
-2.  Tap the **(+)** button.
-3.  Enter the Student's Name (Auto-converts to CAPITAL letters).
-4.  Enter marks. **Note:** If a student is absent, enter `0`. Do not leave it blank.
+### 🌟 Key Features
 
-### 3. Printing Registers (PDF)
-1.  Click **"📄 Class PDF"** for a single class or **"🖨️ Print All Classes"** for the whole school.
-2.  The system generates an A4 Landscape PDF.
-3.  **Layout:** The Grand Total is displayed in a merged column on the far right.
-
-### 4. Backup & Restore (Important!)
-* **To Backup:** Open Menu → Click **💾 Backup Data**. Save the file to your phone/Google Drive.
-* **To Restore:** Open Menu → Click **📂 Restore Data** → Select your backup file.
-* *Tip:* Do this weekly to ensure your data is safe.
+| Feature | Description |
+| :--- | :--- |
+| **🌍 Bilingual Support** | Generates reports in **Odia (ଓଡ଼ିଆ)** (Default) or English. |
+| **⚡ Smart Logic** | Auto-applies correct weightage (e.g., 20% Project vs 15%) based on Class level. |
+| **📄 Print Ready** | One-click generation of the official **21-Column PDF Register**. |
+| **📊 Excel Export** | Downloads editable `.xls` files for official record keeping. |
+| **🔒 100% Private** | No server. No login. All data is stored locally on your device. |
+| **🌙 Dark Mode** | Eye-friendly dark theme for late-night data entry. |
+| **✨ Interactive Tour** | Built-in tutorial to guide new users instantly. |
 
 ---
 
-## ⚙️ Configuration (Settings)
-
-Go to **Menu > Settings** to customize the exam logic.
-
-| Setting | Default (Primary) | Description |
-| :--- | :--- | :--- |
-| **Pass Mark %** | 30 | Minimum percentage required to pass. |
-| **FA Max Marks** | 25 | Maximum marks for Formative Assessments. |
-| **SA Max Marks** | 50 | Maximum marks for Summative Assessments. |
-| **Written Full Mark** | 10 | The max mark the exam is out of. |
-| **Written Weightage** | 10 | The marks it contributes to the final score. |
-| **Project Full Mark** | 10 | The max mark the exam is out of. |
-| **Project Weightage** | 20 | The marks it contributes to the final score. |
+## 📱 Screenshots
+<div align="center">
+  <img src="Screenshot1.jpg" width="30%" alt="Dashboard Light">
+  <img src="Screenshot2.jpg" width="30%" alt="Menu Drawer">
+  <img src="Screenshot4.jpg" width="30%" alt="PDF Report">
+</div>
 
 ---
 
-## 📸 App Screenshots
+## 🚀 How to Use
 
-| 📱 **Dashboard** | ☰ **Menu Section** |
-| :---: | :---: |
-| <img src="Screenshot1.jpg" width="300"> | <img src="Screenshot2.jpg" width="300"> |
-| **⚙️ Menu (Tools)** | **➕ Add Student** |
-| <img src="Screenshot3.jpg" width="300"> | <img src="Screenshot4.jpg" width="300"> |
+### 1. Installation
+No installation required! This is a web application.
+* **Live Link:** [Click Here to Open App](https://atomikhusler.github.io/ASSESS-OFFLINE-ODIA-/) 
 
+### 2. Setup Profile
+* Tap the **Menu (☰)** button.
+* Enter your **School Name**, **UDISE Code**, and **Session**.
+
+### 3. Add Students
+* Select a **Class** from the menu.
+* Tap the **(+)** button to add a student.
+* Enter marks. **Note:** If a student is absent, enter `0`. If an exam (like Written) was not held, set its Max Mark to `0` in Settings.
+
+### 4. Generate Reports
+* **Single Class:** Click the **[ 📄 PDF ]** button in the header.
+* **Whole School:** Go to **Menu > Tools > Print All Classes**.
 
 ---
+
+## ⚙️ Configuration (Advanced)
+You can customize the exam rules in **Settings**:
+
+* **Group A (Limits):** Set the Full Marks for Question Papers (e.g., FA=25, SA=50).
+* **Group B (Primary 1-5):** Define weightage % for written/project (Default: 10%/20%).
+* **Group C (Upper Pry 6-8):** Define weightage % for written/project (Default: 5%/15%).
+
+> **Tip:** To disable an exam (e.g., No Project), set the Max Mark to `0`. The app will automatically exclude it from calculations.
+
+---
+
+## 🔒 Privacy Policy
+**Your Data is Yours.**
+* This application runs entirely in your browser (Client-Side).
+* **No data** is sent to any external server or cloud.
+* **Warning:** Clearing your browser cache/history will delete your data.
+* **Backup:** Use the **"Backup Data"** option in the menu weekly to save a copy to your device.
+
+---
+
+## 📝 Changelog
+
+### v2.6 (Gold Edition) - Current
+- **Fixed:** PDF Generation crash (undefined variable `sumT1`).
+- **Fixed:** Default theme set to Light Mode.
+- **Improved:** Calculation engine now handles "0" Max Marks gracefully.
+- **UI:** Optimized PDF vertical header font size.
+
+### v2.0 - v2.5
+- Added Interactive Tutorial with Skip/Close options.
+- Implemented Odia Subject Translations.
+- Added Excel (.xls) mobile export support.
+- Fixed Menu freeze and Layout bugs.
+
+---
+
+## 🤝 Contributing
+Found a bug? Have a suggestion?
+1. Open an Issue on this Repository.
+2. Contact the developer on Telegram.
+
+---
+
+<div align="center">
+  <b>© 2026 Sahil Kumar Rout</b><br>
+  <i>Licensed under MIT License</i>
+</div>
 
 ## 👨‍💻 Developer Info
 
