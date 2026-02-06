@@ -75,10 +75,13 @@ Go to **Menu > Settings** to customize the exam logic.
 ---
 
 ## 📸 App Screenshots
-![Dashboard](Screenshot1.jpg)
-![Menu Section](Screenshot2.jpg)
-![Menu Section](Screenshot3.jpg)
-![Add student section](Screenshot4.jpg)
+
+| 📱 **Dashboard** | ☰ **Menu Section** |
+| :---: | :---: |
+| <img src="Screenshot1.jpg" width="300"> | <img src="Screenshot2.jpg" width="300"> |
+| **⚙️ Menu (Tools)** | **➕ Add Student** |
+| <img src="Screenshot3.jpg" width="300"> | <img src="Screenshot4.jpg" width="300"> |
+
 
 ---
 
@@ -94,13 +97,16 @@ Go to **Menu > Settings** to customize the exam logic.
 
 ## 📬 Contact & Support
 Found a bug? Have a feature request?
-* **Telegram:** [@spesium](https://t.me/spesium)
-* **X (Twitter):** [@imsahilrout](https://twitter.com/imsahilrout)
+* **Telegram:** [@Assess_Offline](https://t.me/+pV0H_iNurNAyMmZl)
 
 ## 💖 Donate
 If this app helps you manage your school registers easily, please consider supporting the development effort.
 
-**UPI (India):** `sahilkumarrout01@axl`  
+**UPI (India):**  
 *(Copy and pay via PhonePe/GPay/Paytm)*
+<a href="upi://pay?pa=im.skr@ybl &pn=Sahil Kumar Rout &cu=INR">
+  <img src="https://img.shields.io/badge/Donate-UPI-blue?style=for-the-badge&logo=google-pay&logoColor=white" alt="Donate UPI">
+</a>
 
-<a href="https://www.buymeacoffee.com/sahilkumarrout" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+<a href="upi://pay?pa=im.skr@ybl&pn=Sahil%20Kumar" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
