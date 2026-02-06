@@ -1,47 +1,91 @@
-# Assess Offline (Odia) 📝
-**v1.5 (Official Release)**
+# 🏫 Assess Offline (Odia) - v2.0 (Github Edition)
 
-**Assess Offline** is a secure, single-file web application designed to help teachers in Odisha manage student mark registers for Classes 1 to 8. It automates the complex weightage calculations required by the Education Department and generates print-ready PDFs with official Odia headers.
+**Assess Offline** is a secure, 100% offline Mark Register application designed specifically for Government Schools in Odisha. 
 
-> **⚠️ IMPORTANT:** For the best performance and correct PDF generation, please open this application in **Google Chrome**.
+This **v2.0 (Github Edition)** is the "Gold Master" release, featuring a dynamic weightage engine that makes it future-proof for NEP 2020 curriculum changes. It generates professional, official-grade PDF reports with Odia translations.
+
+---
 
 ## 🚀 Key Features
-* **100% Offline:** Works entirely in your browser. No internet required after the first load.
-* **Automated Calculations:** Automatically calculates weightage (30%, 10%, 20%, 40%/50%) based on Class level.
-* **Official Formats:** Generates A4 Landscape PDFs with vertical Odia headers matching government registers.
-* **Zero Server Data:** All data is stored locally on your device's browser cache. We do not (and cannot) see your data.
-* **Excel Export:** Export data to `.xls` for backup or further editing.
-* **Smart Status:** Indicates incomplete or failed students automatically.
-  ## 📸 App Screenshots
+
+### 🛡️ 100% Offline & Secure
+* **No Internet Required:** Works completely without data.
+* **Privacy First:** All data is stored locally on your device (LocalStorage). No data is ever sent to a cloud server.
+* **Backup & Restore:** Easily save your school data to a file (`.json`) and restore it on any device.
+
+### 🧮 Dynamic Weightage Engine (New!)
+* **Flexible Logic:** Unlike old apps with hardcoded math, v2.0 allows you to configure **Full Marks** and **Weightage %** in Settings.
+* **NEP 2020 Ready:** If the Govt changes Project marks from 10 to 20 next year, you just update the Settings. No coding required.
+* **Rounding Policy:** Uses `Math.ceil()` (Successor Rounding) to benefit students (e.g., 23.1 becomes 24).
+
+### 📄 Professional Reporting (Print Ready)
+* **Vertical Merge Layout:** The Grand Total and Percentage columns span vertically across all subjects for a clear, readable summary.
+* **Official Styling:** Headers (School Name, UDISE) use **Times New Roman (Bold, Black)** to look like official registers.
+* **Odia Translations:**
+    * Assignment → **ଲିଖିତ କାର୍ଯ୍ୟ**
+    * Project → **ପ୍ରକଳ୍ପ କାର୍ଯ୍ୟ**
+    * Grand Total → **ସର୍ବମୋଟ ପ୍ରାପ୍ତାଙ୍କ**
+
+### 📱 Optimized User Experience
+* **AMOLED Dark Mode:** Pure Black (`#000000`) interface for battery saving and high contrast.
+* **Smart Save:** Warns you if marks are missing/empty before saving (prevents "Ghost Completion").
+* **Input Guards:** Prevents typing marks higher than the exam limit (e.g., typing 26 in a 25-mark exam).
+
+---
+
+## 📖 User Manual
+
+### 1. Getting Started
+1.  Open the app.
+2.  Go to **Menu (☰)** → Enter **School Name**, **UDISE Code**, and **Session**.
+3.  These details will automatically appear on all PDF prints.
+
+### 2. Adding a Student
+1.  Select a Class from the Menu.
+2.  Tap the **(+)** button.
+3.  Enter the Student's Name (Auto-converts to CAPITAL letters).
+4.  Enter marks. **Note:** If a student is absent, enter `0`. Do not leave it blank.
+
+### 3. Printing Registers (PDF)
+1.  Click **"📄 Class PDF"** for a single class or **"🖨️ Print All Classes"** for the whole school.
+2.  The system generates an A4 Landscape PDF.
+3.  **Layout:** The Grand Total is displayed in a merged column on the far right.
+
+### 4. Backup & Restore (Important!)
+* **To Backup:** Open Menu → Click **💾 Backup Data**. Save the file to your phone/Google Drive.
+* **To Restore:** Open Menu → Click **📂 Restore Data** → Select your backup file.
+* *Tip:* Do this weekly to ensure your data is safe.
+
+---
+
+## ⚙️ Configuration (Settings)
+
+Go to **Menu > Settings** to customize the exam logic.
+
+| Setting | Default (Primary) | Description |
+| :--- | :--- | :--- |
+| **Pass Mark %** | 30 | Minimum percentage required to pass. |
+| **FA Max Marks** | 25 | Maximum marks for Formative Assessments. |
+| **SA Max Marks** | 50 | Maximum marks for Summative Assessments. |
+| **Written Full Mark** | 10 | The max mark the exam is out of. |
+| **Written Weightage** | 10 | The marks it contributes to the final score. |
+| **Project Full Mark** | 10 | The max mark the exam is out of. |
+| **Project Weightage** | 20 | The marks it contributes to the final score. |
+
+---
+
+## 📸 App Screenshots
 ![Dashboard](Screenshot1.jpg)
 ![Menu Section](Screenshot2.jpg)
 ![Menu Section](Screenshot3.jpg)
 ![Add student section](Screenshot4.jpg)
 
-## 🔒 Privacy & Security Policy
-* **Local Storage Only:** This application uses your browser's `LocalStorage` database. No data is ever sent to a cloud server or external database.
-* **Data Control:** You have full control. If you clear your browser's "Cache & Site Data", all records will be permanently deleted.
-* **No Tracking:** There are no analytics, trackers, or ads in this application.
-
-## ⚠️ Security Warning & Disclaimer
-**Please Read Carefully:**
-
-1.  **Official Source:** The original, unmodified version of this software is available **ONLY** on this GitHub repository.
-2.  **Third-Party Files:** If you received this application as a downloadable file (e.g., via WhatsApp, Telegram, or ShareIt), **DELETE IT IMMEDIATELY**. Modified files from third parties may contain malicious scripts or backdoors.
-3.  **Liability:** The developer (**Sahil Kumar Rout**) provides this tool "as is" for educational assistance. The developer is **NOT responsible** for:
-    * Any data loss due to browser cache clearing or device failure.
-    * Any fraudulent modifications made to the code by third parties.
-    * Any misuse of the generated documents.
-4.  **Verification:** Always verify the generated PDF with a physical signature and school seal. The digital file alone should not be treated as a final legal document without physical verification.
-
-## 🛠️ How to Use
-1.  Open the **Official Link** using **Google Chrome** (Recommended).
-2.  Go to the **Menu (☰)** and enter your **School Details** (Name, UDISE, Session).
-3.  Select a **Class** and click the **+ (Plus)** button to add students.
-4.  Enter marks for FA1, FA2, SA1, Assignments, Projects, and SA2.
-5.  Click **"📄 Class PDF"** to generate the register.
-6.  **Print & Sign:** Print the PDF and apply the Headmaster's signature and School Seal for official validity.
-
 ---
-**Developed by Sahil Kumar Rout**
-*Odisha, India*
+
+## 👨‍💻 Developer Info
+
+* **Developer:** Sahil Kumar Rout
+* **Version:** v2.0 (Github Edition)
+* **License:** MIT (Free & Open Source)
+
+**Disclaimer:** This software is provided "as is". The developer is not responsible for data loss caused by clearing browser cache or uninstalling the browser. Please use the "Backup" feature regularly.
