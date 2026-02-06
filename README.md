@@ -45,11 +45,19 @@ It eliminates manual calculation errors by automating the weightage logic for **
 ---
 
 ## 📱 Screenshots
+
 <div align="center">
-  <img src="Screenshot1.jpg" width="30%" alt="Dashboard Light">
-  <img src="Screenshot2.jpg" width="30%" alt="Menu Drawer">
-  <img src="Screenshot4.jpg" width="30%" alt="PDF Report">
+  
+  <img src="Shot1.jpg" width="30%" alt="1. Dashboard">
+  <img src="Shot2.jpg" width="30%" alt="2. Classes">
+  <img src="Shot3.jpg" width="30%" alt="3. Add Student">
+  
+  <br> <img src="Shot4.jpg" width="30%" alt="4. Menu Options">
+  <img src="Shot5.jpg" width="30%" alt="5. Settings">
+  <img src="Shot6.jpg" width="30%" alt="6. Night Mode">
+
 </div>
+
 
 ---
 
