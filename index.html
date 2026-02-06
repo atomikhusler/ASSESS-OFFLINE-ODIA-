@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assess Offline (Odia) v1.5 Mark Register</title>
+<style>
+    /* --- RESET & VARIABLES --- */
+    :root {
+        --primary: #0b57d0; --white: #fff; --bg: #f5f7fa; --text: #333;
+        --border: #dde1e6; --success: #198754; --success-bg: #d1e7dd;
+        --error: #dc3545; --error-bg: #f8d7da; --warn: #fd7e14; --warn-bg: #ffecb5;
+    }
+    body.dark {
+        --primary: #8ab4f8; --white: #1e1e1e; --bg: #121212; --text: #e0e0e0;
+        --border: #444; --success: #75b798; --success-bg: #143a28;
+        --error: #ea868f; --error-bg: #411b1f; --warn: #ffca2c; --warn-bg: #423208;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; background: var(--bg); color: var(--text); padding-bottom: 100px; }
+    button { cursor: pointer; user-select: none; }
+
+    /* --- HEADER --- */
+    header {
+        position: fixed; top: 0; left: 0; width: 100%; height: 65px;
+        background: #0b57d0; color: white; display: flex; align-items: center;
+        padding: 0 15px; z-index: 1000; box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .menu-icon { font-size: 28px; background: none; border: none; color: white; margin-right: 15px; padding: 0; }
+    .header-titles { display: flex; flex-direction: column; justify-content: center; }
+    .header-titles h1 { margin: 0; font-size: 16px; font-weight: bold; line-height: 1.2; }
+    .header-titles p { margin: 2px 0 0 0; font-size: 13px; opacity: 0.9; }
+
+    /* --- CONTROLS --- */
+    .controls {
+        margin-top: 65px; background: var(--white); padding: 12px;
+        border-bottom: 1px solid var(--border); display: flex; gap: 10px;
+    }
+    .btn-action {
+        flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 6px;
+        background: transparent; color: var(--primary); font-weight: 600; font-size: 13px;
+        display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    body.dark .btn-action { color: var(--primary); border-color: var(--primary); }
+    
+    .credit {
+        text-align: center; font-size: 10px; color: #888; padding: 6px;
+        background: var(--bg); border-bottom: 1px solid var(--border);
+        font-family: monospace; text-transform: uppercase; letter-spacing: 1px;
+    }
+
+    /* --- LIST CARD --- */
+    .list-area { padding: 15px; max-width: 800px; margin: 0 auto; }
+    .card {
+        background: var(--white); border-radius: 10px; padding: 16px; margin-bottom: 12px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 5px solid transparent;
+        position: relative; transition: transform 0.1s;
+    }
+    .card:active { transform: scale(0.98); }
+    .card.pass { border-left-color: var(--success); background: linear-gradient(to right, var(--success-bg), var(--white) 15%); }
+    .card.fail { border-left-color: var(--error); background: linear-gradient(to right, var(--error-bg), var(--white) 15%); }
+    
+    .row-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .st-name { font-size: 16px; font-weight: 700; color: var(--text); }
+    .st-score-box { text-align: right; }
+    .st-score { font-size: 20px; font-weight: 800; color: var(--primary); line-height: 1; }
+    .st-percent { font-size: 11px; color: #666; margin-top: 2px; }
+    
+    .tags { display: flex; gap: 8px; font-size: 11px; font-weight: 700; align-items: center; }
+    .tag { padding: 4px 8px; border-radius: 4px; text-transform: uppercase; }
+    .tag.inc { background: var(--warn-bg); color: var(--warn); }
+    .tag.com { background: var(--success-bg); color: var(--success); }
+    .tag.fail-badge { background: var(--error); color: white; }
+
+    /* --- FAB --- */
+    .fab {
+        position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px;
+        background: #0b57d0; color: white; border-radius: 50%; border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3); font-size: 32px; z-index: 900;
+        display: flex; justify-content: center; align-items: center;
+    }
+
+    /* --- DRAWER --- */
+    .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1100; }
+    .drawer {
+        position: fixed; top: 0; left: -280px; width: 280px; height: 100%;
+        background: var(--white); z-index: 1200; transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; box-shadow: 2px 0 15px rgba(0,0,0,0.3);
+    }
+    .drawer.open { left: 0; }
+    .drawer-head { background: #0b57d0; color: white; padding: 25px 20px; }
+    .drawer-body { flex: 1; overflow-y: auto; padding: 10px 0; }
+    .menu-item { padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .menu-item:active { background: rgba(0,0,0,0.05); }
+    .sec-title { padding: 20px 20px 8px; font-size: 11px; font-weight: bold; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* --- MODAL --- */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--white); z-index: 1500; overflow-y: auto; }
+    .modal-head { position: sticky; top: 0; background: #0b57d0; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; z-index: 1510; }
+    .modal-body { padding: 20px; max-width: 600px; margin: 0 auto; padding-bottom: 80px; }
+    .inp-grp { margin-bottom: 15px; }
+    .inp-grp label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 600; color: var(--text); }
+    .inp-txt { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 16px; background: var(--white); color: var(--text); }
+    
+    /* EXPORT MODAL SPECIAL */
+    .exp-opt { padding: 15px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+    .exp-opt:hover { background: var(--bg); }
+    .exp-opt.selected { border-color: var(--primary); background: rgba(11, 87, 208, 0.05); }
+
+    /* MARK ENTRY */
+    .sub-card { border: 1px solid var(--border); padding: 15px; margin-bottom: 20px; border-radius: 8px; background: rgba(0,0,0,0.02); }
+    .sub-head { font-weight: 700; color: var(--primary); border-bottom: 2px solid var(--border); margin-bottom: 12px; padding-bottom: 5px; font-size: 15px; }
+    .mark-row { display: flex; gap: 10px; margin-bottom: 12px; }
+    .mark-col { flex: 1; }
+    .mark-col label { display: block; font-size: 11px; color: #666; margin-bottom: 4px; font-weight: 600; text-align: center; }
+    .mark-inp { width: 100%; padding: 10px; text-align: center; border: 1px solid var(--border); border-radius: 6px; font-size: 16px; background: var(--white); color: var(--text); }
+    .mark-inp.err { border-color: var(--error); background: var(--error-bg); color: var(--error); }
+    .btn-save { width: 100%; padding: 14px; background: #0b57d0; color: white; border: none; font-size: 16px; font-weight: bold; border-radius: 6px; margin-top: 10px; }
+    .btn-del { width: 100%; padding: 14px; background: #c62828; color: white; border: none; margin-top: 15px; border-radius: 6px; }
+
+    /* --- PRINT CSS --- */
+    #print-wrap { display: none; }
+    @media print {
+        body * { visibility: hidden; }
+        #print-wrap, #print-wrap * { visibility: visible; }
+        #print-wrap { display: block; position: absolute; left: 0; top: 0; width: 100%; }
+        @page { size: A4 landscape; margin: 5mm; }
+        
+        table { width: 100%; border-collapse: collapse; font-family: 'Times New Roman', serif; font-size: 9pt; color: black; margin-bottom: 20px; }
+        th, td { border: 0.5pt solid black; padding: 3px; text-align: center; vertical-align: middle; }
+        .v-th { height: 130px; vertical-align: bottom; }
+        .v-txt { writing-mode: vertical-rl; transform: rotate(180deg); margin: 0 auto; white-space: nowrap; font-size: 8pt; }
+        .t-left { text-align: left; padding-left: 5px; }
+        
+        .p-head { text-align: center; border-bottom: 1px solid black; margin-bottom: 10px; padding-bottom: 5px; }
+        .p-school { font-size: 16pt; font-weight: bold; text-transform: uppercase; }
+        .gt-row { background: #f0f0f0; font-weight: bold; }
+        .page-break { page-break-before: always; }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <button class="menu-icon" onclick="toggleDrawer()">☰</button>
+    <div class="header-titles">
+        <h1 id="ui-school">My Govt School</h1>
+        <p id="ui-class">Class 1 Register</p>
+    </div>
+</header>
+
+<div class="controls">
+    <button class="btn-action" onclick="prepExport('single')">📄 Class PDF</button>
+    <button class="btn-action" onclick="genExcel()">📊 Excel Export</button>
+</div>
+<div class="credit">Developed by Sahil Kumar Rout</div>
+
+<div class="list-area" id="list"></div>
+
+<button class="fab" onclick="editStudent(null)">+</button>
+
+<div class="overlay" id="overlay" onclick="toggleDrawer()"></div>
+<div class="drawer" id="drawer">
+    <div class="drawer-head">
+        <div style="font-size:20px; font-weight:bold;">Assess Offline(Odia) </div>
+        <div style="font-size:12px; opacity:0.8;">v1.5 (GitHub Edition)</div>
+    </div>
+    <div class="drawer-body">
+        <div class="sec-title">School Details (Auto-Save)</div>
+        <div style="padding:0 20px;">
+            <div class="inp-grp"><label style="font-size:11px;">School Name</label><input type="text" id="menu-school" class="inp-txt" style="padding:8px;" oninput="updSchool(this.value, 'school')"></div>
+            <div class="inp-grp"><label style="font-size:11px;">UDISE Code</label><input type="text" id="menu-udise" class="inp-txt" style="padding:8px;" oninput="updSchool(this.value, 'udise')"></div>
+            <div class="inp-grp"><label style="font-size:11px;">Session</label><input type="text" id="menu-ses" class="inp-txt" style="padding:8px;" oninput="updSchool(this.value, 'session')"></div>
+        </div>
+
+        <div class="sec-title">Class Selection</div>
+        <div onclick="pickClass('1')" class="menu-item"><span>Class 1</span><span id="cnt1"></span></div>
+        <div onclick="pickClass('2')" class="menu-item"><span>Class 2</span><span id="cnt2"></span></div>
+        <div onclick="pickClass('3')" class="menu-item"><span>Class 3</span><span id="cnt3"></span></div>
+        <div onclick="pickClass('4')" class="menu-item"><span>Class 4</span><span id="cnt4"></span></div>
+        <div onclick="pickClass('5')" class="menu-item"><span>Class 5</span><span id="cnt5"></span></div>
+        <div onclick="pickClass('6')" class="menu-item"><span>Class 6</span><span id="cnt6"></span></div>
+        <div onclick="pickClass('7')" class="menu-item"><span>Class 7</span><span id="cnt7"></span></div>
+        <div onclick="pickClass('8')" class="menu-item"><span>Class 8</span><span id="cnt8"></span></div>
+        
+        <div class="sec-title">Global Exports</div>
+        <div onclick="prepExport('all')" class="menu-item" style="color:#0b57d0; font-weight:bold;">🖨️ Print All Classes (PDF)</div>
+
+        <div class="sec-title">Tools</div>
+        <div onclick="openSettings()" class="menu-item">⚙️ Settings</div>
+        <div onclick="toggleDark()" class="menu-item"><span>Theme</span><span id="theme-btn">☀️</span></div>
+        <div onclick="openAbout()" class="menu-item">ℹ️ About & Privacy</div>
+        <div onclick="resetAll()" class="menu-item" style="color:#d32f2f">⚠️ Reset Data</div>
+    </div>
+</div>
+
+<div class="modal" id="mod-edit">
+    <div class="modal-head">
+        <span id="edit-title">Student</span>
+        <button class="menu-icon" onclick="closeModal('mod-edit')">✕</button>
+    </div>
+    <div class="modal-body">
+        <div class="inp-grp"><label>Student Name</label><input type="text" id="inp-name" class="inp-txt" placeholder="Enter full name"></div>
+        <div id="marks-area"></div>
+        <button class="btn-save" onclick="saveStudent()">SAVE STUDENT</button>
+        <button class="btn-del" id="btn-del" onclick="delStudent()" style="display:none">DELETE STUDENT</button>
+    </div>
+</div>
+
+<div class="modal" id="mod-exp">
+    <div class="modal-head"><span>Export Options</span><button class="menu-icon" onclick="closeModal('mod-exp')">✕</button></div>
+    <div class="modal-body">
+        <p style="color:#666; margin-bottom:20px;">Choose how you want the header to appear in the PDF.</p>
+        
+        <div class="exp-opt" onclick="runExport(true)">
+            <div style="font-size:24px;">🏫</div>
+            <div>
+                <div style="font-weight:bold;">Include School Details</div>
+                <div style="font-size:12px; color:#666;">Prints School Name, UDISE, and Session at the top.</div>
+            </div>
+        </div>
+
+        <div class="exp-opt" onclick="runExport(false)">
+            <div style="font-size:24px;">📄</div>
+            <div>
+                <div style="font-weight:bold;">Exclude School Details</div>
+                <div style="font-size:12px; color:#666;">Best for printing on Letterhead. Keeps "Mark Register" title.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="mod-set">
+    <div class="modal-head"><span>Settings</span><button class="menu-icon" onclick="closeModal('mod-set')">✕</button></div>
+    <div class="modal-body">
+        <div class="inp-grp"><label>Pass Mark %</label><input type="number" id="cfg-pass" class="inp-txt"></div>
+        <hr>
+        <div class="inp-grp"><label>Class 1-2 Subjects</label><input type="text" id="cfg-s1" class="inp-txt"></div>
+        <div class="inp-grp"><label>Class 3-5 Subjects</label><input type="text" id="cfg-s3" class="inp-txt"></div>
+        <div class="inp-grp"><label>Class 6-8 Subjects</label><input type="text" id="cfg-s6" class="inp-txt"></div>
+        <button class="btn-save" onclick="saveSettings()">SAVE SETTINGS</button>
+    </div>
+</div>
+
+<div class="modal" id="mod-abt">
+    <div class="modal-head"><span>About & Privacy</span><button class="menu-icon" onclick="closeModal('mod-abt')">✕</button></div>
+    <div class="modal-body" style="text-align:center;">
+        <h2 style="color:#0b57d0;">Assess Offline</h2><p style="color:#666;">v1.5 (GitHub Release)</p>
+        
+        <div style="margin:20px 0; border-top:1px solid #eee; border-bottom:1px solid #eee; padding:20px 0; text-align:left;">
+            <p style="font-weight:bold; color:#d32f2f;">SECURITY & LIABILITY WARNING:</p>
+            <p style="font-size:13px; color:#333;">This application is distributed OFFICIALLY only via GitHub. If you downloaded this as a file from WhatsApp, Telegram, or a third party, <b style="color:#d32f2f">DELETE IT IMMEDIATELY</b>. Modified files may contain malicious scripts.</p>
+            <p style="font-size:13px; color:#333;">The developer (Sahil Kumar Rout) is <b>NOT responsible</b> for any data loss, misuse, or fraudulent modifications made to this software by third parties.</p>
+            
+            <p style="font-weight:bold; color:#0b57d0; margin-top:15px;">PRIVACY POLICY:</p>
+            <p style="font-size:13px; color:#333;">This app works <b>100% Offline</b>. No data is sent to any server. All marks are stored locally on this device's browser cache. Clearing your browser cache will delete all data.</p>
+        </div>
+
+        <div style="margin-top:20px;">
+            <p><b>Created By</b><br>Sahil Kumar Rout</p>
+            <p><b>Telegram</b><br>@spesium</p>
+            <p><b>X (Twitter)</b><br>@imsahilrout</p>
+        </div>
+    </div>
+</div>
+
+<div id="print-wrap"></div>
+
+<script>
+// --- CONFIG & STATE ---
+const DEF = {
+    school: "My Govt School", udise: "", session: "2025-26", pass: 30,
+    s1: "Language (Odia), Mathematics, EVS, Drawing",
+    s3: "Language (Odia), Mathematics, English, EVS, Drawing",
+    s6: "Language (Odia), Mathematics, English, Science, History, Geography, Hindi, Sanskrit, Drawing"
+};
+let db = { cf: {...DEF}, st: {} };
+let cls = "1";
+let eIdx = null;
+let expMode = 'single';
+
+// --- INIT ---
+function init() {
+    // New Key for v1.5 to ensure clean start
+    const s = localStorage.getItem("assess_v15");
+    if(s) db = JSON.parse(s);
+    else for(let i=1; i<=8; i++) db.st[i] = [];
+    
+    // Set Menu Inputs
+    document.getElementById('menu-school').value = db.cf.school || "";
+    document.getElementById('menu-udise').value = db.cf.udise || "";
+    document.getElementById('menu-ses').value = db.cf.session || "";
+
+    if(localStorage.getItem("theme")==="dark") document.body.classList.add("dark");
+    updThemeIcon(); render();
+}
+function save() { localStorage.setItem("assess_v15", JSON.stringify(db)); render(); }
+
+// --- INSTANT SCHOOL UPDATE ---
+function updSchool(val, type) {
+    if(type === 'school') db.cf.school = val;
+    if(type === 'udise') db.cf.udise = val;
+    if(type === 'session') db.cf.session = val;
+    document.getElementById('ui-school').innerText = db.cf.school || "School Name";
+    save();
+}
+
+// --- LOGIC ---
+function getSubs(c) {
+    const n = parseInt(c);
+    let s = db.cf.s1;
+    if(n>=3) s = db.cf.s3;
+    if(n>=6) s = db.cf.s6;
+    return s.split(',').map(x=>x.trim()).filter(x=>x);
+}
+
+function calc(m, high) {
+    m = m||{};
+    const n = v => parseFloat(v)||0;
+    let f1=n(m.f1), f2=n(m.f2), s1=n(m.s1);
+    let a1=n(m.a1), a2=n(m.a2); 
+    let p1=n(m.p1), p2=n(m.p2); 
+    let s2=n(m.s2);
+
+    let totA = f1+f2+s1;
+    let w30 = totA * 0.3;
+    let bA = Math.max(a1, a2);
+    let wA = high ? (bA*0.5) : (bA*1.0);
+    let bP = Math.max(p1, p2);
+    let wP = high ? (bP*1.5) : (bP*2.0);
+    let wS2 = high ? (s2*1.0) : (s2*0.8);
+
+    let fin = Math.ceil(w30+wA+wP+wS2);
+    return { totA, w30, bA, wA, bP, wP, wS2, fin };
+}
+
+// --- UI RENDER ---
+function render() {
+    document.getElementById('ui-school').innerText = db.cf.school || "School Name";
+    document.getElementById('ui-class').innerText = "Class " + cls + " Register";
+    for(let i=1; i<=8; i++) {
+        let l = (db.st[i]||[]).length;
+        let el = document.getElementById('cnt'+i);
+        if(el) el.innerText = l ? " ("+l+")" : "";
+    }
+
+    const list = document.getElementById('list');
+    list.innerHTML = "";
+    
+    const data = db.st[cls] || [];
+    const subs = getSubs(cls);
+    const high = parseInt(cls)>=6;
+    const passLimit = db.cf.pass || 30;
+
+    if(data.length===0) { list.innerHTML = "<div style='text-align:center; padding:50px; color:#888'>No students yet.<br>Tap + to add.</div>"; return; }
+
+    data.forEach((s, i) => {
+        let fill=0, gTot=0, fail=false;
+        subs.forEach(sb => {
+            if(s.m && s.m[sb] && Object.keys(s.m[sb]).length > 0) fill++;
+            let r = calc(s.m?s.m[sb]:{}, high);
+            gTot += r.fin;
+            if(r.fin < passLimit) fail = true;
+        });
+
+        let isComplete = (fill >= subs.length); 
+        let pct = (subs.length > 0) ? ((gTot / (subs.length*100))*100).toFixed(1) : 0;
+        let tagHTML = "", cardClass = "card";
+
+        if(!isComplete) {
+            tagHTML = `<span class='tag inc'>⚠️ Incomplete (${fill}/${subs.length})</span>`;
+        } else {
+            tagHTML = `<span class='tag com'>✅ Completed</span>`;
+            if(fail) { tagHTML += ` <span class='tag fail-badge'>FAIL</span>`; cardClass += " fail"; }
+            else { tagHTML += ` <span class='tag com' style='background:#198754; color:white;'>PASS</span>`; cardClass += " pass"; }
+        }
+
+        let d = document.createElement('div');
+        d.className = cardClass;
+        d.onclick = () => editStudent(i);
+        d.innerHTML = `
+            <div class="row-top">
+                <div class="st-name">${i+1}. ${s.name}</div>
+                <div class="st-score-box">
+                    <div class="st-score">${gTot}</div>
+                    <div class="st-percent">${pct}%</div>
+                </div>
+            </div>
+            <div class="tags">${tagHTML}</div>
+        `;
+        list.appendChild(d);
+    });
+}
+
+// --- EDIT MODAL ---
+function editStudent(idx) {
+    eIdx = idx;
+    let isNew = (idx===null);
+    let d = isNew ? {name:"", m:{}} : db.st[cls][idx];
+    document.getElementById('edit-title').innerText = isNew ? "Add Student" : "Edit Student";
+    document.getElementById('inp-name').value = d.name;
+    document.getElementById('mod-edit').style.display = 'block';
+    document.getElementById('btn-del').style.display = isNew ? 'none' : 'block';
+
+    let area = document.getElementById('marks-area');
+    area.innerHTML = "";
+    let subs = getSubs(cls);
+    
+    subs.forEach(sb => {
+        let m = (d.m && d.m[sb]) ? d.m[sb] : {};
+        area.innerHTML += `
+            <div class="sub-card">
+                <div class="sub-head">${sb}</div>
+                <div class="mark-row">
+                    <div class="mark-col"><label>FA1</label><input type="number" class="mark-inp" value="${m.f1||''}" data-s="${sb}" data-k="f1" data-mx="25" oninput="chk(this)"></div>
+                    <div class="mark-col"><label>FA2</label><input type="number" class="mark-inp" value="${m.f2||''}" data-s="${sb}" data-k="f2" data-mx="25" oninput="chk(this)"></div>
+                    <div class="mark-col"><label>SA1</label><input type="number" class="mark-inp" value="${m.s1||''}" data-s="${sb}" data-k="s1" data-mx="50" oninput="chk(this)"></div>
+                </div>
+                <div class="mark-row">
+                    <div class="mark-col"><label>Assignment 1</label><input type="number" class="mark-inp" value="${m.a1||''}" data-s="${sb}" data-k="a1" data-mx="10" oninput="chk(this)"></div>
+                    <div class="mark-col"><label>Assignment 2</label><input type="number" class="mark-inp" value="${m.a2||''}" data-s="${sb}" data-k="a2" data-mx="10" oninput="chk(this)"></div>
+                </div>
+                <div class="mark-row">
+                    <div class="mark-col"><label>Project 1</label><input type="number" class="mark-inp" value="${m.p1||''}" data-s="${sb}" data-k="p1" data-mx="10" oninput="chk(this)"></div>
+                    <div class="mark-col"><label>Project 2</label><input type="number" class="mark-inp" value="${m.p2||''}" data-s="${sb}" data-k="p2" data-mx="10" oninput="chk(this)"></div>
+                </div>
+                <div class="mark-row">
+                    <div class="mark-col"><label>SA2 (Annual)</label><input type="number" class="mark-inp" value="${m.s2||''}" data-s="${sb}" data-k="s2" data-mx="50" oninput="chk(this)"></div>
+                </div>
+            </div>`;
+    });
+}
+function chk(el) {
+    let mx = parseFloat(el.dataset.mx);
+    if(el.value && parseFloat(el.value)>mx) el.classList.add('err'); else el.classList.remove('err');
+}
+function saveStudent() {
+    let n = document.getElementById('inp-name').value;
+    if(!n) return alert("Enter Name");
+    let marks = {};
+    document.querySelectorAll('.mark-inp').forEach(el => {
+        if(el.value) {
+            let s = el.dataset.s, k = el.dataset.k;
+            if(!marks[s]) marks[s] = {};
+            marks[s][k] = el.value;
+        }
+    });
+    if(eIdx!==null) db.st[cls][eIdx] = {name:n, m:marks}; else db.st[cls].push({name:n, m:marks});
+    save(); closeModal('mod-edit');
+}
+function delStudent() { if(confirm("Delete?")) { db.st[cls].splice(eIdx, 1); save(); closeModal('mod-edit'); } }
+
+// --- SETTINGS & HELPERS ---
+function toggleDrawer() {
+    let d=document.getElementById('drawer'), o=document.getElementById('overlay');
+    if(d.classList.contains('open')) { d.classList.remove('open'); o.style.display='none'; }
+    else { d.classList.add('open'); o.style.display='block'; }
+}
+function pickClass(c) { cls=c; toggleDrawer(); render(); }
+function closeModal(id) { document.getElementById(id).style.display='none'; }
+function openSettings() {
+    document.getElementById('cfg-pass').value = db.cf.pass;
+    document.getElementById('cfg-s1').value = db.cf.s1;
+    document.getElementById('cfg-s3').value = db.cf.s3;
+    document.getElementById('cfg-s6').value = db.cf.s6;
+    toggleDrawer(); document.getElementById('mod-set').style.display='block';
+}
+function saveSettings() {
+    db.cf.pass = parseInt(document.getElementById('cfg-pass').value)||30;
+    db.cf.s1 = document.getElementById('cfg-s1').value;
+    db.cf.s3 = document.getElementById('cfg-s3').value;
+    db.cf.s6 = document.getElementById('cfg-s6').value;
+    save(); closeModal('mod-set');
+}
+function resetAll() { if(confirm("RESET ALL DATA? This cannot be undone.")) { localStorage.removeItem("assess_v15"); location.reload(); } }
+function toggleDark() {
+    document.body.classList.toggle('dark');
+    localStorage.setItem("theme", document.body.classList.contains('dark')?"dark":"light");
+    updThemeIcon();
+}
+function updThemeIcon() { document.getElementById('theme-btn').innerText = document.body.classList.contains('dark') ? "🌙" : "☀️"; }
+function openAbout() { toggleDrawer(); document.getElementById('mod-abt').style.display='block'; }
+
+// --- EXPORT HANDLING ---
+function prepExport(mode) {
+    expMode = mode;
+    document.getElementById('mod-exp').style.display = 'block';
+}
+
+function runExport(includeHeader) {
+    closeModal('mod-exp');
+    
+    if(expMode === 'single') {
+        let content = getTableHTML(cls, includeHeader);
+        if(!content) return alert("No students in this class!");
+        document.getElementById('print-wrap').innerHTML = content;
+        document.title = "Register_Class_"+cls;
+        window.print();
+    } else {
+        // ALL CLASSES
+        let fullContent = "";
+        let hasData = false;
+        for(let i=1; i<=8; i++) {
+            let html = getTableHTML(i.toString(), includeHeader);
+            if(html) {
+                hasData = true;
+                fullContent += `<div class="page-break"></div>` + html;
+            }
+        }
+        if(!hasData) return alert("No data found in any class!");
+        document.getElementById('print-wrap').innerHTML = fullContent;
+        document.title = "Full_School_Register";
+        toggleDrawer();
+        window.print();
+    }
+}
+
+// --- GENERATE TABLE HTML ---
+function getTableHTML(targetClass, includeHeader) {
+    let subs = getSubs(targetClass);
+    let dat = db.st[targetClass]||[];
+    let high = parseInt(targetClass)>=6;
+    let highA = high ? '୫%' : '୧୦%';
+    let highP = high ? '୧୫%' : '୨୦%';
+    let highS = high ? '୫୦%' : '୪୦%';
+    
+    let udiseText = db.cf.udise ? ` | UDISE: ${db.cf.udise}` : "";
+    let h = ``;
+    
+    if(includeHeader) {
+        h += `<div class="p-head"><div class="p-school">${db.cf.school}</div>
+        <div style="font-size:11pt; margin-top:5px;">MARK REGISTER ${db.cf.session}${udiseText} | CLASS: ${targetClass}</div></div>`;
+    } else {
+        h += `<div class="p-head"><div style="font-size:14pt; font-weight:bold;">MARK REGISTER - CLASS ${targetClass}</div></div>`;
+    }
+
+    h += `<table><thead><tr>
+        <th rowspan="2" style="width:30px">Sl.</th>
+        <th rowspan="2" class="t-left" style="width:130px">Name of Student</th>
+        <th rowspan="2" class="t-left" style="width:80px">Subject</th>
+        <th class="v-th"><div class="v-txt">FA-1</div></th>
+        <th class="v-th"><div class="v-txt">FA-2</div></th>
+        <th class="v-th"><div class="v-txt">SA-1</div></th>
+        <th class="v-th"><div class="v-txt">ମୋଟ (FA1+FA2+SA1)</div></th>
+        <th class="v-th"><div class="v-txt">୩୦% ଗୁରୁତ୍ଵ ଆଧାରରେ ପ୍ରାପ୍ତାଙ୍କ</div></th>
+        <th colspan="3">Assignment (Written)</th>
+        <th class="v-th"><div class="v-txt">${highA} ଗୁରୁତ୍ଵ ଆଧାରରେ ପ୍ରାପ୍ତାଙ୍କ</div></th>
+        <th colspan="3">Project Work</th>
+        <th class="v-th"><div class="v-txt">${highP} ଗୁରୁତ୍ଵ ଆଧାରରେ ପ୍ରାପ୍ତାଙ୍କ</div></th>
+        <th class="v-th"><div class="v-txt">SA-2 (ବାର୍ଷିକ ପରୀକ୍ଷା)</div></th>
+        <th class="v-th"><div class="v-txt">${highS} ଗୁରୁତ୍ଵ ଆଧାରରେ ପ୍ରାପ୍ତାଙ୍କ</div></th>
+        <th class="v-th"><div class="v-txt">ମୋଟ ପ୍ରାପ୍ତାଙ୍କ (ବିଷୟ ଭିତ୍ତିକ)</div></th>
+    </tr><tr>
+        <th>25</th><th>25</th><th>50</th><th>100</th><th>%</th>
+        <th>1st</th><th>2nd</th><th>Best</th><th>%</th>
+        <th>1st</th><th>2nd</th><th>Best</th><th>%</th>
+        <th>50</th><th>%</th>
+        <th>100</th>
+    </tr></thead><tbody>`;
+
+    if(dat.length === 0) return ""; 
+
+    dat.forEach((s,i) => {
+        let ft=true, gt=0;
+        subs.forEach(sb => {
+            let m=s.m?s.m[sb]:{};
+            let r=calc(m, high);
+            gt += r.fin;
+            h += `<tr>`;
+            if(ft) { h+=`<td rowspan="${subs.length}">${i+1}</td><td rowspan="${subs.length}" class="t-left">${s.name}</td>`; }
+            h+=`<td class="t-left">${sb}</td>
+                <td>${m.f1||'-'}</td><td>${m.f2||'-'}</td><td>${m.s1||'-'}</td><td>${r.totA}</td><td>${r.w30.toFixed(1)}</td>
+                <td>${m.a1||'-'}</td><td>${m.a2||'-'}</td><td>${r.bA}</td><td>${r.wA.toFixed(1)}</td>
+                <td>${m.p1||'-'}</td><td>${m.p2||'-'}</td><td>${r.bP}</td><td>${r.wP.toFixed(1)}</td>
+                <td>${m.s2||'-'}</td><td>${r.wS2.toFixed(1)}</td><td><b>${r.fin}</b></td></tr>`;
+            ft=false;
+        });
+        let pct = (subs.length > 0) ? ((gt/(subs.length*100))*100).toFixed(1) : 0;
+        h+=`<tr class="gt-row"><td colspan="17" style="text-align:right; padding-right:10px;">GRAND TOTAL: ${gt} &nbsp;|&nbsp; PERCENTAGE: ${pct}%</td><td><b>${gt}</b></td></tr>`;
+    });
+    h+="</tbody></table>";
+    return h;
+}
+
+function genExcel() {
+    let subs = getSubs(cls);
+    let dat = db.st[cls]||[];
+    let high = parseInt(cls)>=6;
+    let xml = `<html xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><h2>${db.cf.school}</h2><h3>Class ${cls}</h3><table border="1"><thead><tr style="background:#ccc; font-weight:bold"><td>Sl</td><td>Name</td><td>Subject</td><td>FA1</td><td>FA2</td><td>SA1</td><td>Tot</td><td>30% Wgt</td><td>Assn1</td><td>Assn2</td><td>Best A</td><td>Wgt A</td><td>Proj1</td><td>Proj2</td><td>Best P</td><td>Wgt P</td><td>SA2</td><td>Wgt SA2</td><td>Final</td></tr></thead><tbody>`;
+    dat.forEach((s,i) => {
+        let gt=0;
+        subs.forEach(sb => {
+            let m=s.m?s.m[sb]:{};
+            let r=calc(m,high);
+            gt+=r.fin;
+            xml+=`<tr><td>${i+1}</td><td>${s.name}</td><td>${sb}</td><td>${m.f1||0}</td><td>${m.f2||0}</td><td>${m.s1||0}</td><td>${r.totA}</td><td>${r.w30}</td><td>${m.a1||0}</td><td>${m.a2||0}</td><td>${r.bA}</td><td>${r.wA}</td><td>${m.p1||0}</td><td>${m.p2||0}</td><td>${r.bP}</td><td>${r.wP}</td><td>${m.s2||0}</td><td>${r.wS2}</td><td>${r.fin}</td></tr>`;
+        });
+        xml+=`<tr style="background:#eee; font-weight:bold"><td colspan="18" align="right">GRAND TOTAL</td><td>${gt}</td></tr>`;
+    });
+    xml+="</tbody></table></body></html>";
+    let a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([xml],{type:'application/vnd.ms-excel'})); a.download=`Register_Class_${cls}.xls`; a.click();
+}
+
+init();
+</script>
+</body>
+</html>
