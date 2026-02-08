@@ -1,48 +1,130 @@
-<div align="center">
+<<div align="center">
 
-  <h1>📊 Assess Offline (Odia)</h1>
-  <h3>The Ultimate Mark Register Calculator for Odisha Elementary Schools</h3>
+  <img src="your-photo.jpg" alt="Sahil Kumar Rout" width="160" height="160" style="border-radius: 50%; border: 4px solid #1a73e8; padding: 4px;">
 
-  <p>
-    <b>Version 2.6 (Gold Edition)</b> • <i>Stable Release</i>
-  </p>
+  <br><br>
 
-  <p>
-    <a href="https://github.com/atomikhusler/ASSESS-OFFLINE-ODIA-/blob/main/LICENSE">
-      <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
-    </a>
-    <img src="https://img.shields.io/badge/Platform-Web%20%7C%20Mobile-blue" alt="Platform">
-    <img src="https://img.shields.io/badge/Offline-100%25-success" alt="Offline Capable">
-  </p>
+  # 🎓 Assess Offline v4.1
+  ### The Ultimate Offline-First Student Assessment Tool
 
   <p>
-    <i>Designed & Developed by <b>Sahil Kumar Rout</b></i>
+    <img src="https://img.shields.io/badge/Version-v4.1_Final_Stable-1a73e8?style=for-the-badge&logo=github&logoColor=white" alt="Version">
+    <img src="https://img.shields.io/badge/License-MIT-2ea44f?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="License">
+    <img src="https://img.shields.io/badge/Platform-Web_|_Android-orange?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Platform">
+    <img src="https://img.shields.io/badge/Size-<20KB-lightgrey?style=for-the-badge&logo=files&logoColor=black" alt="Size">
   </p>
 
   <br>
+
+  > **"Zero Server. Zero Lag. 100% Privacy."**<br>
+  > *Empowering teachers with professional-grade tools that run anywhere.*
 
 </div>
 
 ---
 
-## 📖 About The Project
-**Assess Offline** is a lightweight, browser-based utility built to simplify the complex evaluation process for Government School teachers in **Odisha**. 
+## ⚡ What is Assess Offline?
 
-It eliminates manual calculation errors by automating the weightage logic for **Primary (Class 1-5)** and **Upper Primary (Class 6-8)** students. It generates official **21-Column Mark Registers** in **Odia** that are ready to print.
+**Assess Offline** is a high-performance, single-file web application engineered for teachers to manage marks, calculate complex weightages, and generate reports without an internet connection. 
 
-### 🌟 Key Features
-
-| Feature | Description |
-| :--- | :--- |
-| **🌍 Bilingual Support** | Generates reports in **Odia (ଓଡ଼ିଆ)** (Default) or English. |
-| **⚡ Smart Logic** | Auto-applies correct weightage (e.g., 20% Project vs 15%) based on Class level. |
-| **📄 Print Ready** | One-click generation of the official **21-Column PDF Register**. |
-| **📊 Excel Export** | Downloads editable `.xls` files for official record keeping. |
-| **🔒 100% Private** | No server. No login. All data is stored locally on your device. |
-| **🌙 Dark Mode** | Eye-friendly dark theme for late-night data entry. |
-| **✨ Interactive Tour** | Built-in tutorial to guide new users instantly. |
+Built with a **"Monolithic Architecture"**, the entire app lives inside one `index.html` file. It uses advanced `localStorage` techniques to ensure your data never leaves your device.
 
 ---
+
+## 💎 Premium Features
+
+### 🎨 **OLED-Ready UI**
+Featuring a stunning **"Google Blue"** & **"Deep OLED Black"** theme. The interface uses a "Filled Input" design language for maximum readability and reduced eye strain during late-night grading.
+
+### 🧩 **"Tetris" Grid System**
+A smart, responsive marking grid that adapts to mobile screens.
+- **Auto-Layout:** Fits 3 subjects per row on standard phones.
+- **Space-Saving:** The **SA-2** box automatically spans 2 columns to fill empty gaps, reducing vertical scrolling by **20%**.
+
+### 🛡️ **Iron-Clad Security**
+- **Self-Healing Storage:** Automatically detects data corruption and resets safely without crashing ("White Screen of Death" protection).
+- **XSS Protection:** Built-in sanitization strips malicious HTML tags from student names.
+- **Safe Restore:** Pre-flight validation ensures backup files are healthy before loading.
+
+---
+
+## 🚀 Quick Start
+
+1.  **Download:** Get the latest `index.html` from the **[Releases](#)** page.
+2.  **Run:** Open the file in **Chrome**, **Edge**, or **Android System WebView**.
+3.  **Configure:** Tap `☰ Menu` > `School Profile` to set your school details.
+4.  **Start:** Click `+ Add Student` and begin entering marks.
+
+---
+
+## ⚙️ Engineering & Configuration
+
+### **Calculation Engine**
+The app uses a transparent, human-readable grading logic that favors the student:
+- **Rounding:** All fractional marks are rounded **UP** using `Math.ceil()`.
+- **Weightage:** Fully customizable via `Settings` > `Group B`.
+  - *Default:* T1 (30%), Written (10%), Project (20%), Annual (40%).
+
+### **Smart Export**
+- **Dynamic Naming:** PDFs are automatically saved as:
+  `Class [X] [Session] Mark Register [UDISE].pdf`
+- **Excel Support:** Exports `.xls` files with **UTF-8 BOM** encoding to correctly display **Odia (ଓଡ଼ିଆ)** and other regional languages.
+
+---
+
+## 🛠️ Technical Highlights
+
+For developers and auditors reviewing the source:
+
+* **Sanity Loops:** The `restoreData()` function runs a pre-flight check to ensure all Class Arrays (`1-8`) exist before committing data to memory.
+* **Defensive DOM:** Helper functions like `setVal` wrap DOM interactions in `try...catch` blocks to prevent crashes on older WebViews.
+* **Scalability:** The codebase uses `const MAX_CLS = 8`, making it trivial to upgrade the app to support Class 9 or 10 in a single line change.
+
+---
+
+## 📜 Changelog
+
+### **v4.1 (Final Stable) - *The Golden Master***
+> *Released: Feb 2026*
+* **✨ UI:** Implemented "Tetris Grid" logic—`SA-2` box now spans 2 columns.
+* **🛡️ Security:** Added `sanitize()` function to prevent XSS attacks.
+* **🐛 Fix:** `restoreData` now runs a "Sanity Loop" before saving, preventing crashes.
+* **💅 Polish:** Reduced input padding for a high-density, professional look.
+
+### **v4.0**
+* **🔧 Feature:** Restored "Weightage %" editing in Settings (Group B).
+* **⚖️ Legal:** Added Non-Govt Disclaimer & MIT License.
+* **📄 Export:** Added Smart PDF Filename generation (e.g., `All class (2025-26)...`).
+
+### **v3.2**
+* **💾 Core:** Fixed Android File Picker (`MIME type */*`) issue.
+* **🌐 Encoding:** Added `\uFEFF` BOM for Excel compatibility.
+
+---
+
+## ⚠️ Disclaimer
+
+<div align="center">
+  <p>
+    This software is an independent open-source project developed by <strong>Sahil Kumar Rout</strong>.<br>
+    It is <strong>NOT</strong> an official Government application and is <strong>NOT</strong> funded, endorsed, or affiliated with any Government entity.
+  </p>
+</div>
+
+---
+
+## 🤝 Support & License
+
+<div align="center">
+
+  **Found a bug?** Open an [Issue](../../issues) or contact the developer.<br>
+  
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+  
+  <sub>Built with ❤️ for Teachers in Odisha</sub>
+
+</div>
+
 
 ## 📱 Screenshots
 
@@ -102,21 +184,6 @@ You can customize the exam rules in **Settings**:
 
 ---
 
-## 📝 Changelog
-
-### v2.6 (Gold Edition) - Current
-- **Fixed:** PDF Generation crash (undefined variable `sumT1`).
-- **Fixed:** Default theme set to Light Mode.
-- **Improved:** Calculation engine now handles "0" Max Marks gracefully.
-- **UI:** Optimized PDF vertical header font size.
-
-### v2.0 - v2.5
-- Added Interactive Tutorial with Skip/Close options.
-- Implemented Odia Subject Translations.
-- Added Excel (.xls) mobile export support.
-- Fixed Menu freeze and Layout bugs.
-
----
 
 ## 🤝 Contributing
 Found a bug? Have a suggestion?
