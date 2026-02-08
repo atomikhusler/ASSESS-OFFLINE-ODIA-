@@ -1,6 +1,4 @@
-<<div align="center">
-
-  <img src="your-photo.jpg" alt="Sahil Kumar Rout" width="160" height="160" style="border-radius: 50%; border: 4px solid #1a73e8; padding: 4px;">
+<div align="center">
 
   <br><br>
 
