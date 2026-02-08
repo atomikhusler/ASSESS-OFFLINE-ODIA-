@@ -1,5 +1,6 @@
 <div align="center">
-
+<img src="Assess_offline_logo.png" alt="Assess Offline Logo" width="150" height="150" style="border-radius: 18%;">
+  
   <br><br>
 
   # 🎓 Assess Offline v4.1
