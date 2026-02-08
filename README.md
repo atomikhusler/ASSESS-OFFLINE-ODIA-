@@ -113,18 +113,6 @@ For developers and auditors reviewing the source:
 
 ---
 
-## 🤝 Support & License
-
-<div align="center">
-
-  **Found a bug?** Open an [Issue](../../issues) or contact the developer.<br>
-  
-  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-  
-  <sub>Built with ❤️ for Teachers in Odisha</sub>
-
-</div>
-
 
 ## 📱 Screenshots
 
@@ -184,14 +172,6 @@ You can customize the exam rules in **Settings**:
 
 ---
 
-
-## 🤝 Contributing
-Found a bug? Have a suggestion?
-1. Open an Issue on this Repository.
-2. Contact the developer on Telegram.
-
----
-
 <div align="center">
   <b>© 2026 Sahil Kumar Rout</b><br>
   <i>Licensed under MIT License</i>
@@ -207,9 +187,25 @@ Found a bug? Have a suggestion?
 
 ---
 
-## 📬 Contact & Support
+## 📬 Contact
 Found a bug? Have a feature request?
 * **Telegram:** [@Assess_Offline](https://t.me/+pV0H_iNurNAyMmZl)
+*
+
+---
+
+## 🤝 Support & License
+
+<div align="center">
+
+  **Found a bug?** Open an [Issue](../../issues) or contact the developer.<br>
+  
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+  
+  <sub>Built with ❤️ for Teachers in Odisha</sub>
+
+</div>
+---
 
 ## 💖 Donate
 If this app helps you manage your school registers easily, please consider supporting the development effort.
