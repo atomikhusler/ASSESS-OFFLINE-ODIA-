@@ -209,9 +209,8 @@ Found a bug? Have a feature request?
 If this app helps you manage your school registers easily, please consider supporting the development effort.
 
 **UPI (India):**  
-*(Copy and pay via PhonePe/GPay/Paytm)*
-<a href="upi://pay?pa=im.skr@ybl &pn=Sahil Kumar Rout &cu=INR">
-  <img src="https://img.shields.io/badge/Donate-UPI-blue?style=for-the-badge&logo=google-pay&logoColor=white" alt="Donate UPI">
+<a href="upi://pay?pa= im.skr@ybl &pn=Sahil Kumar Rout &cu=INR">
+  
 </a>
 
 
