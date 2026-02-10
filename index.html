@@ -438,7 +438,13 @@ function restoreData(i) {
             if(!obj.cf || !obj.st) throw new Error("Invalid Backup File");
             // Sanity Loop on Restore
             for(let k=1; k<=MAX_CLS; k++) if(!Array.isArray(obj.st[k])) obj.st[k] = [];
-            db = obj; save(); alert("Restore Successful"); location.reload();
+                // 1. Load the old data    
+                db = obj;
+                // 2. FORCE update the Limits to your new defaults (20)
+                // This ignores the old '10' from the backup file
+                db.cf.lm = JSON.parse(JSON.stringify(CFG.lm));
+                // 3. Save and Reload
+                save(); alert("Restore Successful"); location.reload();
         } catch(err) { alert("Error: " + err.message); }
     }; r.readAsText(f); 
 }
