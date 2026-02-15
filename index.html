@@ -45,8 +45,6 @@ SOFTWARE.-->
         --card-bg: rgba(255, 255, 255, 0.32);
         --card-border: rgba(255, 255, 255, 0.3);
         --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 0 rgba(255, 255, 255, 0.1), inset 0 0 42px 21px rgba(255, 255, 255, 1);
-        --card-shine1: rgba(255, 255, 255, 0.8);
-        --card-shine2: rgba(255, 255, 255, 0.3);
 
         --input-bg: rgba(255, 255, 255, 0.6);
         --input-focus: rgba(255, 255, 255, 0.9);
@@ -67,8 +65,6 @@ SOFTWARE.-->
         --card-bg: rgba(30, 41, 59, 0.4);
         --card-border: rgba(255, 255, 255, 0.1);
         --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(255, 255, 255, 0.05), inset 0 0 42px 21px rgba(255, 255, 255, 0.05);
-        --card-shine1: rgba(255, 255, 255, 0.2);
-        --card-shine2: rgba(255, 255, 255, 0.05);
 
         --input-bg: rgba(0, 0, 0, 0.4);
         --input-focus: rgba(0, 0, 0, 0.7);
@@ -130,15 +126,16 @@ SOFTWARE.-->
     
     .brand-strip {
         position: fixed; top: 85px; left: 50%; transform: translateX(-50%); 
-        padding: 6px 20px; border-radius: 50px;
+        padding: 6px 20px; border-radius: 50px; width: auto; max-width: 90%;
         font-size: 13px; font-weight: 800; font-family: 'Premium Mono', monospace; 
         text-transform: uppercase; letter-spacing: 1px; color: var(--text-sec); 
         z-index: 990; display: flex; align-items: center; justify-content: center; gap: 8px;
-        box-shadow: var(--panel-shadow);
+        box-shadow: var(--panel-shadow); white-space: nowrap;
     }
-    .pencil-icon { font-size: 16px; cursor: pointer; color: var(--primary); padding: 4px; border-radius: 50%; transition: 0.2s; background: var(--input-bg); display: flex; align-items: center; justify-content: center;}
+    #ui-class-strip { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .pencil-icon { flex-shrink: 0; font-size: 16px; cursor: pointer; color: var(--primary); padding: 4px; border-radius: 50%; transition: 0.2s; background: var(--input-bg); display: flex; align-items: center; justify-content: center;}
     .pencil-icon:active { transform: scale(0.9); }
-
+    
     /* --- LAYOUT & LIST ITEMS --- */
     .container { max-width: 800px; margin: 0 auto; padding: 10px 16px; min-height: 60vh; position: relative; }
     .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 50vh; text-align: center; color: var(--text-sec); animation: fadeIn 0.5s; font-family: 'Premium Mono', monospace; font-size: 13px; font-weight: 600; }
@@ -175,17 +172,14 @@ SOFTWARE.-->
     .sel-mode .sel-bar { display: flex; }
 
     /* --- DRAWER & OVERLAYS --- */
-    /* FLAW 8 PATCH: iOS Safari Scroll Leak fix implemented inline on elements */
     .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1100; backdrop-filter: blur(4px); opacity: 0; transition: opacity 0.3s; touch-action: none; }
     .drawer { position: fixed; top: 0; left: 0; width: 300px; height: 100%; z-index: 1200; transform: translateX(-100%); transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1); display: flex; flex-direction: column; border-radius: 0 16px 16px 0; border-left: none; border-top: none; border-bottom: none; }
     .drawer.open { transform: translateX(0); }
-    .drawer-head { padding: 24px; border-bottom: 1px solid var(--panel-border); z-index: 2; }
+    .drawer-head { padding: 24px; border-bottom: 1px solid var(--panel-border); z-index: 2; display:flex; justify-content:space-between; align-items:flex-start;}
+    .guide-btn-sq { background: var(--input-bg); border: 1px solid var(--panel-border); border-radius: 12px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; box-shadow: var(--panel-shadow); transition: transform 0.15s; color: var(--text); flex-shrink: 0;}
+    .guide-btn-sq:active { transform: scale(0.9); }
     .drawer-body { flex: 1; overflow-y: auto; padding: 12px 0; z-index: 2; }
-    .sec-title { 
-        padding: 24px 20px 8px; font-family: 'Premium Mono', monospace; font-size: 11px; font-weight: 800; 
-        color: var(--primary); text-transform: uppercase; letter-spacing: 2px; 
-        border-bottom: 1px solid var(--panel-border); margin-bottom: 8px; margin-top: 8px;
-    }
+    .sec-title { padding: 24px 20px 8px; font-family: 'Premium Mono', monospace; font-size: 11px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid var(--panel-border); margin-bottom: 8px; margin-top: 8px; }
     .menu-item { padding: 14px 20px; font-size: 16px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; cursor: pointer; color: var(--text); border-left: 4px solid transparent; transition: 0.2s; }
     .menu-item:hover { background: var(--input-bg); }
     .menu-item.active-cls { background: var(--input-bg); color: var(--primary); border-left-color: var(--primary); }
@@ -194,7 +188,7 @@ SOFTWARE.-->
 
     /* --- MODALS --- */
     .modal { display: none; position: fixed; inset: 0; z-index: 1500; overflow-y: auto; padding: 10px; border-radius: 0; border: none; touch-action: pan-y; }
-    .modal-head { position: sticky; top: 0; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1510; border-bottom: 1px solid var(--panel-border); border-radius: 16px 16px 0 0; }
+    .modal-head { position: sticky; top: 0; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1510; border-bottom: 1px solid var(--panel-border); border-radius: 16px 16px 0 0; background: var(--panel-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
     .modal-head span { font-size: 22px; font-weight: 700; color: var(--text); }
     .modal-body { padding: 24px; max-width: 600px; margin: 0 auto; padding-bottom: 120px; animation: expandIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 2; position: relative;}
     
@@ -206,25 +200,22 @@ SOFTWARE.-->
 
     textarea.inp-txt { font-size: 12px; font-weight: 600; line-height: 1.4; resize: vertical; min-height: 80px; padding: 10px; }
     .dual-sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 6px; }
-    .sub-match-ui { 
-        font-family: 'Premium Mono', monospace; font-size: 11px; font-weight: 700; 
-        text-align: center; padding: 6px; border-radius: 6px; display: block; width: 100%; margin-bottom: 16px; box-sizing: border-box;
-    }
+    .sub-match-ui { font-family: 'Premium Mono', monospace; font-size: 11px; font-weight: 700; text-align: center; padding: 6px; border-radius: 6px; display: block; width: 100%; margin-bottom: 16px; box-sizing: border-box; }
 
     /* --- COMPACT GRID (TETRIS) --- */
     .sub-card { padding: 16px; margin-bottom: 12px; border-radius: 16px; background: var(--input-bg); border: 1px solid var(--panel-border); }
     .sub-head { font-weight: 700; color: var(--text); margin-bottom: 12px; font-size: 16px; }
     .mark-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(75px, 1fr)); gap: 8px; }
     .mark-cell { text-align: center; }
-    .mark-cell label { display: block; font-family: 'Premium Mono', monospace; font-size: 10px; color: var(--text-sec); margin-bottom: 4px; font-weight: 700; }
+    .mark-cell label { display: block; font-family: 'Premium Mono', monospace; font-size: 9.5px; letter-spacing: -0.2px; color: var(--text-sec); margin-bottom: 4px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .mark-inp { width: 100%; padding: 12px 0; text-align: center; border: 1px solid var(--panel-border); border-radius: 8px; font-family: 'Premium Mono', monospace; font-size: 16px; font-weight: 700; background: var(--input-bg); color: var(--text); inputmode: decimal; transition: 0.2s; }
     .mark-inp:focus { border-color: var(--primary); background: var(--input-focus); box-shadow: 0 0 10px rgba(0,0,0,0.05); }
     
     /* --- BUTTONS --- */
-    .btn-row { display: flex; gap: 12px; margin-top: 24px; z-index: 2; position: relative;}
+    .btn-row { display: flex; gap: 12px; margin-top: 24px; z-index: 100; position: sticky; bottom: 0; background: var(--card-bg); padding: 12px; border-radius: 16px; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--panel-border); box-shadow: 0 -4px 30px rgba(0,0,0,0.2); }
     .btn-save { flex: 1; padding: 14px; background: var(--primary); color: #fff; font-size: 15px; font-weight: 700; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.2); transition: 0.2s; }
     .btn-next { background: var(--input-bg); color: var(--text); border: 1px solid var(--panel-border); box-shadow: none; }
-    .btn-del { width: 100%; padding: 14px; background: var(--error-bg); color: var(--error); border: 1px solid rgba(220,38,38,0.4); border-radius: 12px; font-weight: 700; font-size: 15px; margin-top: 20px; transition: 0.2s; }
+    .btn-del { width: 100%; padding: 14px; background: var(--error-bg); color: var(--error); border: 1px solid rgba(220,38,38,0.4); border-radius: 12px; font-weight: 700; font-size: 15px; margin-top: 20px; transition: 0.2s; z-index: 1; position: relative;}
     
     .set-box { padding: 20px; margin-bottom: 20px; border-radius: 16px; background: var(--input-bg); border: 1px solid var(--panel-border); z-index: 2; }
     .set-title { font-weight: 700; color: var(--primary); margin-bottom: 16px; font-size: 18px; }
@@ -238,56 +229,34 @@ SOFTWARE.-->
     .cfm-overlay.show .cfm-box { transform: scale(1); }
 
     /* --- TOAST --- */
-        .toast { 
+    .toast { 
         position: fixed; top: 20px; left: 50%; 
         transform: translateX(-50%) translateY(-30px); 
-        background: rgba(0, 0, 0, 0.85); /* Universal dark glass */
-        color: #ffffff; /* Forced pure white text */
-        padding: 8px 20px; /* Thinner, sleeker sizing */
-        border-radius: 100px; /* Perfect cylindrical shape */
-        font-size: 12px; /* Smaller, premium text */
+        background: rgba(0, 0, 0, 0.85);
+        color: #ffffff; padding: 8px 20px; border-radius: 100px; font-size: 12px;
         font-weight: 700; opacity: 0; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
         pointer-events: none; z-index: 3000; box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
         display: flex; align-items: center; gap: 8px; font-family: 'Premium Mono', monospace; 
-        white-space: nowrap; /* Forces text to stay on exactly ONE line */
-        backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+        white-space: nowrap; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     }
-
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     
     @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes expandIn { from { opacity: 0; transform: translateY(15px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
+    
     /* --- MOBILE KEYBOARD FIX --- */
     @media (max-height: 500px) { .fab, .sel-bar, .dev-pill { display: none !important; } }
-
-    /* --- FIXED PRINT STYLES --- */
-    #print-wrap { display: none; }
-    @media print {
-        body * { visibility: hidden; }
-        #print-wrap, #print-wrap * { 
-            visibility: visible; background: transparent !important; color: #000 !important; 
-            box-shadow: none !important; text-shadow: none !important; backdrop-filter: none !important; border-color: #000 !important;
-        }
-        #print-wrap { display: block; position: absolute; left: 0; top: 0; width: 100%; }
-        @page { size: A4 landscape; margin: 5mm; }
-        table { width: 100%; border-collapse: collapse; font-family: 'Times New Roman', serif; font-size: 9pt; }
-        th, td { border: 0.5pt solid black !important; padding: 3px; text-align: center; vertical-align: middle; }
-        thead th { background: #e2e8f0 !important; font-weight: bold; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-        .v-th { height: 110px; vertical-align: bottom; }
-        .v-txt { writing-mode: vertical-rl; transform: rotate(180deg); margin: 0 auto; white-space: nowrap; font-size: 7pt; line-height: 1.1; }
-        .t-left { text-align: left; padding-left: 5px; }
-        .p-head { text-align: center; border-bottom: 2px solid black; margin-bottom: 10px; padding-bottom: 5px; }
-        .page-break { page-break-before: always; }
-    }
 </style>
 </head>
 <body>
 
 <header class="glass-panel">
     <button class="menu-icon" onclick="toggleDrawer()">☰</button>
-    <div class="header-titles"><h1 id="ui-school">My Govt School</h1><p>ASSESS OFFLINE v4.5 (Stable Glass Edition)</p></div>
+    <div class="header-titles">
+        <h1 id="ui-school">My Govt School</h1>
+        <p id="ui-udise-strip">UDISE: Not Set</p>
+    </div>
     <button class="btn-pdf" onclick="prepExport('single')">📄 Export PDF</button>
 </header>
 <div class="brand-strip glass-panel"><span id="ui-class-strip">CLASS 1 REGISTER</span> <span id="sel-toggle" class="pencil-icon" onclick="toggleSelMode()">✏️</span></div>
@@ -302,8 +271,10 @@ SOFTWARE.-->
 <div class="overlay" id="overlay" onclick="toggleDrawer()" ontouchmove="event.preventDefault()"></div>
 <div class="drawer glass-panel" id="drawer">
     <div class="drawer-head">
-        <div style="font-weight:700; font-size:24px; color:var(--primary)">ASSESS OFFLINE</div>
-        <div style="font-size:12px; opacity:0.7; font-family:'Premium Mono', monospace; font-weight:700;">v4.5 (Stable Glass Edition)</div>
+        <div>
+            <div style="font-weight:700; font-size:24px; color:var(--primary); display:flex; align-items:center; gap:8px;">ASSESS OFFLINE <button class="guide-btn-sq" onclick="openGuide()">📖</button></div>
+            <div style="font-size:12px; opacity:0.7; font-family:'Premium Mono', monospace; font-weight:700;">v4.5 (Stable Glass Edition)</div>
+        </div>
     </div>
     <div class="drawer-body">
         <div class="sec-title">School Profile</div>
@@ -324,25 +295,29 @@ SOFTWARE.-->
         <div class="sec-title">Configuration</div>
         <div onclick="toggleDark()" class="menu-item" id="theme-btn" style="color:var(--primary)"><span>🌙 Dark Mode</span></div>
         <div onclick="openSettings()" class="menu-item"><span>⚙️ Settings</span></div>
+        <div onclick="openGuide()" class="menu-item"><span>📖 User Guide</span></div>
         <div onclick="openAbout()" class="menu-item"><span>ℹ️ About & Support</span></div>
         <div onclick="resetAll()" class="menu-item" style="color:var(--error);"><span>⚠️ Factory Reset</span></div>
     </div>
 </div>
 
 <div class="modal glass-panel" id="mod-edit">
-    <div class="modal-head"><span id="edit-title">Student Entry</span><button class="menu-icon" onclick="checkUnsaved()" style="margin:0; border:none; background:none;">✕</button></div>
+    <div class="modal-head"><span id="edit-title">Student Entry</span><button class="menu-icon" onclick="checkUnsaved()" style="margin:0; border:none; background:none; padding:10px;">✕</button></div>
     <div class="modal-body">
         <div class="inp-grp" style="position:sticky; top:52px; z-index:10; padding:15px 0 10px;">
             <label>Student Name (Auto Capital)</label><input type="text" id="inp-name" class="inp-txt" style="text-transform:uppercase" placeholder="ENTER NAME" autocomplete="off" oninput="isDirty = true">
         </div>
         <div id="marks-area" style="margin-top:10px;"></div>
-        <div class="btn-row"><button class="btn-save" onclick="preSaveCheck(false)">SAVE & CLOSE</button><button class="btn-save btn-next" onclick="preSaveCheck(true)">SAVE & NEXT ➡️</button></div>
-        <button class="btn-del" id="btn-del" onclick="delStudent()" style="display:none; z-index:2; position:relative;">DELETE STUDENT</button>
+        <div class="btn-row">
+            <button class="btn-save" onclick="preSaveCheck(false)">SAVE & CLOSE</button>
+            <button class="btn-save btn-next" onclick="preSaveCheck(true)">SAVE & NEXT ➡️</button>
+        </div>
+        <button class="btn-del" id="btn-del" onclick="delStudent()" style="display:none;">DELETE STUDENT</button>
     </div>
 </div>
 
 <div class="modal glass-panel" id="mod-set">
-    <div class="modal-head"><span>Settings</span><button class="menu-icon" onclick="closeModal('mod-set')" style="margin:0; border:none; background:none;">✕</button></div>
+    <div class="modal-head"><span>Settings</span><button class="menu-icon" onclick="closeModal('mod-set')" style="margin:0; border:none; background:none; padding:10px;">✕</button></div>
     <div class="modal-body">
         <div class="inp-grp"><label>Report Language / ରିପୋର୍ଟ ଭାଷା</label><select id="cfg-lang" class="inp-txt"><option value="od">Odia (ଓଡ଼ିଆ) [Default]</option><option value="en">English</option></select></div>
         <div class="set-box">
@@ -381,8 +356,118 @@ SOFTWARE.-->
     </div>
 </div>
 
+<div class="modal glass-panel" id="mod-guide" touch-action="pan-y">
+    <div class="modal-head"><span>User Guide / ଗାଇଡ୍</span><button class="menu-icon" onclick="closeModal('mod-guide')" style="margin:0; border:none; background:none; padding:10px;">✕</button></div>
+    <div class="modal-body" style="font-size:14px; line-height:1.6;">
+
+        <div style="font-family:'Premium Mono', monospace; font-size:12px; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:1px; margin:20px 0 10px;">1. Basic Setup (ମୌଳିକ ସେଟିଂସ୍)</div>
+
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 1. Does this app need the Internet? <br><span style="font-size:13px; color:var(--primary)">ଏହି ଆପ୍ ବ୍ୟବହାର କରିବା ପାଇଁ ଇଣ୍ଟରନେଟ୍ ଦରକାର କି?</span></div>
+            <div style="color:var(--text-sec)">No! Once the website loads on your phone, it works 100% offline. No internet is required to enter marks or print. <br><em>ନା! ଥରେ ୱେବସାଇଟ୍ ଖୋଲିଗଲେ, ଏହା ସମ୍ପୂର୍ଣ୍ଣ ଅଫଲାଇନ୍ କାମ କରେ। ମାର୍କ ଏଣ୍ଟ୍ରି ବା ପ୍ରିଣ୍ଟ ପାଇଁ ଇଣ୍ଟରନେଟ୍ ଦରକାର ନାହିଁ।</em></div>
+        </div>
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 2. How is my data saved? <br><span style="font-size:13px; color:var(--primary)">ମୋର ଡାଟା କିପରି ସେଭ୍ ହୁଏ?</span></div>
+            <div style="color:var(--text-sec)">Data is saved automatically to your phone's browser storage the moment you click "Save". <br><em>ଆପଣ "Save" ବଟନ୍ ଦବାଇବା ମାତ୍ରେ ଡାଟା ଆପଣଙ୍କ ଫୋନ୍ ର ବ୍ରାଉଜରରେ ଆପେ ଆପେ ସେଭ୍ ହୋଇଯାଏ।</em></div>
+        </div>
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 3. How to update School Name and UDISE? <br><span style="font-size:13px; color:var(--primary)">ବିଦ୍ୟାଳୟର ନାମ ଏବଂ ୟୁଡାଇସ୍ କିପରି ଅପଡେଟ୍ କରିବେ?</span></div>
+            <div style="color:var(--text-sec)">Open the sidebar menu (☰) and type your details under "School Profile". It saves automatically. <br><em>ସାଇଡବାର ମେନୁ (☰) ଖୋଲନ୍ତୁ ଏବଂ "School Profile" ତଳେ ବିବରଣୀ ଲେଖନ୍ତୁ। ଏହା ଆପେ ଆପେ ସେଭ୍ ହେବ।</em></div>
+        </div>
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 4. How to switch between different classes? <br><span style="font-size:13px; color:var(--primary)">ବିଭିନ୍ନ ଶ୍ରେଣୀ ମଧ୍ୟରେ କିପରି ପରିବର୍ତ୍ତନ କରିବେ?</span></div>
+            <div style="color:var(--text-sec)">Open the sidebar menu (☰) and tap on the Class number you want to open. <br><em>ସାଇଡବାର ମେନୁ (☰) ଖୋଲନ୍ତୁ ଏବଂ ଆପଣ ଖୋଲିବାକୁ ଚାହୁଁଥିବା ଶ୍ରେଣୀ ଉପରେ ଟ୍ୟାପ୍ କରନ୍ତୁ।</em></div>
+        </div>
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 5. What happens if I press my phone's back button? <br><span style="font-size:13px; color:var(--primary)">ଯଦି ମୁଁ ମୋ ଫୋନ୍ ର ବ୍ୟାକ୍ ବଟନ୍ ଦବାଏ କ'ଣ ହେବ?</span></div>
+            <div style="color:var(--text-sec)">The app safely intercepts it. It will simply close the current menu without losing your unsaved marks! <br><em>ଆପ୍ ଏହାକୁ ନିରାପଦରେ ଅଟକାଇଦେବ। ମାର୍କ ନହରାଇ ଏହା କେବଳ ବର୍ତ୍ତମାନର ମେନୁକୁ ବନ୍ଦ କରିବ!</em></div>
+        </div>
+
+        <div style="font-family:'Premium Mono', monospace; font-size:12px; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:1px; margin:24px 0 10px;">2. Student Management (ଛାତ୍ରଛାତ୍ରୀ ପରିଚାଳନା)</div>
+
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 6. How to add a new student? <br><span style="font-size:13px; color:var(--primary)">ନୂଆ ଛାତ୍ର କିପରି ଯୋଡିବେ?</span></div>
+            <div style="color:var(--text-sec)">Tap the big blue "+ Add Student" floating button on the bottom right of the main screen. <br><em>ମୁଖ୍ୟ ସ୍କ୍ରିନର ତଳ ଡାହାଣ ପାର୍ଶ୍ୱରେ ଥିବା ବଡ ନୀଳ "+ Add Student" ବଟନ୍ ଉପରେ ଟ୍ୟାପ୍ କରନ୍ତୁ।</em></div>
+        </div>
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 7. How to edit marks for an existing student? <br><span style="font-size:13px; color:var(--primary)">ପୂର୍ବରୁ ଥିବା ଛାତ୍ରଙ୍କ ମାର୍କ କିପରି ଏଡିଟ୍ କରିବେ?</span></div>
+            <div style="color:var(--text-sec)">Simply tap on the student's name card on the dashboard to reopen their mark entry form. <br><em>ସେମାନଙ୍କର ମାର୍କ ଫର୍ମ ଖୋଲିବା ପାଇଁ କେବଳ ଛାତ୍ରଙ୍କ ନାମ କାର୍ଡ ଉପରେ ଟ୍ୟାପ୍ କରନ୍ତୁ।</em></div>
+        </div>
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 8. What is the use of "SAVE & NEXT"? <br><span style="font-size:13px; color:var(--primary)">"SAVE & NEXT" ର ବ୍ୟବହାର କ'ଣ?</span></div>
+            <div style="color:var(--text-sec)">It saves the current student and instantly clears the form for the next student without closing the window. <br><em>ଏହା ବର୍ତ୍ତମାନର ଛାତ୍ରଙ୍କ ମାର୍କ ସେଭ୍ କରେ ଏବଂ ୱିଣ୍ଡୋ ବନ୍ଦ ନକରି ପରବର୍ତ୍ତୀ ଛାତ୍ରଙ୍କ ପାଇଁ ଫର୍ମ ଖାଲି କରେ।</em></div>
+        </div>
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 9. How to delete a single student? <br><span style="font-size:13px; color:var(--primary)">ଜଣେ ଛାତ୍ରଙ୍କୁ କିପରି ଡିଲିଟ୍ କରିବେ?</span></div>
+            <div style="color:var(--text-sec)">Tap on the student to open their form, scroll to the bottom, and tap the red "DELETE STUDENT" button. <br><em>ଛାତ୍ରଙ୍କ ଫର୍ମ ଖୋଲିବାକୁ ଟ୍ୟାପ୍ କରନ୍ତୁ, ତଳକୁ ସ୍କ୍ରୋଲ୍ କରନ୍ତୁ ଏବଂ ନାଲି ରଙ୍ଗର "DELETE STUDENT" ବଟନ୍ ଦବାନ୍ତୁ।</em></div>
+        </div>
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 10. How to delete multiple students at once? <br><span style="font-size:13px; color:var(--primary)">ଏକାଧିକ ଛାତ୍ରଛାତ୍ରୀଙ୍କୁ ଏକାସାଙ୍ଗରେ କିପରି ଡିଲିଟ୍ କରିବେ?</span></div>
+            <div style="color:var(--text-sec)">Tap the Pencil icon (✏️) near the Class Name. Select the checkboxes, then tap "DELETE SELECTED". <br><em>କ୍ଲାସ୍ ନାମ ପାଖରେ ଥିବା ପେନ୍ସିଲ୍ ଆଇକନ୍ (✏️) ଟ୍ୟାପ୍ କରନ୍ତୁ। ଚେକବକ୍ସ ବାଛନ୍ତୁ, ତାପରେ "DELETE SELECTED" ଟ୍ୟାପ୍ କରନ୍ତୁ।</em></div>
+        </div>
+
+        <div style="font-family:'Premium Mono', monospace; font-size:12px; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:1px; margin:24px 0 10px;">3. Mark Entry Hacks (ମାର୍କ ଏଣ୍ଟ୍ରି କୌଶଳ)</div>
+
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 11. How to mark a student Absent easily? <br><span style="font-size:13px; color:var(--primary)">ଅନୁପସ୍ଥିତ (Absent) କିପରି ଦର୍ଶାଇବେ?</span></div>
+            <div style="color:var(--text-sec)">Speed Hack: Type two dots <code>..</code> or a minus <code>-</code>. It becomes "Absent" and calculates as a zero! <br><em>ସହଜ ଉପାୟ: ଦୁଇଟି ବିନ୍ଦୁ <code>..</code> ବା ବିଯୁକ୍ତ <code>-</code> ଟାଇପ୍ କରନ୍ତୁ। ଏହା ଆପେ "Absent" ହୋଇଯିବ ଏବଂ ଶୂନ ଭାବରେ ଗଣାଯିବ!</em></div>
+        </div>
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 12. Can I enter decimal marks? <br><span style="font-size:13px; color:var(--primary)">ମୁଁ ଦଶମିକ (Decimal) ମାର୍କ ଦେଇପାରିବି କି?</span></div>
+            <div style="color:var(--text-sec)">Yes! You can type <code>14.5</code>. If your keyboard only has a comma, type <code>14,5</code> and the app will auto-fix it to a dot. <br><em>ହଁ! ଆପଣ <code>14.5</code> ଟାଇପ୍ କରିପାରିବେ। ଯଦି ଆପଣ କମା <code>14,5</code> ଦିଅନ୍ତି ତେବେ ଆପ୍ ଏହାକୁ ଆପେ ବିନ୍ଦୁରେ ବଦଳାଇଦେବ।</em></div>
+        </div>
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 13. What if I type a mark higher than the max limit? <br><span style="font-size:13px; color:var(--primary)">ଯଦି ମୁଁ ସର୍ବାଧିକ ମାର୍କଠାରୁ ଅଧିକ ମାର୍କ ଟାଇପ୍ କରେ?</span></div>
+            <div style="color:var(--text-sec)">The input box will turn red and the app will automatically lower the number to your set Max Mark. <br><em>ବକ୍ସଟି ନାଲି ହୋଇଯିବ ଏବଂ ଆପ୍ ଆପଣଙ୍କ ନମ୍ବରକୁ ଆପେ ଆପେ ସର୍ବାଧିକ ମାର୍କ ସହିତ ସମାନ କରିଦେବ।</em></div>
+        </div>
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 14. What if I accidentally leave a dot like `12.`? <br><span style="font-size:13px; color:var(--primary)">ଭୁଲରେ ଶେଷରେ ଡଟ୍ `12.` ରହିଗଲେ କ'ଣ ହେବ?</span></div>
+            <div style="color:var(--text-sec)">When you click out of the box, the app auto-corrects it cleanly to <code>12</code>. <br><em>ଯେତେବେଳେ ଆପଣ ଅନ୍ୟ ବକ୍ସକୁ ଯିବେ, ଆପ୍ ଏହାକୁ ଆପେ <code>12</code> ରେ ସଜାଡି ଦେବ।</em></div>
+        </div>
+
+        <div style="font-family:'Premium Mono', monospace; font-size:12px; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:1px; margin:24px 0 10px;">4. Settings & Subjects (ସେଟିଂସ୍ ଏବଂ ବିଷୟ)</div>
+
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 15. How to change Max Marks (FA/SA)? <br><span style="font-size:13px; color:var(--primary)">ସର୍ବାଧିକ ମାର୍କ କିପରି ପରିବର୍ତ୍ତନ କରିବେ?</span></div>
+            <div style="color:var(--text-sec)">Go to Settings (⚙️). Edit the inputs under "Group A: Max Marks". <br><em>ସେଟିଂସ୍ (⚙️) କୁ ଯାଆନ୍ତୁ। "Group A: Max Marks" ଅଧୀନରେ ନମ୍ବରଗୁଡିକ ବଦଳାନ୍ତୁ।</em></div>
+        </div>
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 16. How do I edit or rename subjects? <br><span style="font-size:13px; color:var(--primary)">ବିଷୟଗୁଡିକୁ କିପରି ବଦଳାଇବେ?</span></div>
+            <div style="color:var(--text-sec)">Go to Settings. Scroll to "Edit Subjects". Separate subjects with a comma. <strong>WARNING: Renaming a subject hides older marks!</strong> <br><em>ସେଟିଂସ୍ ଯାଆନ୍ତୁ। କମା ଦେଇ ବିଷୟ ଲେଖନ୍ତୁ। <strong>ସତର୍କ ସୂଚନା: ବିଷୟ ନାମ ବଦଳାଇଲେ ପୁରୁଣା ମାର୍କ ଲୁଚିଯିବ!</strong></em></div>
+        </div>
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 17. What is a "Subject Mismatch" error? <br><span style="font-size:13px; color:var(--primary)">"Subject Mismatch" ଏରର୍ କ'ଣ?</span></div>
+            <div style="color:var(--text-sec)">You must have the EXACT SAME number of subjects in both the English and Odia text boxes. If English has 5, Odia must have 5. <br><em>ଇଂରାଜୀ ଏବଂ ଓଡ଼ିଆ ଉଭୟ ବକ୍ସରେ ବିଷୟ ସଂଖ୍ୟା ସମାନ ରହିବା ଆବଶ୍ୟକ।</em></div>
+        </div>
+
+        <div style="font-family:'Premium Mono', monospace; font-size:12px; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:1px; margin:24px 0 10px;">5. PDF Export & Print (ପ୍ରିଣ୍ଟ ଏବଂ ଏକ୍ସପୋର୍ଟ)</div>
+
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 18. How to print or save as a PDF? <br><span style="font-size:13px; color:var(--primary)">PDF କିପରି ପ୍ରିଣ୍ଟ ବା ସେଭ୍ କରିବେ?</span></div>
+            <div style="color:var(--text-sec)">Tap the "📄 Export PDF" button on the top right. <em>(Ensure your phone's print settings are set to A4 Landscape!)</em> <br><em>ଉପର ଡାହାଣ ପାର୍ଶ୍ୱରେ ଥିବା "📄 Export PDF" ବଟନ୍ ଟ୍ୟାପ୍ କରନ୍ତୁ।</em></div>
+        </div>
+        <div class="set-box" style="padding:16px;">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 19. Why does it open a new tab for printing? <br><span style="font-size:13px; color:var(--primary)">ଏହା ପ୍ରିଣ୍ଟ ପାଇଁ ନୂଆ ଟ୍ୟାବ୍ କାହିଁକି ଖୋଲେ?</span></div>
+            <div style="color:var(--text-sec)">To bypass mobile browser limits! Opening a new tab ensures your PDF is perfect, full-sized, and never gets cut off. <br><em>ମୋବାଇଲ୍ ବ୍ରାଉଜର୍ ସମସ୍ୟା ଦୂର କରିବାକୁ! ଏହା ନିଶ୍ଚିତ କରେ ଯେ ଆପଣଙ୍କର PDF ସମ୍ପୂର୍ଣ୍ଣ ଆସିବ ଏବଂ କେବେବି କଟିବ ନାହିଁ।</em></div>
+        </div>
+
+        <div class="set-box" style="padding:16px; border: 1px solid rgba(220,38,38,0.4); background: var(--error-bg);">
+            <div class="set-title" style="font-size:15px; margin-bottom:8px; color: var(--error);">
+                📌 20. When and how to use Factory Reset? <br>
+                <span style="font-size:13px;">ଫ୍ୟାକ୍ଟ୍ରି ରିସେଟ୍ କେତେବେଳେ ଏବଂ କିପରି କରିବେ?</span>
+            </div>
+            <div style="color: var(--error); font-weight: 700;">
+                ALWAYS use this at the start of a new academic session to clear old data! <br>Open sidebar (☰) and tap "⚠️ Factory Reset" at the bottom. <br>
+                <em>ପୁରୁଣା ଡାଟା ସଫା କରିବା ପାଇଁ ସବୁବେଳେ ନୂଆ ଶିକ୍ଷା ବର୍ଷ ଆରମ୍ଭରେ ଏହାକୁ ବ୍ୟବହାର କରନ୍ତୁ! <br>ସାଇଡବାର୍ (☰) ଖୋଲନ୍ତୁ ଏବଂ ତଳେ ଥିବା "⚠️ Factory Reset" ଉପରେ ଟ୍ୟାପ୍ କରନ୍ତୁ।</em>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
 <div class="modal glass-panel" id="mod-abt">
-    <div class="modal-head"><span>About</span><button class="menu-icon" onclick="closeModal('mod-abt')" style="margin:0; border:none; background:none;">✕</button></div>
+    <div class="modal-head"><span>About</span><button class="menu-icon" onclick="closeModal('mod-abt')" style="margin:0; border:none; background:none; padding:10px;">✕</button></div>
     <div class="modal-body">
         <div style="text-align:center; margin-bottom:24px;">
             <h2 style="color:var(--primary); margin:10px 0; font-size:28px;">ASSESS OFFLINE</h2>
@@ -418,7 +503,7 @@ SOFTWARE.-->
     </div>
 </div>
 
-<div id="toast-box" class="toast"></div><div id="print-wrap"></div>
+<div id="toast-box" class="toast"></div>
 <script>
 // --- BLACK BOX LOGGER SYSTEM ---
 let appLogs = [`[${new Date().toLocaleTimeString()}] [SYS] Assess Offline v4.5 Boot Sequence Initialized`];
@@ -445,7 +530,7 @@ function devClick() {
     }
 }
 
-// FLAW 2 PATCH: Synchronous logic to evaluate real states, bypassing `setTimeout` race conditions.
+// ELITE FIX: Synchronous scroll lock
 function updateScrollLock() {
     let mOpen = Array.from(document.querySelectorAll('.modal')).some(m => m.style.display === 'block');
     let dOpen = document.getElementById('drawer').classList.contains('open');
@@ -478,7 +563,6 @@ function showConfirm(title, msg, btnText, isDanger, callback) {
     let ov = document.getElementById('cfm-dialog');
     ov.style.display = 'flex'; 
     
-    // FLAW 2 PATCH: Lock scroll synchronously, then queue the animation class
     updateScrollLock();
     requestAnimationFrame(() => { ov.classList.add('show'); });
 }
@@ -487,7 +571,6 @@ function closeConfirm() {
     ov.classList.remove('show'); 
     setTimeout(()=> { 
         ov.style.display = 'none'; 
-        // FLAW 6 PATCH: Clear callback memory to prevent background-click ghost triggers
         cfmCallback = null; 
         updateScrollLock(); 
     }, 200);
@@ -504,7 +587,9 @@ let db = { cf: JSON.parse(JSON.stringify(CFG)), st: {} };
 let cls = "1"; let eIdx = null; let isSelMode = false; let selIds = new Set(); let pendingNext = false; 
 let isDirty = false; 
 
+// ELITE FIX: Render-only Sanitization (No DB corruption)
 function sanitize(str) { if(!str) return ""; return str.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+function decodeHtml(html) { if(!html) return ""; let txt = document.createElement("textarea"); txt.innerHTML = html; return txt.value; }
 
 function init() {
     let th = localStorage.getItem("theme"); 
@@ -521,23 +606,26 @@ function init() {
             db.cf.lm = { ...CFG.lm, ...(ld.cf?.lm || {}) };
             db.cf.pr = { ...CFG.pr, ...(ld.cf?.pr || {}) };
             db.cf.up = { ...CFG.up, ...(ld.cf?.up || {}) };
-            if(!db.cf.subEn) { 
-                if(ld.cf?.subs) { db.cf.subEn=ld.cf.subs; db.cf.subOd={...DEF_OD}; delete db.cf.subs; } else { db.cf.subEn={...DEF_EN}; db.cf.subOd={...DEF_OD}; } 
-            }
+            if(!db.cf.subEn) db.cf.subEn = ld.cf?.subs ? ld.cf.subs : {...DEF_EN};
+            if(!db.cf.subOd) db.cf.subOd = {...DEF_OD};
+            delete db.cf.subs; // Clean up old legacy keys
 
-            // FLAW 3 PATCH: Smart Migration Clone. Will inherit Class 6 customization instead of blindly forcing default.
-            if(!db.cf.subEn[8]) { 
-                db.cf.subEn[8] = db.cf.subEn[6] || DEF_EN[8]; 
-                db.cf.subOd[8] = db.cf.subOd[6] || DEF_OD[8]; 
-            }
+            if(!db.cf.subEn[8]) db.cf.subEn[8] = db.cf.subEn[6] || DEF_EN[8]; 
+            if(!db.cf.subOd[8]) db.cf.subOd[8] = db.cf.subOd[6] || DEF_OD[8]; 
 
             db.st = ld.st || {};
             for(let i=1; i<=MAX_CLS; i++) if(!Array.isArray(db.st[i])) db.st[i] = [];
             logEvent("SYS", "DB Hydration Successful");
         } catch(e) { 
             logEvent("CRITICAL", "DB Hydration Corrupted");
-            showConfirm("Data Corrupted", "App will reset safely.", "Reset", true, () => { for(let i=1; i<=MAX_CLS; i++) db.st[i] = []; db.cf.subEn={...DEF_EN}; db.cf.subOd={...DEF_OD}; }); 
+            showConfirm("Data Corrupted", "App will reset safely.", "Reset", true, () => { 
+                for(let i=1; i<=MAX_CLS; i++) db.st[i] = []; 
+                db.cf.subEn={...DEF_EN}; db.cf.subOd={...DEF_OD}; 
+                save(); // ELITE FIX: Actually overwrite the corrupted storage
+                setTimeout(()=>location.reload(), 500);
+            }); 
         }
+
     } else { for(let i=1; i<=MAX_CLS; i++) db.st[i] = []; db.cf.subEn={...DEF_EN}; db.cf.subOd={...DEF_OD}; logEvent("SYS", "New DB Created");}
     try { if(document.getElementById('menu-school')) document.getElementById('menu-school').value = db.cf.school || ""; if(document.getElementById('menu-udise')) document.getElementById('menu-udise').value = db.cf.udise || ""; if(document.getElementById('menu-ses')) document.getElementById('menu-ses').value = db.cf.session || ""; } catch(e) {}
     renderMenu(); renderList(); updUI();
@@ -578,7 +666,11 @@ function toggleDrawer() {
     } 
 }
 function updCF(k,v) { db.cf[k]=v; save(); updUI(); logEvent("CFG", `Updated ${k}`);}
-function updUI() { document.getElementById('ui-school').innerText=sanitize(db.cf.school)||"My Govt School"; document.getElementById('ui-class-strip').innerText=`CLASS ${cls} REGISTER`; }
+function updUI() { 
+    document.getElementById('ui-school').innerText=sanitize(db.cf.school)||"My Govt School"; 
+    document.getElementById('ui-udise-strip').innerText = "UDISE: " + (sanitize(db.cf.udise) || "Not Set");
+    document.getElementById('ui-class-strip').innerText=`CLASS ${cls} REGISTER`; 
+}
 
 function toggleSelMode() { isSelMode = !isSelMode; selIds.clear(); document.getElementById('sel-toggle').style.color = isSelMode ? 'var(--primary)' : 'var(--text-sec)'; document.body.classList.toggle('sel-mode'); renderList(); updSelUI(); }
 function toggleSel(idx) { if(selIds.has(idx)) selIds.delete(idx); else selIds.add(idx); renderList(); updSelUI(); }
@@ -588,6 +680,23 @@ function deleteSelected() {
     if(selIds.size===0) return toast("Select students first."); 
     showConfirm("Delete Selected?", `You are about to delete ${selIds.size} student(s).`, "Delete", true, () => {
         let sorted = Array.from(selIds).sort((a,b)=>b-a); sorted.forEach(idx => db.st[cls].splice(idx, 1)); toggleSelMode(); save(); toast("✅ Records Deleted"); logEvent("DATA", `Deleted ${selIds.size} from Class ${cls}`);
+    });
+}
+
+// ELITE FIX: Restored delStudent Missing Logic
+function delStudent() {
+    if (eIdx === null) return;
+    showConfirm("Delete Student?", "Are you sure you want to delete this record? This cannot be undone.", "DELETE", true, () => {
+        db.st[cls].splice(eIdx, 1);
+        if (save()) {
+            logEvent("DATA", `Deleted student at index ${eIdx} from Class ${cls}`);
+            eIdx = null; 
+            isDirty = false;
+            closeModal('mod-edit');
+            toast("✅ Record Deleted");
+        } else {
+            toast("⚠️ Sync Failure. Reloading..."); setTimeout(()=>location.reload(), 1500);
+        }
     });
 }
 
@@ -669,6 +778,7 @@ function checkComp(s, c) {
 }
 function getWeights(c) { return parseInt(c)<=5 ? db.cf.pr : db.cf.up; }
 
+// ELITE FIX: Locked Math Engine to standard Math.round
 function calcStudent(s, c) {
     let subs = getSubs(c, 'en'); let W = getWeights(c); let L = db.cf.lm; let gt = 0, complete = true;
     subs.forEach(sb => {
@@ -682,13 +792,12 @@ function calcStudent(s, c) {
         
         let fin = term1 + assess + project + term2;
         if(!isFinite(fin) || isNaN(fin)) { fin = 0; }
-        fin = Math.ceil(Math.round(fin * 1000) / 1000); 
+        fin = Math.round(fin); 
         gt += fin;
     });
     let pct = subs.length ? ((gt / (subs.length*100))*100).toFixed(1) : 0; return { gt, pct, complete };
 }
 
-// FLAW 1 PATCH: Dangling Decimal formatting logic properly defined.
 function fmt(el) { 
     isDirty = true;
     if(el.value === '.') el.value = '0'; 
@@ -699,10 +808,11 @@ function editStudent(idx) {
     isDirty = false; 
     eIdx = idx; let s = (idx===null) ? {name:"", m:{}} : db.st[cls][idx];
     document.getElementById('edit-title').innerText = idx===null ? "Add Student" : "Edit Student";
-    document.getElementById('inp-name').value = s.name;
+    // ELITE FIX: Render safety bypass for previously sanitized strings
+    document.getElementById('inp-name').value = decodeHtml(s.name);
     
-       document.getElementById('mod-edit').style.display = 'block'; updateScrollLock();
-    setTimeout(() => document.getElementById('inp-name').focus(), 100); // FLAW 2 FIX
+    document.getElementById('mod-edit').style.display = 'block'; updateScrollLock();
+    setTimeout(() => document.getElementById('inp-name').focus(), 100); 
 
     document.getElementById('btn-del').style.display = idx===null ? 'none' : 'block';
     let box = document.getElementById('marks-area'); box.innerHTML = "";
@@ -710,12 +820,9 @@ function editStudent(idx) {
     
     subs.forEach(sb => {
         let m = s.m?.[sb] ?? {};
-        
-        // FLAW 5 PATCH: Safe String HTML replacement to block Modal UI XSS injection
         let safeSb = sanitize(sb);
         let safeAttr = sb.replace(/"/g, '&quot;'); 
 
-        // FLAW 1 PATCH: onblur="fmt(this)" appended to all generated inputs
         let html = `<div class="sub-card"><div class="sub-head">${safeSb}</div><div class="mark-grid">`;
         if(L.fa > 0) {
             html += `<div class="mark-cell"><label>FA1 /${L.fa}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.f1||''}" data-s="${safeAttr}" data-k="f1" data-mx="${L.fa}" oninput="chk(this)" onblur="fmt(this)"></div>
@@ -769,11 +876,11 @@ function preSaveCheck(isNext) {
     else confirmSave(); 
 }
 
+// ELITE FIX: Raw Text Storage, removed pre-DB sanitize()
 function confirmSave() {
-    let n = sanitize(document.getElementById('inp-name').value.toUpperCase().trim()); 
+    let n = document.getElementById('inp-name').value.toUpperCase().trim(); 
     if(n.length < 2) return toast("⚠️ Name must be ≥ 2 characters");
     
-    // FLAW 1 FIX: Store the warning string instead of triggering toast instantly
     let dup = db.st[cls].some((s, i) => s.name === n && i !== eIdx);
     let dupMsg = dup ? " (⚠️ Duplicate Name)" : ""; 
 
@@ -842,6 +949,7 @@ function chkSubMatch(k) {
     } catch(e) {}
 }
 
+// ELITE FIX: Raw Text Storage, removed pre-DB sanitize()
 function saveSettings() {
     let p=(id)=> Math.max(0, parseInt(document.getElementById(id).value)||0); 
     
@@ -853,11 +961,10 @@ function saveSettings() {
     let activeUSum = (Lfa>0||Lsa>0 ? Ut1 : 0) + (Lwr>0 ? Uwr : 0) + (Lpr>0 ? Upr : 0) + (Lsa>0 ? Usa : 0);
     if(activePSum !== 100 || activeUSum !== 100) return toast(`⚠️ Active Weightage Primary: ${activePSum}% | Upper: ${activeUSum}% (Must sum to 100)`);
 
-    // FLAW 5 XSS INJECTION BLOCKER PRE-DB
-    let sE1 = sanitize(document.getElementById('sub-en-1').value.trim()); let sO1 = sanitize(document.getElementById('sub-od-1').value.trim());
-    let sE3 = sanitize(document.getElementById('sub-en-3').value.trim()); let sO3 = sanitize(document.getElementById('sub-od-3').value.trim());
-    let sE6 = sanitize(document.getElementById('sub-en-6').value.trim()); let sO6 = sanitize(document.getElementById('sub-od-6').value.trim());
-    let sE8 = sanitize(document.getElementById('sub-en-8').value.trim()); let sO8 = sanitize(document.getElementById('sub-od-8').value.trim());
+    let sE1 = document.getElementById('sub-en-1').value.trim(); let sO1 = document.getElementById('sub-od-1').value.trim();
+    let sE3 = document.getElementById('sub-en-3').value.trim(); let sO3 = document.getElementById('sub-od-3').value.trim();
+    let sE6 = document.getElementById('sub-en-6').value.trim(); let sO6 = document.getElementById('sub-od-6').value.trim();
+    let sE8 = document.getElementById('sub-en-8').value.trim(); let sO8 = document.getElementById('sub-od-8').value.trim();
 
     if(!sE1 || !sO1 || !sE3 || !sO3 || !sE6 || !sO6 || !sE8 || !sO8) return toast("⚠️ Subjects cannot be entirely empty!");
     
@@ -868,9 +975,7 @@ function saveSettings() {
         let odList = odArr[i].split(',').map(x=>x.trim()).filter(x=>x);
         
         if(enList.length !== odList.length) return toast(`⚠️ Mismatch in Class ${grpLabels[i]} subjects.`);
-        // FLAW 7 PATCH: Infinite Layout Crash Block
         if(enList.length > 10) return toast(`⚠️ Max 10 subjects allowed (Class ${grpLabels[i]}). Print layout will break.`);
-        // FLAW 4 PATCH: Duplicate Database Overwrite Block
         if(new Set(enList).size !== enList.length) return toast(`⚠️ Duplicate English subject in Class ${grpLabels[i]}.`);
         if(new Set(odList).size !== odList.length) return toast(`⚠️ Duplicate Odia subject in Class ${grpLabels[i]}.`);
     }
@@ -893,6 +998,7 @@ function saveSettings() {
     }
 }
 function closeModal(id) { document.getElementById(id).style.display='none'; updateScrollLock(); }
+function openGuide() { if(document.getElementById('drawer').classList.contains('open')) toggleDrawer(); document.getElementById('mod-guide').style.display='block'; updateScrollLock(); }
 function openAbout() { if(document.getElementById('drawer').classList.contains('open')) toggleDrawer(); document.getElementById('mod-abt').style.display='block'; updateScrollLock(); }
 
 function backupData() { 
@@ -938,38 +1044,80 @@ function restoreData(i) {
 
 function resetAll() { showConfirm("FACTORY RESET", "ALL data will be permanently lost. Type YES to confirm.", "Factory Reset", true, () => { localStorage.removeItem("assess_v2_gold"); localStorage.removeItem("assess_cls_mem"); location.reload(); }); }
 
+// ELITE FIX: Dedicated Print Tab with 100% Parser Immunity
 function prepExport(mode) {
     try {
         for(let k of [1,3,6,8]) {
-            let en = getSubs(k, 'en').length; let od = getSubs(k, 'od').length;
-            if(en !== od) return toast(`⚠️ Subject mismatch in Class ${k} group. Fix in Settings first.`);
+            let en = getSubs(k, 'en').length, od = getSubs(k, 'od').length;
+            if(en !== od) return toast(`⚠️ Subject mismatch in Class ${k}.`);
         }
-        let oldTitle = document.title;
-        let classPart = (mode === 'all') ? "All class" : `Class ${cls}`;
-        let session = db.cf.session || "";
-        let udise = db.cf.udise ? ` (${db.cf.udise})` : ""; 
         
-        let T = TR[db.cf.lang]; let h = "";
-        if(mode==='single') h = getHTML(cls, true, T);
-        else for(let i=1;i<=MAX_CLS;i++) { let t=getHTML(i.toString(), true, T); if(t) h+=`<div class="page-break"></div>`+t; }
-        if(!h) { return toast("⚠️ No Data Found"); }
+        const classPart = (mode === 'all') ? "All Classes" : `Class ${cls}`;
+        const session = sanitize(db.cf.session) || "2025-26";
+        const udise = sanitize(db.cf.udise) ? ` (${sanitize(db.cf.udise)})` : ""; 
+        const docTitle = `${classPart} (${session}) Mark Register${udise}`;
+        const T = TR[db.cf.lang];
         
-        let pWrap = document.getElementById('print-wrap'); pWrap.innerHTML = h;
-        document.title = `${classPart} (${session}) Mark Register${udise}`;
-        logEvent("EXPORT", `PDF generated for ${mode}`);
+        let h = (mode==='single') ? getHTML(cls, true, T) : "";
+        if(mode!=='single') {
+            for(let i=1; i<=MAX_CLS; i++) {
+                let t = getHTML(i.toString(), true, T);
+                if(t) h += (h ? `<div style="page-break-before: always;"></div>` : "") + t;
+            }
+        }
+        if(!h) return toast("⚠️ No Data Found");
+
+        toast("⏳ Opening Print Preview...");
+
+        const w = window.open('', '_blank');
         
-        toast("⏳ Preparing PDF...");
-        setTimeout(() => { 
-            requestAnimationFrame(() => { 
-                window.print(); 
-                document.title = oldTitle; 
-                // FLAW 3 FIX: Nuke the massive DOM table after printing
-                setTimeout(() => { document.getElementById('print-wrap').innerHTML = ""; }, 1000);
-            }); 
-        }, 1200); 
+        if(!w) {
+            alert("⚠️ Pop-up Blocked! Please allow pop-ups for this site to view the PDF.");
+            return;
+        }
+        
+            const printCSS = `
+            @page { margin: 8mm; } /* Unlocked orientation */
+            html, body { height: auto !important; overflow: visible !important; margin: 0; padding: 0; background: #fff; }
+            body { font-family: 'Times New Roman', serif; padding: 10px; color: #000; }
+            table { width: 100%; border-collapse: collapse; table-layout: auto; font-size: 8.5pt; }
+            tr { page-break-inside: avoid; }
+            th, td { border: 1pt solid black; padding: 4px 2px; text-align: center; vertical-align: middle; word-wrap: break-word; }
+            thead th { background: #f0f0f0 !important; font-weight: bold; -webkit-print-color-adjust: exact; }
+            .v-th { height: 100px; vertical-align: bottom; }
+            .v-txt { writing-mode: vertical-rl; text-orientation: mixed; margin: 0 auto; white-space: nowrap; font-size: 7.5pt; line-height: 1; }
+            .t-left { text-align: left; padding-left: 8px; }
+            .p-head { text-align: center; border-bottom: 2pt solid black; margin-bottom: 15px; padding-bottom: 10px; font-size: 14pt; }
+            .page-break { page-break-before: always; }
+            
+            /* --- ELITE FIX: AUTO-ADJUST FOR PORTRAIT MODE --- */
+            @media print and (orientation: portrait) {
+                body { padding: 5px; }
+                table { font-size: 6pt !important; }
+                th, td { padding: 2px 1px !important; border: 0.5pt solid black !important; }
+                .v-th { height: 75px !important; }
+                .v-txt { font-size: 5pt !important; }
+                .p-head { font-size: 11pt !important; margin-bottom: 5px !important; padding-bottom: 5px !important; }
+            }
+        `;
+
+        // Mathematical guarantee against HTML parser crashing via strict \x3C Hex Escaping
+        w.document.write('<!DOCTYPE html><html><head><title>' + docTitle + '</title><style>' + printCSS + '</style></head><body>' + h + 
+            '\x3Cscript\x3E' +
+            'window.onload = function() {' +
+                'setTimeout(function() {' +
+                    'window.focus();' +
+                    'window.print();' +
+                '}, 800);' +
+            '};' +
+            '\x3C/script\x3E</body></html>');
+        w.document.close();
+        
+        logEvent("EXPORT", "Generated PDF in new tab sandbox.");
+
     } catch(e) { 
-        logEvent("ERROR", "PDF Export Fail"); 
-        toast("⚠️ Export Error: " + e.message); 
+        logEvent("ERROR", "PDF Tab Fail"); 
+        toast("❌ Error: " + e.message); 
     }
 }
 
@@ -1013,7 +1161,7 @@ function getHTML(c, header, T) {
             
             let fin = term1+assess+project+term2; 
             if(!isFinite(fin) || isNaN(fin)) fin = 0;
-            fin = Math.ceil(Math.round(fin * 1000) / 1000); 
+            fin = Math.round(fin); 
             gt += fin;
             
             subRows += `<tr><td class="t-left">${sanitize(sbs[sbIdx]||sbKey)}</td>`;
@@ -1046,13 +1194,14 @@ function genExcel() {
     
     try {
         let t = getHTML(cls, false, TR[db.cf.lang]);
-        let content = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><style>table{border-collapse:collapse;font-family:sans-serif;font-size:12px;} th,td{border:1px solid #000;padding:4px;text-align:center;} th{background-color:#f0f0f0;font-weight:bold;} .v-txt{mso-rotate:90; white-space:nowrap;} .v-th{height:100px;}</style></head><body><h3>${sanitize(db.cf.school)} - Class ${cls}</h3>${t}</body></html>`;
+        let content = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><style>table{border-collapse:collapse;font-family:sans-serif;font-size:12px;} th,td{border:1px solid #000;padding:4px;text-align:center;} th{background-color:#f0f0f0;font-weight:bold;} .v-txt{mso-rotate:90; white-space:nowrap;} .v-th{height:100px;}</style></head><body><h3>' + sanitize(db.cf.school) + ' - Class ' + cls + '</h3>' + t + '</body></html>';
         let blob = new Blob(["\uFEFF"+content], {type: 'application/vnd.ms-excel;charset=utf-8'});
         let url = URL.createObjectURL(blob); let a = document.createElement('a'); a.href = url; a.download = `Register_${cls}.xls`;
         document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
         logEvent("EXPORT", "Excel generated"); toast("✅ Excel Downloaded");
     } catch(e) { logEvent("ERROR", "Excel Export Fail"); toast("⚠️ Excel Export Failed"); }
 }
+
 // --- FLAW 4 FIX: ANDROID HARDWARE BACK-BUTTON TRAP ---
 history.pushState({page: 1}, "", "");
 window.onpopstate = function(e) {
@@ -1061,12 +1210,13 @@ window.onpopstate = function(e) {
     else if (document.getElementById('mod-edit').style.display === 'block') { checkUnsaved(); closedSomething = true; }
     else if (document.getElementById('mod-set').style.display === 'block') { closeModal('mod-set'); closedSomething = true; }
     else if (document.getElementById('mod-abt').style.display === 'block') { closeModal('mod-abt'); closedSomething = true; }
+    else if (document.getElementById('mod-guide').style.display === 'block') { closeModal('mod-guide'); closedSomething = true; }
     else if (document.getElementById('drawer').classList.contains('open')) { toggleDrawer(); closedSomething = true; }
     
     if (closedSomething) {
-        history.pushState({page: 1}, "", ""); // Stay in the app
+        history.pushState({page: 1}, "", ""); 
     } else {
-        history.back(); // Nothing is open, let the user exit the app normally
+        history.back(); 
     }
 };
 
