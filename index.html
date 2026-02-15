@@ -1,390 +1,818 @@
 <!DOCTYPE html>
+<!--
+ASSESS OFFLINE v4.5 (Stable Glass Edition)
+Copyright (c) 2026 Sahil Kumar Rout Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.-->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Assess Offline v4.1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Assess Offline v4.5 (Stable Glass Edition)</title>
 <style>
-    /* --- PREMIUM THEME (Google Blue / OLED Black) --- */
+    /* --- PREMIUM OFFLINE FONT STACK --- */
+    @font-face { font-family: 'Premium UI'; src: local('.SFNSText-Light'), local('.HelveticaNeueDeskInterface-Light'), local('Segoe UI Light'), local('Roboto-Light'); font-weight: 300; }
+    @font-face { font-family: 'Premium UI'; src: local('.SFNSText-Regular'), local('HelveticaNeue'), local('Segoe UI'), local('Roboto'); font-weight: 400; }
+    @font-face { font-family: 'Premium UI'; src: local('.SFNSText-Semibold'), local('HelveticaNeue-Medium'), local('Segoe UI Semibold'), local('Roboto-Medium'); font-weight: 600; }
+    @font-face { font-family: 'Premium UI'; src: local('.SFNSText-Bold'), local('HelveticaNeue-Bold'), local('Segoe UI Bold'), local('Roboto-Bold'); font-weight: 700; }
+    @font-face { font-family: 'Premium Mono'; src: local('SFMono-Regular'), local('Consolas'), local('Menlo'), local('Monaco'), local('Courier New'), monospace; }
+
+    /* --- DYNAMIC THEME VARIABLES --- */
     :root {
-        --primary: #1a73e8; --on-primary: #ffffff;
-        --bg: #f8f9fa; --surface: #ffffff;
-        --text: #202124; --text-sec: #5f6368;
-        --border: #dadce0;
-        --success: #1e8e3e; --success-bg: #e6f4ea;
-        --warn: #e37400; --warn-bg: #fef7e0;
-        --error: #d93025; --error-bg: #fce8e6;
-        --shadow: 0 4px 6px rgba(60, 64, 67, 0.1);
-        --strip: #e8eaed; --strip-text: #5f6368;
-        --zebra: #f1f3f4;
-        --input-bg: #f1f3f4;
+        --bg-grad: linear-gradient(135deg, #e0c3fc 0%, #8cb9af 100%);
+        --text: #1e293b; --text-sec: #1e293b; 
+        --primary: #2563eb;
+        --success: #059669; --success-bg: rgba(5, 150, 105, 0.2);
+        --warn: #d97706;    --warn-bg: rgba(217, 119, 6, 0.2);
+        --error: #dc2626;   --error-bg: rgba(220, 38, 38, 0.2);
+
+        --panel-bg: rgba(255, 255, 255, 0.45); 
+        --panel-border: rgba(255, 255, 255, 0.76);
+        --panel-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        
+        --card-bg: rgba(255, 255, 255, 0.32);
+        --card-border: rgba(255, 255, 255, 0.3);
+        --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 0 rgba(255, 255, 255, 0.1), inset 0 0 42px 21px rgba(255, 255, 255, 1);
+        --card-shine1: rgba(255, 255, 255, 0.8);
+        --card-shine2: rgba(255, 255, 255, 0.3);
+
+        --input-bg: rgba(255, 255, 255, 0.6);
+        --input-focus: rgba(255, 255, 255, 0.9);
     }
+    
     body.dark {
-        --primary: #8ab4f8; --on-primary: #000000;
-        --bg: #000000; --surface: #121212;
-        --text: #e8eaed; --text-sec: #9aa0a6;
-        --border: #3c4043;
-        --success: #81c995; --success-bg: #0c1e12;
-        --warn: #fdd663; --warn-bg: #292008;
-        --error: #f28b82; --error-bg: #370b09;
-        --shadow: 0 4px 12px rgba(0,0,0,0.5);
-        --strip: #202124; --strip-text: #9aa0a6;
-        --zebra: #1a1a1a;
-        --input-bg: #202124;
-    }
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; background: var(--bg); color: var(--text); padding-top: 100px; padding-bottom: 90px; transition: background 0.2s, color 0.2s; }
-    button { cursor: pointer; user-select: none; font-family: inherit; transition: transform 0.1s; }
-    button:active { transform: scale(0.96); }
+        --bg-grad: linear-gradient(135deg, #2a0845 0%, #0c2027 100%);
+        --text: #f8fafc; --text-sec: #cbd5e1;
+        --primary: #60a5fa;
+        --success: #34d399; --success-bg: rgba(52, 211, 153, 0.2);
+        --warn: #fbbf24;    --warn-bg: rgba(251, 191, 36, 0.2);
+        --error: #f87171;   --error-bg: rgba(248, 113, 113, 0.2);
 
-    /* --- HEADER --- */
+        --panel-bg: rgba(15, 23, 42, 0.3);
+        --panel-border: rgba(255, 255, 255, 0.15);
+        --panel-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+        
+        --card-bg: rgba(30, 41, 59, 0.4);
+        --card-border: rgba(255, 255, 255, 0.1);
+        --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(255, 255, 255, 0.05), inset 0 0 42px 21px rgba(255, 255, 255, 0.05);
+        --card-shine1: rgba(255, 255, 255, 0.2);
+        --card-shine2: rgba(255, 255, 255, 0.05);
+
+        --input-bg: rgba(0, 0, 0, 0.4);
+        --input-focus: rgba(0, 0, 0, 0.7);
+    }
+
+    /* --- BASE STYLES --- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; outline: none; -webkit-tap-highlight-color: transparent; }
+    body { 
+        font-family: 'Premium UI', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+        background: var(--bg-grad); background-attachment: fixed;
+        color: var(--text); padding-top: 140px; padding-bottom: 100px; min-height: 100vh;
+        transition: color 0.3s, background 0.3s;
+    }
+    button { cursor: pointer; user-select: none; font-family: inherit; transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: none; border: none; }
+    button:active { transform: scale(0.94); }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(150, 150, 150, 0.4); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(150, 150, 150, 0.6); }
+
+    /* --- THE GLASSMORPHISM CLASSES --- */
+    .glass-panel {
+        background: var(--panel-bg); border-radius: 16px; box-shadow: var(--panel-shadow);
+        backdrop-filter: blur(11.1px); -webkit-backdrop-filter: blur(11.1px);
+        border: 1px solid var(--panel-border); transition: all 0.3s ease;
+    }
+
+    .glass-card {
+        background: var(--card-bg); border-radius: 20px; border: 1px solid var(--card-border);
+        box-shadow: var(--card-shadow); position: relative; overflow: hidden;
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        transform: translateZ(0); will-change: transform, opacity;
+        transition: all 0.3s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        margin-bottom: 16px; padding: 18px 18px 18px 24px; display: flex; align-items: center; gap: 14px;
+        animation: fadeSlideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+    }
+    .glass-card:hover { transform: translateY(-4px) scale(1.01) translateZ(0); }
+    
+    .glass-card::after {
+        content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%;
+        pointer-events: none; z-index: 1; transition: background 0.3s;
+    }
+    .glass-card.pass::after { background: var(--success); box-shadow: 2px 0 10px rgba(5,150,105,0.3); }
+    .glass-card.fail::after { background: var(--warn); box-shadow: 2px 0 10px rgba(217,119,6,0.3); }
+
+    /* --- HEADER & BRAND STRIP --- */
     header {
-        position: fixed; top: 0; left: 0; width: 100%; height: 60px;
-        background: var(--surface); color: var(--text);
-        display: flex; align-items: center; padding: 0 16px;
-        z-index: 1000; box-shadow: 0 1px 2px rgba(0,0,0,0.08);
-        border-bottom: 1px solid var(--border);
+        position: fixed; top: 0; left: 0; width: 100%; height: 75px;
+        z-index: 1000; display: flex; align-items: center; padding: 0 16px;
+        border-radius: 0 0 16px 16px; border-top: none;
     }
+    .header-titles { flex: 1; overflow: hidden; display:flex; flex-direction:column; justify-content:center; z-index: 2;}
+    .header-titles h1 { margin: 0; font-size: 20px; font-weight: 800; color: var(--primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2;}
+    .header-titles p { margin: 0; font-size: 11px; color: var(--text-sec); font-family: 'Premium Mono', monospace; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+    
+    .menu-icon { font-size: 24px; color: var(--text); padding: 8px; margin-right: 12px; border-radius: 12px; border: 1px solid var(--panel-border); background: var(--input-bg); }
+    .btn-pdf { background: var(--input-bg); color: var(--primary); border: 1px solid var(--panel-border); padding: 8px 16px; border-radius: 100px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; z-index: 2; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    
     .brand-strip {
-        position: fixed; top: 60px; left: 0; width: 100%; height: 28px;
-        background: var(--strip); color: var(--strip-text);
-        font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
-        display: flex; align-items: center; justify-content: center;
-        z-index: 990;
+        position: fixed; top: 85px; left: 50%; transform: translateX(-50%); 
+        padding: 6px 20px; border-radius: 50px;
+        font-size: 13px; font-weight: 800; font-family: 'Premium Mono', monospace; 
+        text-transform: uppercase; letter-spacing: 1px; color: var(--text-sec); 
+        z-index: 990; display: flex; align-items: center; justify-content: center; gap: 8px;
+        box-shadow: var(--panel-shadow);
     }
-    .menu-icon { background: none; border: none; font-size: 24px; color: var(--text); padding: 8px; margin-right: 12px; border-radius: 50%; }
-    .header-titles { flex: 1; overflow: hidden; display:flex; flex-direction:column; justify-content:center; }
-    .header-titles h1 { margin: 0; font-size: 16px; font-weight: 600; color: var(--primary); white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.1; }
-    .header-titles p { margin: 0; font-size: 11px; color: var(--text-sec); margin-top:2px; }
-    .footer-icon { position: absolute; right: 10px; top: 0; height: 100%; background: none; border: none; font-size: 16px; color: var(--strip-text); display: flex; align-items: center; padding: 0 12px; transform: scaleX(-1); }
-    .footer-icon.active { color: var(--warn); }
-    .btn-pdf { background: var(--primary); color: var(--on-primary); border: none; padding: 6px 14px; border-radius: 50px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+    .pencil-icon { font-size: 16px; cursor: pointer; color: var(--primary); padding: 4px; border-radius: 50%; transition: 0.2s; background: var(--input-bg); display: flex; align-items: center; justify-content: center;}
+    .pencil-icon:active { transform: scale(0.9); }
 
-    /* --- LAYOUT --- */
-    .container { max-width: 800px; margin: 0 auto; padding: 10px 16px; min-height: 60vh; }
-    .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 50vh; text-align: center; color: var(--text-sec); animation: fadeIn 0.5s; }
-    .card { background: var(--surface); border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow); border: 1px solid var(--border); border-left: 5px solid transparent; position: relative; display: flex; align-items: center; gap: 12px; }
-    .card.pass { border-left-color: var(--success); }
-    .card.fail { border-left-color: var(--error); }
-    .sel-chk { width: 24px; height: 24px; border: 2px solid var(--text-sec); border-radius: 6px; display: none; align-items: center; justify-content: center; font-size: 16px; color: white; }
-    .sel-chk.checked { background: var(--primary); border-color: var(--primary); }
+    /* --- LAYOUT & LIST ITEMS --- */
+    .container { max-width: 800px; margin: 0 auto; padding: 10px 16px; min-height: 60vh; position: relative; }
+    .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 50vh; text-align: center; color: var(--text-sec); animation: fadeIn 0.5s; font-family: 'Premium Mono', monospace; font-size: 13px; font-weight: 600; }
+    
+    .sel-chk { width: 22px; height: 22px; border: 2px solid var(--text-sec); border-radius: 6px; display: none; align-items: center; justify-content: center; font-size: 14px; color: transparent; transition: 0.2s; z-index: 2;}
+    .sel-chk.checked { background: var(--primary); border-color: var(--primary); color: #fff; }
     .sel-mode .sel-chk { display: flex; }
-    .card-content { flex: 1; }
-    .row-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .st-name { font-size: 16px; font-weight: 600; color: var(--text); }
-    .st-score { font-size: 18px; font-weight: 800; color: var(--primary); }
-    .tags { display: flex; gap: 8px; font-size: 10px; font-weight: 700; }
-    .tag { padding: 3px 8px; border-radius: 4px; }
-    .tag.inc { background: var(--warn-bg); color: var(--warn); }
-    .tag.com { background: var(--success-bg); color: var(--success); }
+    
+    .card-content { flex: 1; min-width: 0; z-index: 2;}
+    .row-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; width: 100%; gap: 10px; }
+    .st-name { flex: 1; font-size: 17px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .st-score { font-size: 22px; font-weight: 800; color: var(--primary); white-space: nowrap; }
+    .tags { display: flex; gap: 8px; font-family: 'Premium Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+    .tag { padding: 4px 8px; border-radius: 6px; text-transform: uppercase; }
+    .tag.inc { background: var(--warn-bg); color: var(--warn); border: 1px solid rgba(217, 119, 6, 0.4); }
+    .tag.com { background: var(--success-bg); color: var(--success); border: 1px solid rgba(5, 150, 105, 0.4); }
 
-    /* --- FAB --- */
-    .fab { position: fixed; bottom: 24px; right: 24px; height: 56px; background: var(--primary); color: var(--on-primary); border-radius: 28px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3); font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 10px; padding: 0 24px; z-index: 900; }
-    .sel-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 70px; background: var(--surface); border-top: 1px solid var(--border); display: none; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 950; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
-    .sel-mode .fab { display: none; }
+    /* --- THE CYLINDRICAL DEVELOPER PILL --- */
+    .dev-pill {
+        position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+        padding: 6px 18px; border-radius: 50px;
+        font-family: 'Premium Mono', monospace; font-size: 10px; font-weight: 700;
+        color: var(--text-sec); letter-spacing: 1px; white-space: nowrap;
+        pointer-events: auto; cursor: pointer; z-index: 800;
+        animation: fadeSlideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+    }
+    .dev-pill:active { transform: translateX(-50%) scale(0.95); }
+
+    /* --- FAB & SELECTION BAR --- */
+    .fab { position: fixed; bottom: 45px; right: 24px; height: 60px; background: var(--primary); color: #fff; border-radius: 30px; padding: 0 24px; font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 10px; z-index: 900; box-shadow: 0 8px 25px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3); transition: 0.2s; }
+    .fab:hover { transform: translateY(-3px) scale(1.04); }
+    .sel-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 80px; display: none; align-items: center; justify-content: space-between; padding: 0 24px; z-index: 950; border-radius: 16px 16px 0 0; border-bottom: none; }
+    .sel-mode .fab, .sel-mode .dev-pill { display: none; }
     .sel-mode .sel-bar { display: flex; }
 
-    /* --- DRAWER --- */
-    .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1100; backdrop-filter: blur(2px); }
-    .drawer { position: fixed; top: 0; left: 0; width: 280px; height: 100%; background: var(--surface); z-index: 1200; transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; border-right: 1px solid var(--border); }
+    /* --- DRAWER & OVERLAYS --- */
+    /* FLAW 8 PATCH: iOS Safari Scroll Leak fix implemented inline on elements */
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1100; backdrop-filter: blur(4px); opacity: 0; transition: opacity 0.3s; touch-action: none; }
+    .drawer { position: fixed; top: 0; left: 0; width: 300px; height: 100%; z-index: 1200; transform: translateX(-100%); transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1); display: flex; flex-direction: column; border-radius: 0 16px 16px 0; border-left: none; border-top: none; border-bottom: none; }
     .drawer.open { transform: translateX(0); }
-    .drawer-head { padding: 20px; background: var(--surface); border-bottom: 1px solid var(--border); }
-    .drawer-body { flex: 1; overflow-y: auto; padding: 8px 0; }
-    .sec-title { padding: 24px 20px 8px; font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
-    .menu-item { padding: 14px 20px; font-size: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; color: var(--text); border-left: 4px solid transparent; transition: background 0.1s; }
-    .menu-item:active { background: var(--strip); }
-    .menu-item.active-cls { background: rgba(26, 115, 232, 0.1); color: var(--primary); font-weight: 600; border-left-color: var(--primary); }
-    .count-badge { font-size: 12px; font-weight: 600; color: var(--text-sec); padding: 2px 8px; border-radius: 10px; background: var(--strip); }
-    .count-badge.done { color: var(--success); background: var(--success-bg); }
+    .drawer-head { padding: 24px; border-bottom: 1px solid var(--panel-border); z-index: 2; }
+    .drawer-body { flex: 1; overflow-y: auto; padding: 12px 0; z-index: 2; }
+    .sec-title { 
+        padding: 24px 20px 8px; font-family: 'Premium Mono', monospace; font-size: 11px; font-weight: 800; 
+        color: var(--primary); text-transform: uppercase; letter-spacing: 2px; 
+        border-bottom: 1px solid var(--panel-border); margin-bottom: 8px; margin-top: 8px;
+    }
+    .menu-item { padding: 14px 20px; font-size: 16px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; cursor: pointer; color: var(--text); border-left: 4px solid transparent; transition: 0.2s; }
+    .menu-item:hover { background: var(--input-bg); }
+    .menu-item.active-cls { background: var(--input-bg); color: var(--primary); border-left-color: var(--primary); }
+    .count-badge { font-family: 'Premium Mono', monospace; font-size: 11px; font-weight: 700; color: var(--text-sec); padding: 4px 8px; border-radius: 6px; background: var(--input-bg); border: 1px solid var(--panel-border); }
+    .count-badge.done { color: var(--success); background: var(--success-bg); border-color: rgba(5,150,105,0.4); }
 
     /* --- MODALS --- */
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 1500; overflow-y: auto; }
-    .modal-head { position: sticky; top: 0; background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; z-index: 1510; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-    .modal-body { padding: 20px; max-width: 600px; margin: 0 auto; padding-bottom: 120px; }
-    .inp-grp { margin-bottom: 16px; }
-    .inp-grp label { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 600; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.5px; }
-    .inp-txt, select.inp-txt { width: 100%; padding: 12px 14px; border: none; border-bottom: 2px solid var(--border); border-radius: 4px 4px 0 0; font-size: 16px; background: var(--input-bg); color: var(--text); font-family: inherit; -webkit-appearance: none; transition: border-color 0.2s, background 0.2s; }
-    .inp-txt:focus { border-color: var(--primary); background: rgba(26, 115, 232, 0.05); }
-
-    /* --- COMPACT GRID (OPTIMIZED) --- */
-    .sub-card { background: var(--surface); border: 1px solid var(--border); border-radius: 0; padding: 10px; margin-bottom: 0; border-bottom: none; }
-    .sub-card:first-of-type { border-top-left-radius: 12px; border-top-right-radius: 12px; }
-    .sub-card:last-of-type { border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; border-bottom: 1px solid var(--border); }
-    .sub-card:nth-child(even) { background: var(--zebra); }
-    .sub-head { font-weight: 700; color: var(--text); margin-bottom: 6px; font-size: 15px; }
+    .modal { display: none; position: fixed; inset: 0; z-index: 1500; overflow-y: auto; padding: 10px; border-radius: 0; border: none; touch-action: pan-y; }
+    .modal-head { position: sticky; top: 0; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1510; border-bottom: 1px solid var(--panel-border); border-radius: 16px 16px 0 0; }
+    .modal-head span { font-size: 22px; font-weight: 700; color: var(--text); }
+    .modal-body { padding: 24px; max-width: 600px; margin: 0 auto; padding-bottom: 120px; animation: expandIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 2; position: relative;}
     
-    /* 75px forces 3 items per row on mobile */
-    .mark-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(75px, 1fr)); gap: 6px; margin-bottom: 4px; }
+    .inp-grp { margin-bottom: 20px; }
+    .inp-grp label { display: block; margin-bottom: 8px; font-family: 'Premium Mono', monospace; font-size: 11px; font-weight: 700; color: var(--text-sec); text-transform: uppercase; letter-spacing: 1px; }
+    .inp-txt, select.inp-txt { width: 100%; padding: 14px; border: 1px solid var(--panel-border); border-radius: 12px; font-size: 16px; background: var(--input-bg); color: var(--text); font-family: inherit; transition: 0.2s; font-weight: 600; box-sizing: border-box;}
+    .inp-txt:focus { border-color: var(--primary); background: var(--input-focus); box-shadow: 0 0 10px rgba(0,0,0,0.05); }
+    select.inp-txt { padding-right: 30px; } 
+
+    textarea.inp-txt { font-size: 12px; font-weight: 600; line-height: 1.4; resize: vertical; min-height: 80px; padding: 10px; }
+    .dual-sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 6px; }
+    .sub-match-ui { 
+        font-family: 'Premium Mono', monospace; font-size: 11px; font-weight: 700; 
+        text-align: center; padding: 6px; border-radius: 6px; display: block; width: 100%; margin-bottom: 16px; box-sizing: border-box;
+    }
+
+    /* --- COMPACT GRID (TETRIS) --- */
+    .sub-card { padding: 16px; margin-bottom: 12px; border-radius: 16px; background: var(--input-bg); border: 1px solid var(--panel-border); }
+    .sub-head { font-weight: 700; color: var(--text); margin-bottom: 12px; font-size: 16px; }
+    .mark-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(75px, 1fr)); gap: 8px; }
     .mark-cell { text-align: center; }
-    .mark-cell label { display: block; font-size: 9px; font-weight: 700; color: var(--text-sec); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .mark-inp { width: 100%; padding: 8px 0; text-align: center; border: 1px solid var(--border); border-radius: 6px; font-size: 16px; font-weight: 700; background: var(--bg); color: var(--text); inputmode: decimal; }
-    .mark-inp:focus { border-color: var(--primary); border-width: 2px; padding: 7px 0; }
+    .mark-cell label { display: block; font-family: 'Premium Mono', monospace; font-size: 10px; color: var(--text-sec); margin-bottom: 4px; font-weight: 700; }
+    .mark-inp { width: 100%; padding: 12px 0; text-align: center; border: 1px solid var(--panel-border); border-radius: 8px; font-family: 'Premium Mono', monospace; font-size: 16px; font-weight: 700; background: var(--input-bg); color: var(--text); inputmode: decimal; transition: 0.2s; }
+    .mark-inp:focus { border-color: var(--primary); background: var(--input-focus); box-shadow: 0 0 10px rgba(0,0,0,0.05); }
     
-    .btn-row { display: flex; gap: 10px; margin-top: 15px; }
-    .btn-save { flex: 1; padding: 14px; background: var(--primary); color: var(--on-primary); border: none; font-size: 14px; font-weight: 600; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-    .btn-next { flex: 1; background: var(--surface); color: var(--primary); border: 2px solid var(--primary); box-shadow:none; }
-    .btn-del { width: 100%; padding: 12px; background: var(--error-bg); color: var(--error); border: none; border-radius: 8px; font-weight: 700; font-size: 13px; margin-top: 20px; }
+    /* --- BUTTONS --- */
+    .btn-row { display: flex; gap: 12px; margin-top: 24px; z-index: 2; position: relative;}
+    .btn-save { flex: 1; padding: 14px; background: var(--primary); color: #fff; font-size: 15px; font-weight: 700; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.2); transition: 0.2s; }
+    .btn-next { background: var(--input-bg); color: var(--text); border: 1px solid var(--panel-border); box-shadow: none; }
+    .btn-del { width: 100%; padding: 14px; background: var(--error-bg); color: var(--error); border: 1px solid rgba(220,38,38,0.4); border-radius: 12px; font-weight: 700; font-size: 15px; margin-top: 20px; transition: 0.2s; }
     
-    .set-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
-    .set-title { font-weight: 700; color: var(--primary); margin-bottom: 12px; font-size: 13px; text-transform: uppercase; }
-    .dual-sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
-    .sub-match-ui { font-size: 11px; font-weight: 600; text-align: right; margin-bottom: 12px; }
-    .sub-match-ui.ok { color: var(--success); }
-    .sub-match-ui.bad { color: var(--error); }
+    .set-box { padding: 20px; margin-bottom: 20px; border-radius: 16px; background: var(--input-bg); border: 1px solid var(--panel-border); z-index: 2; }
+    .set-title { font-weight: 700; color: var(--primary); margin-bottom: 16px; font-size: 18px; }
+    .sub-match-ui.ok { color: var(--success); background: var(--success-bg); border: 1px solid rgba(5,150,105,0.4); }
+    .sub-match-ui.bad { color: var(--error); background: var(--error-bg); border: 1px solid rgba(220,38,38,0.4); }
 
-    .cfm-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1600; align-items: center; justify-content: center; backdrop-filter: blur(2px); }
-    .cfm-box { background: var(--surface); padding: 25px; border-radius: 16px; width: 85%; max-width: 320px; text-align: center; }
-    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(50px); background: #323232; color: #fff; padding: 12px 24px; border-radius: 50px; font-size: 14px; opacity: 0; transition: 0.3s; pointer-events: none; z-index: 3000; white-space: nowrap; }
+    /* --- UNIFIED CONFIRM MODAL --- */
+    .cfm-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1600; align-items: center; justify-content: center; backdrop-filter: blur(8px); opacity: 0; transition: 0.2s; touch-action: none; }
+    .cfm-box { padding: 30px; border-radius: 20px; width: 85%; max-width: 360px; text-align: center; transform: scale(0.95); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 2;}
+    .cfm-overlay.show { opacity: 1; }
+    .cfm-overlay.show .cfm-box { transform: scale(1); }
+
+    /* --- TOAST --- */
+        .toast { 
+        position: fixed; top: 20px; left: 50%; 
+        transform: translateX(-50%) translateY(-30px); 
+        background: rgba(0, 0, 0, 0.85); /* Universal dark glass */
+        color: #ffffff; /* Forced pure white text */
+        padding: 8px 20px; /* Thinner, sleeker sizing */
+        border-radius: 100px; /* Perfect cylindrical shape */
+        font-size: 12px; /* Smaller, premium text */
+        font-weight: 700; opacity: 0; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        pointer-events: none; z-index: 3000; box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+        display: flex; align-items: center; gap: 8px; font-family: 'Premium Mono', monospace; 
+        white-space: nowrap; /* Forces text to stay on exactly ONE line */
+        backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    }
+
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     
+    @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes expandIn { from { opacity: 0; transform: translateY(15px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* --- MOBILE KEYBOARD FIX --- */
+    @media (max-height: 500px) { .fab, .sel-bar, .dev-pill { display: none !important; } }
+
+    /* --- FIXED PRINT STYLES --- */
     #print-wrap { display: none; }
     @media print {
         body * { visibility: hidden; }
-        #print-wrap, #print-wrap * { visibility: visible; }
+        #print-wrap, #print-wrap * { 
+            visibility: visible; background: transparent !important; color: #000 !important; 
+            box-shadow: none !important; text-shadow: none !important; backdrop-filter: none !important; border-color: #000 !important;
+        }
         #print-wrap { display: block; position: absolute; left: 0; top: 0; width: 100%; }
         @page { size: A4 landscape; margin: 5mm; }
-        table { width: 100%; border-collapse: collapse; font-family: 'Times New Roman', serif; font-size: 8pt; color: black; }
-        th, td { border: 0.5pt solid black; padding: 2px; text-align: center; vertical-align: middle; }
-        thead th { background: #eee !important; font-weight: bold; -webkit-print-color-adjust: exact; }
-        .v-th { height: 120px; vertical-align: bottom; }
-        .v-txt { writing-mode: vertical-rl; transform: rotate(180deg); margin: 0 auto; white-space: nowrap; font-size: 6.5pt; line-height: 1.1; }
-        .t-left { text-align: left; padding-left: 4px; }
-        .p-head { text-align: center; border-bottom: 1px solid black; margin-bottom: 8px; padding-bottom: 5px; }
+        table { width: 100%; border-collapse: collapse; font-family: 'Times New Roman', serif; font-size: 9pt; }
+        th, td { border: 0.5pt solid black !important; padding: 3px; text-align: center; vertical-align: middle; }
+        thead th { background: #e2e8f0 !important; font-weight: bold; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .v-th { height: 110px; vertical-align: bottom; }
+        .v-txt { writing-mode: vertical-rl; transform: rotate(180deg); margin: 0 auto; white-space: nowrap; font-size: 7pt; line-height: 1.1; }
+        .t-left { text-align: left; padding-left: 5px; }
+        .p-head { text-align: center; border-bottom: 2px solid black; margin-bottom: 10px; padding-bottom: 5px; }
         .page-break { page-break-before: always; }
-        .gt-cell { font-weight: bold; font-size: 10pt; background: #f5f5f5; }
     }
 </style>
 </head>
 <body>
 
-<header>
+<header class="glass-panel">
     <button class="menu-icon" onclick="toggleDrawer()">☰</button>
-    <div class="header-titles"><h1 id="ui-school">My Govt School</h1><p id="ui-class">Mark Register</p></div>
-    <button class="btn-pdf" onclick="prepExport('single')">📄 PDF</button>
+    <div class="header-titles"><h1 id="ui-school">My Govt School</h1><p>ASSESS OFFLINE v4.5 (Stable Glass Edition)</p></div>
+    <button class="btn-pdf" onclick="prepExport('single')">📄 Export PDF</button>
 </header>
-<div class="brand-strip">Developed by Sahil Kumar Rout<button class="footer-icon" id="sel-toggle" onclick="toggleSelMode()">✎</button></div>
+<div class="brand-strip glass-panel"><span id="ui-class-strip">CLASS 1 REGISTER</span> <span id="sel-toggle" class="pencil-icon" onclick="toggleSelMode()">✏️</span></div>
 
 <div class="container"><div id="list"></div></div>
 
-<button class="fab" id="main-fab" onclick="editStudent(null)"><span style="font-size:24px; margin-right:4px;">+</span> Add Student</button>
-<div class="sel-bar"><div style="font-weight:600" id="sel-count">0 Selected</div><button class="btn-del" onclick="deleteSelected()" style="margin:0; width:auto; padding:8px 16px;">DELETE SELECTED</button></div>
+<div class="dev-pill glass-panel" onclick="devClick()">© Developed by Sahil Kumar Rout</div>
 
-<div class="overlay" id="overlay" onclick="toggleDrawer()"></div>
-<div class="drawer" id="drawer">
-    <div class="drawer-head"><div style="font-weight:700; font-size:18px; color:var(--primary)">Assess Offline</div><div style="font-size:11px; opacity:0.7;">v4.1 (Final Stable)</div></div>
+<button class="fab glass-panel" id="main-fab" onclick="editStudent(null)"><span style="font-size:24px; margin-right:4px; font-weight:400">+</span> Add Student</button>
+<div class="sel-bar glass-panel"><div style="font-weight:700; font-family:'Premium Mono', monospace; font-size:13px;" id="sel-count">0 Selected</div><button class="btn-del" onclick="deleteSelected()" style="margin:0; width:auto; padding:10px 20px;">DELETE SELECTED</button></div>
+
+<div class="overlay" id="overlay" onclick="toggleDrawer()" ontouchmove="event.preventDefault()"></div>
+<div class="drawer glass-panel" id="drawer">
+    <div class="drawer-head">
+        <div style="font-weight:700; font-size:24px; color:var(--primary)">ASSESS OFFLINE</div>
+        <div style="font-size:12px; opacity:0.7; font-family:'Premium Mono', monospace; font-weight:700;">v4.5 (Stable Glass Edition)</div>
+    </div>
     <div class="drawer-body">
         <div class="sec-title">School Profile</div>
         <div style="padding:0 16px;">
-            <div class="inp-grp"><label>School Name</label><input type="text" id="menu-school" class="inp-txt" oninput="updCF('school', this.value)"></div>
-            <div class="inp-grp"><label>UDISE</label><input type="text" id="menu-udise" class="inp-txt" oninput="updCF('udise', this.value)"></div>
-            <div class="inp-grp"><label>Session</label><input type="text" id="menu-ses" class="inp-txt" oninput="updCF('session', this.value)"></div>
+            <div class="inp-grp"><label>School Name</label><input type="text" id="menu-school" class="inp-txt" onchange="updCF('school', this.value)"></div>
+            <div class="inp-grp"><label>UDISE</label><input type="text" id="menu-udise" class="inp-txt" onchange="updCF('udise', this.value)"></div>
+            <div class="inp-grp"><label>Session</label><input type="text" id="menu-ses" class="inp-txt" onchange="updCF('session', this.value)"></div>
         </div>
         <div class="sec-title">Class Registers</div><div id="menu-cls-list"></div>
-        <div class="sec-title">Tools</div>
-        <div onclick="prepExport('all')" class="menu-item">🖨️ Print All Classes</div>
-        <div onclick="genExcel()" class="menu-item">📊 Excel Export (.xls)</div>
-        <div onclick="backupData()" class="menu-item">💾 Backup Data</div>
-        <div onclick="document.getElementById('file-res').click()" class="menu-item">📂 Restore Data</div><input type="file" id="file-res" style="display:none" onchange="restoreData(this)" accept="*/*">
-        <div class="sec-title">Settings & About</div>
-        <div onclick="toggleDark()" class="menu-item" id="theme-btn">Current Theme: Light</div>
-        <div onclick="openSettings()" class="menu-item">⚙️ Settings</div>
-        <div onclick="openAbout()" class="menu-item">ℹ️ About & Support</div>
-        <div onclick="resetAll()" class="menu-item" style="color:var(--error);">⚠️ Factory Reset</div>
+        <div class="sec-title">Data Management</div>
+        <div onclick="prepExport('all')" class="menu-item"><span>🖨️ Print All Classes</span></div>
+        <div onclick="genExcel()" class="menu-item"><span>📊 Excel Export (.xls)</span></div>
+        <div onclick="backupData()" class="menu-item"><span>💾 Backup Data</span></div>
+        
+        <label class="menu-item" for="file-res"><span>📂 Restore Data</span></label>
+        <input type="file" id="file-res" style="display:none" onchange="restoreData(this)" accept=".json,application/json,text/plain,*/*">
+        
+        <div class="sec-title">Configuration</div>
+        <div onclick="toggleDark()" class="menu-item" id="theme-btn" style="color:var(--primary)"><span>🌙 Dark Mode</span></div>
+        <div onclick="openSettings()" class="menu-item"><span>⚙️ Settings</span></div>
+        <div onclick="openAbout()" class="menu-item"><span>ℹ️ About & Support</span></div>
+        <div onclick="resetAll()" class="menu-item" style="color:var(--error);"><span>⚠️ Factory Reset</span></div>
     </div>
 </div>
 
-<div class="modal" id="mod-edit">
-    <div class="modal-head"><span id="edit-title" style="font-weight:700">Student</span><button class="menu-icon" onclick="checkUnsaved()" style="margin:0">✕</button></div>
+<div class="modal glass-panel" id="mod-edit">
+    <div class="modal-head"><span id="edit-title">Student Entry</span><button class="menu-icon" onclick="checkUnsaved()" style="margin:0; border:none; background:none;">✕</button></div>
     <div class="modal-body">
-        <div class="inp-grp" style="position:sticky; top:55px; z-index:10; background:var(--bg); padding:10px 0; border-bottom:1px solid var(--border)">
-            <label>Student Name (Auto Capital)</label><input type="text" id="inp-name" class="inp-txt" style="text-transform:uppercase" placeholder="ENTER NAME">
+        <div class="inp-grp" style="position:sticky; top:52px; z-index:10; padding:15px 0 10px;">
+            <label>Student Name (Auto Capital)</label><input type="text" id="inp-name" class="inp-txt" style="text-transform:uppercase" placeholder="ENTER NAME" autocomplete="off" oninput="isDirty = true">
         </div>
-        <div id="marks-area"></div>
+        <div id="marks-area" style="margin-top:10px;"></div>
         <div class="btn-row"><button class="btn-save" onclick="preSaveCheck(false)">SAVE & CLOSE</button><button class="btn-save btn-next" onclick="preSaveCheck(true)">SAVE & NEXT ➡️</button></div>
-        <button class="btn-del" id="btn-del" onclick="delStudent()" style="display:none;">DELETE STUDENT</button>
+        <button class="btn-del" id="btn-del" onclick="delStudent()" style="display:none; z-index:2; position:relative;">DELETE STUDENT</button>
     </div>
 </div>
 
-<div class="modal" id="mod-set">
-    <div class="modal-head"><span style="font-weight:700">Settings</span><button class="menu-icon" onclick="closeModal('mod-set')" style="margin:0">✕</button></div>
+<div class="modal glass-panel" id="mod-set">
+    <div class="modal-head"><span>Settings</span><button class="menu-icon" onclick="closeModal('mod-set')" style="margin:0; border:none; background:none;">✕</button></div>
     <div class="modal-body">
         <div class="inp-grp"><label>Report Language / ରିପୋର୍ଟ ଭାଷା</label><select id="cfg-lang" class="inp-txt"><option value="od">Odia (ଓଡ଼ିଆ) [Default]</option><option value="en">English</option></select></div>
         <div class="set-box">
-            <div class="set-title">Group A: Exam Limits (Max Marks)</div>
-            <div style="display:flex; gap:10px;"><div class="inp-grp" style="flex:1"><label>FA Max</label><input type="number" id="lm-fa" class="inp-txt"></div><div class="inp-grp" style="flex:1"><label>SA Max</label><input type="number" id="lm-sa" class="inp-txt"></div></div>
-            <div style="display:flex; gap:10px;"><div class="inp-grp" style="flex:1"><label>Written</label><input type="number" id="lm-wr" class="inp-txt"></div><div class="inp-grp" style="flex:1"><label>Project</label><input type="number" id="lm-pr" class="inp-txt"></div></div>
+            <div class="set-title">Group A: Max Marks (Limits)</div>
+            <div style="display:flex; gap:12px;"><div class="inp-grp" style="flex:1"><label>FA Max</label><input type="number" id="lm-fa" class="inp-txt"></div><div class="inp-grp" style="flex:1"><label>SA Max</label><input type="number" id="lm-sa" class="inp-txt"></div></div>
+            <div style="display:flex; gap:12px;"><div class="inp-grp" style="flex:1"><label>Written</label><input type="number" id="lm-wr" class="inp-txt"></div><div class="inp-grp" style="flex:1"><label>Project</label><input type="number" id="lm-pr" class="inp-txt"></div></div>
         </div>
         <div class="set-box">
             <div class="set-title">Group B: Weightage %</div>
-            <div style="font-size:11px; font-weight:700; color:var(--text-sec); margin-bottom:5px;">Primary (Class 1-5)</div>
-            <div style="display:flex; gap:5px;"><input type="number" id="pr-t1" class="inp-txt" placeholder="T1%"><input type="number" id="pr-wr" class="inp-txt" placeholder="Wr%"><input type="number" id="pr-pr" class="inp-txt" placeholder="Pr%"><input type="number" id="pr-sa" class="inp-txt" placeholder="An%"></div>
-            <div style="font-size:11px; font-weight:700; color:var(--text-sec); margin:10px 0 5px;">Upper Primary (Class 6-8)</div>
-            <div style="display:flex; gap:5px;"><input type="number" id="up-t1" class="inp-txt" placeholder="T1%"><input type="number" id="up-wr" class="inp-txt" placeholder="Wr%"><input type="number" id="up-pr" class="inp-txt" placeholder="Pr%"><input type="number" id="up-sa" class="inp-txt" placeholder="An%"></div>
+            <div style="font-family:'Premium Mono', monospace; font-size:11px; font-weight:700; color:var(--text-sec); margin-bottom:8px; text-transform:uppercase;">Primary (Class 1-5)</div>
+            <div style="display:flex; gap:8px;"><input type="number" id="pr-t1" class="inp-txt" placeholder="T1%"><input type="number" id="pr-wr" class="inp-txt" placeholder="Wr%"><input type="number" id="pr-pr" class="inp-txt" placeholder="Pr%"><input type="number" id="pr-sa" class="inp-txt" placeholder="An%"></div>
+            <div style="font-family:'Premium Mono', monospace; font-size:11px; font-weight:700; color:var(--text-sec); margin:16px 0 8px; text-transform:uppercase;">Upper Primary (Class 6-8)</div>
+            <div style="display:flex; gap:8px;"><input type="number" id="up-t1" class="inp-txt" placeholder="T1%"><input type="number" id="up-wr" class="inp-txt" placeholder="Wr%"><input type="number" id="up-pr" class="inp-txt" placeholder="Pr%"><input type="number" id="up-sa" class="inp-txt" placeholder="An%"></div>
         </div>
         <div class="set-box" style="border-color:var(--primary)">
             <div class="set-title">📝 Edit Subjects</div>
-            <div style="font-size:11px; color:var(--error); margin-bottom:8px; font-weight:600">⚠️ Note: Renaming a subject hides marks saved under the old name.</div>
-            <label style="font-size:11px; font-weight:700">Class 1 & 2</label>
-            <div class="dual-sub-grid"><textarea id="sub-en-1" class="inp-txt" rows="3" placeholder="English" oninput="chkSubMatch(1)"></textarea><textarea id="sub-od-1" class="inp-txt" rows="3" placeholder="Odia" oninput="chkSubMatch(1)"></textarea></div>
-            <div id="sm-1" class="sub-match-ui">Checking...</div>
-            <label style="font-size:11px; font-weight:700">Class 3, 4 & 5</label>
-            <div class="dual-sub-grid"><textarea id="sub-en-3" class="inp-txt" rows="3" placeholder="English" oninput="chkSubMatch(3)"></textarea><textarea id="sub-od-3" class="inp-txt" rows="3" placeholder="Odia" oninput="chkSubMatch(3)"></textarea></div>
-            <div id="sm-3" class="sub-match-ui">Checking...</div>
-            <label style="font-size:11px; font-weight:700">Class 6, 7 & 8</label>
-            <div class="dual-sub-grid"><textarea id="sub-en-6" class="inp-txt" rows="4" placeholder="English" oninput="chkSubMatch(6)"></textarea><textarea id="sub-od-6" class="inp-txt" rows="4" placeholder="Odia" oninput="chkSubMatch(6)"></textarea></div>
-            <div id="sm-6" class="sub-match-ui">Checking...</div>
+            <div style="font-size:13px; color:var(--error); margin-bottom:12px; font-weight:600; background:var(--error-bg); padding:12px; border-radius:8px;">⚠️ Renaming a subject hides marks saved under the old name.</div>
+            
+            <label style="font-size:12px; font-weight:700">Class 1 & 2</label>
+            <div class="dual-sub-grid"><textarea id="sub-en-1" class="inp-txt" placeholder="English" oninput="chkSubMatch(1)"></textarea><textarea id="sub-od-1" class="inp-txt" placeholder="Odia" oninput="chkSubMatch(1)"></textarea></div>
+            <div id="sm-1" class="sub-match-ui"><div style="clear:both"></div></div>
+            
+            <label style="font-size:12px; font-weight:700; margin-top:10px; display:block;">Class 3, 4 & 5</label>
+            <div class="dual-sub-grid"><textarea id="sub-en-3" class="inp-txt" placeholder="English" oninput="chkSubMatch(3)"></textarea><textarea id="sub-od-3" class="inp-txt" placeholder="Odia" oninput="chkSubMatch(3)"></textarea></div>
+            <div id="sm-3" class="sub-match-ui"><div style="clear:both"></div></div>
+            
+            <label style="font-size:12px; font-weight:700; margin-top:10px; display:block;">Class 6 & 7</label>
+            <div class="dual-sub-grid"><textarea id="sub-en-6" class="inp-txt" placeholder="English" oninput="chkSubMatch(6)"></textarea><textarea id="sub-od-6" class="inp-txt" placeholder="Odia" oninput="chkSubMatch(6)"></textarea></div>
+            <div id="sm-6" class="sub-match-ui"><div style="clear:both"></div></div>
+
+            <label style="font-size:12px; font-weight:700; margin-top:10px; display:block;">Class 8</label>
+            <div class="dual-sub-grid"><textarea id="sub-en-8" class="inp-txt" placeholder="English" oninput="chkSubMatch(8)"></textarea><textarea id="sub-od-8" class="inp-txt" placeholder="Odia" oninput="chkSubMatch(8)"></textarea></div>
+            <div id="sm-8" class="sub-match-ui"><div style="clear:both"></div></div>
         </div>
-        <button class="btn-save" onclick="saveSettings()">SAVE SETTINGS</button>
+        <button class="btn-save" style="z-index:2; position:relative;" onclick="saveSettings()">SAVE CONFIGURATION</button>
     </div>
 </div>
 
-<div class="modal" id="mod-abt">
-    <div class="modal-head"><span style="font-weight:700">About</span><button class="menu-icon" onclick="closeModal('mod-abt')" style="margin:0">✕</button></div>
+<div class="modal glass-panel" id="mod-abt">
+    <div class="modal-head"><span>About</span><button class="menu-icon" onclick="closeModal('mod-abt')" style="margin:0; border:none; background:none;">✕</button></div>
     <div class="modal-body">
-        <div style="text-align:center; margin-bottom:20px;">
-            <h2 style="color:var(--primary); margin:10px 0;">Assess Offline</h2>
-            <p style="opacity:0.7">v4.1 (Final Stable)</p>
-            <p style="font-weight:600">Developed by Sahil Kumar Rout</p>
+        <div style="text-align:center; margin-bottom:24px;">
+            <h2 style="color:var(--primary); margin:10px 0; font-size:28px;">ASSESS OFFLINE</h2>
+            <p style="color:var(--text-sec); font-family:'Premium Mono', monospace; font-size:13px; font-weight:700;">v4.5 (Stable Glass Edition)</p>
+            <p style="font-weight:700; margin-top:8px; font-size:15px;">Developed by Sahil Kumar Rout</p>
         </div>
-        <div class="legal-box" style="background:var(--warn-bg); color:var(--text); border:1px solid var(--warn); padding:15px; border-radius:8px; margin-bottom:20px;"><strong>⚠️ DISCLAIMER</strong><br>This is an independent open-source project. It is <strong>NOT</strong> a Government app and is <strong>NOT</strong> developed, funded, or endorsed by any Government entity.</div>
-        <div class="sec-title">CONTACT / SUPPORT</div><div style="font-size:13px; color:var(--text); margin-bottom:20px;">For bugs or suggestions, please contact the developer.<br><strong>License:</strong> MIT License (Free & Open Source).</div>
-        <div class="legal-box" style="font-size:12px; color:var(--text-sec); border:1px solid var(--border); padding:12px; border-radius:8px;"><strong>PRIVACY POLICY</strong><br>1. <strong>Local Storage:</strong> All data is stored locally on your device.<br>2. <strong>No Collection:</strong> We collect ZERO personal information.<br>3. <strong>Data Safety:</strong> Use "Backup Data" weekly.</div>
+        <div style="background:var(--warn-bg); color:var(--warn); border:1px solid rgba(217,119,6,0.4); padding:16px; border-radius:12px; margin-bottom:20px; font-size:14px; line-height:1.5;"><strong>⚠️ DISCLAIMER</strong><br>This is an independent open-source project. It is <strong>NOT</strong> a Government app and is <strong>NOT</strong> developed, funded, or endorsed by any Government entity.</div>
+        <div style="font-family:'Premium Mono', monospace; font-size:11px; font-weight:700; color:var(--text-sec); margin-bottom:8px; text-transform:uppercase;">CONTACT / SUPPORT</div>
+        <div style="font-size:14px; color:var(--text); margin-bottom:20px; line-height:1.6;">For bugs or suggestions, please contact the developer.<br><span style="color:var(--primary); font-weight:600;">License:</span> MIT License (Free & Open Source).</div>
+        
+        <div style="margin-top:12px; padding-top:12px; border-top:1px dashed var(--panel-border);">
+            <div style="font-family:'Premium Mono', monospace; font-size:11px; font-weight:700; color:var(--text-sec); margin-bottom:12px; text-transform:uppercase;">Community & Updates</div>
+            <a href="https://t.me/+pV0H_iNurNAyMmZl" target="_blank" style="display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--text); background:var(--input-bg); padding:12px; border-radius:12px; margin-bottom:10px; border:1px solid var(--panel-border); transition:0.2s;">
+               <span style="font-size:22px;">👥</span><div><div style="font-weight:700; font-size:15px;">Join Support Group</div><div style="font-size:12px; color:var(--text-sec); font-weight:600;">Get help & discuss features</div></div>
+            </a>
+            <a href="https://t.me/assess_offline_channel" target="_blank" style="display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--text); background:var(--input-bg); padding:12px; border-radius:12px; border:1px solid var(--panel-border); transition:0.2s;">
+               <span style="font-size:22px;">📢</span><div><div style="font-weight:700; font-size:15px;">Follow Channel</div><div style="font-size:12px; color:var(--text-sec); font-weight:600;">@assess_offline_channel</div></div>
+            </a>
+        </div>
+        
+        <div style="font-size:13px; line-height:1.5; color:var(--text-sec); padding:16px; margin-top:24px; border-radius:12px; background:var(--input-bg); border:1px solid var(--panel-border);"><strong>PRIVACY POLICY</strong><br><br>1. <strong>Local Storage:</strong> All data is stored locally on your device.<br>2. <strong>No Collection:</strong> We collect ZERO personal information.<br>3. <strong>Data Safety:</strong> Use "Backup Data" weekly.</div>
     </div>
 </div>
 
-<div class="cfm-overlay" id="cfm-save"><div class="cfm-box"><h3>Incomplete?</h3><p style="color:var(--text-sec)">Empty boxes will cause "Incomplete" status.</p><div style="display:flex; gap:10px; margin-top:20px;"><button class="btn-save" style="background:var(--bg); color:var(--text); flex:1; margin:0; box-shadow:none" onclick="document.getElementById('cfm-save').style.display='none'">Back</button><button class="btn-save" style="flex:1; margin:0" onclick="confirmSave()">Save Anyway</button></div></div></div>
-<div id="toast-box"></div><div id="print-wrap"></div>
+<div class="cfm-overlay" id="cfm-dialog" ontouchmove="event.preventDefault()">
+    <div class="cfm-box glass-panel">
+        <h3 id="cfm-title" style="font-size:22px; color:var(--text); margin-bottom:8px;">Are you sure?</h3>
+        <p id="cfm-msg" style="color:var(--text-sec); font-size:15px; font-weight:600; margin-bottom:24px; line-height:1.4;">Action cannot be undone.</p>
+        <div style="display:flex; gap:12px; z-index:2; position:relative;">
+            <button class="btn-save" style="background:var(--input-bg); color:var(--text); border:1px solid var(--panel-border); flex:1; box-shadow:none;" onclick="closeConfirm()">Cancel</button>
+            <button class="btn-save" id="cfm-btn" style="flex:1;" onclick="executeConfirm()">Confirm</button>
+        </div>
+    </div>
+</div>
 
+<div id="toast-box" class="toast"></div><div id="print-wrap"></div>
 <script>
-// --- CORE CONFIG ---
+// --- BLACK BOX LOGGER SYSTEM ---
+let appLogs = [`[${new Date().toLocaleTimeString()}] [SYS] Assess Offline v4.5 Boot Sequence Initialized`];
+function logEvent(type, msg) {
+    let ts = new Date().toLocaleTimeString();
+    appLogs.push(`[${ts}] [${type}] ${msg}`);
+    if(appLogs.length > 300) appLogs.shift();
+}
+window.onerror = function(msg, url, line) { logEvent("CRITICAL", `${msg} at L:${line}`); };
+window.onunhandledrejection = function(e) { logEvent("PROMISE_FAIL", e.reason); };
+
+let devTaps = 0; let devTimer;
+function devClick() {
+    devTaps++; clearTimeout(devTimer);
+    devTimer = setTimeout(() => devTaps = 0, 2000);
+    if(devTaps === 4) toast(`🛠️ ${7 - devTaps} more taps for logs`);
+    if(devTaps >= 7) {
+        devTaps = 0; logEvent("SYS", "User triggered Crash Log Dump.");
+        let blob = new Blob([appLogs.join('\n')], { type: 'text/plain' });
+        let a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+        a.download = `Assess_v4.5_Logs_${new Date().getTime()}.txt`;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        toast("🛠️ Crash Logs Downloaded!");
+    }
+}
+
+// FLAW 2 PATCH: Synchronous logic to evaluate real states, bypassing `setTimeout` race conditions.
+function updateScrollLock() {
+    let mOpen = Array.from(document.querySelectorAll('.modal')).some(m => m.style.display === 'block');
+    let dOpen = document.getElementById('drawer').classList.contains('open');
+    let cOpen = document.getElementById('cfm-dialog').style.display === 'flex'; 
+    document.body.style.overflow = (mOpen || dOpen || cOpen) ? 'hidden' : '';
+}
+
+const LS = {
+    get(k) { try { return localStorage.getItem(k); } catch(e) { logEvent("LS_FAIL", "Read failed"); return null; } },
+    set(k, v) { 
+        try { localStorage.setItem(k,v); return true; } 
+        catch(e) { 
+            logEvent("LS_FAIL", e.name);
+            if(e.name === "QuotaExceededError") toast("⚠️ Storage full! Backup now.");
+            else toast("⚠️ Private Mode: Data won't save.");
+            return false; 
+        } 
+    }
+};
+
+let cfmCallback = null;
+function showConfirm(title, msg, btnText, isDanger, callback) {
+    document.getElementById('cfm-title').innerText = title;
+    document.getElementById('cfm-msg').innerText = msg;
+    let btn = document.getElementById('cfm-btn');
+    btn.innerText = btnText;
+    btn.style.background = isDanger ? "var(--error)" : "var(--primary)";
+    btn.style.boxShadow = isDanger ? "0 4px 15px rgba(220,38,38,0.4)" : "0 4px 15px var(--primary-glow)";
+    cfmCallback = callback;
+    let ov = document.getElementById('cfm-dialog');
+    ov.style.display = 'flex'; 
+    
+    // FLAW 2 PATCH: Lock scroll synchronously, then queue the animation class
+    updateScrollLock();
+    requestAnimationFrame(() => { ov.classList.add('show'); });
+}
+function closeConfirm() {
+    let ov = document.getElementById('cfm-dialog');
+    ov.classList.remove('show'); 
+    setTimeout(()=> { 
+        ov.style.display = 'none'; 
+        // FLAW 6 PATCH: Clear callback memory to prevent background-click ghost triggers
+        cfmCallback = null; 
+        updateScrollLock(); 
+    }, 200);
+}
+function executeConfirm() { closeConfirm(); if(cfmCallback) cfmCallback(); }
+
 const MAX_CLS = 8;
 const CFG = { school: "", udise: "", session: "2025-26", lang: "od", lm: { fa:25, sa:50, wr:10, pr:20 }, pr: { t1:30, wr:10, pr:20, sa:40 }, up: { t1:30, wr:5, pr:15, sa:50 } };
-const DEF_EN = { 1: "Language (Odia), Mathematics, EVS, Drawing", 3: "Language (Odia), Mathematics, English, EVS, Drawing", 6: "Language (Odia), Mathematics, English, Science, History & Civics, Geography, Hindi, Sanskrit, Drawing" };
-const DEF_OD = { 1: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ପରିବେଶ ବିଜ୍ଞାନ, ଚିତ୍ରାଙ୍କନ", 3: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ଇଂରାଜୀ, ପରିବେଶ ବିଜ୍ଞାନ, ଚିତ୍ରାଙ୍କନ", 6: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ଇଂରାଜୀ, ବିଜ୍ଞାନ, ଇତିହାସ ଓ ନାଗରୀକ ନୀତି, ଭୂଗୋଳ, ହିନ୍ଦୀ, ସଂସ୍କୃତ, ଚିତ୍ରାଙ୍କନ" };
+const DEF_EN = { 1: "Language (Odia), Mathematics, EVS, Drawing", 3: "Language (Odia), Mathematics, English, EVS, Drawing", 6: "Language (Odia), Mathematics, English, Science, History & Civics, Geography, Hindi, Sanskrit, Drawing", 8: "Language (Odia), Mathematics, English, Science, History & Civics, Geography, Hindi / Sanskrit, Drawing" };
+const DEF_OD = { 1: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ପରିବେଶ ବିଜ୍ଞାନ, ଚିତ୍ରାଙ୍କନ", 3: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ଇଂରାଜୀ, ପରିବେଶ ବିଜ୍ଞାନ, ଚିତ୍ରାଙ୍କନ", 6: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ଇଂରାଜୀ, ବିଜ୍ଞାନ, ଇତିହାସ ଓ ରାଜନୀତି ବିଜ୍ଞାନ, ଭୂଗୋଳ, ହିନ୍ଦୀ, ସଂସ୍କୃତ, ଚିତ୍ରାଙ୍କନ", 8: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ଇଂରାଜୀ, ବିଜ୍ଞାନ, ଇତିହାସ ଓ ରାଜନୀତି ବିଜ୍ଞାନ, ଭୂଗୋଳ, ହିନ୍ଦୀ / ସଂସ୍କୃତ, ଚିତ୍ରାଙ୍କନ" };
 const TR = { en: { n:"Name Of The Student", s:"Subject", t1:"(FA-1 + FA-2 + SA-1)", wgt:"SCORE @ [x]% weightage", asn:"Assignment", prj:"Project", sa2:"SA-2 / Annual Exam", tot:"TOTAL SCORE (SUBJECT)", gt:"GRAND TOTAL SCORE", pct:"GT SCORE %", best:"Best" }, od: { n:"ଶିକ୍ଷାର୍ଥୀର ନାମ", s:"ବିଷୟ", t1:"(FA-1 + FA-2 + SA-1)", wgt:"ପ୍ରାପ୍ତାଙ୍କ @ [x]% ଗୁରୁତ୍ଵ", asn:"ଲିଖିତ କାର୍ଯ୍ୟ", prj:"ପ୍ରକଳ୍ପ କାର୍ଯ୍ୟ", sa2:"SA-2 / ବାର୍ଷିକ ପରୀକ୍ଷା", tot:"ମୋଟ ପ୍ରାପ୍ରାଙ୍କ (ବିଷୟ)", gt:"ସର୍ବମୋଟ ପ୍ରାପ୍ତାଙ୍କ", pct:"% ସର୍ବମୋଟ ପ୍ରାପ୍ତାଙ୍କ", best:"ଶ୍ରେଷ୍ଠ" } };
 
 let db = { cf: JSON.parse(JSON.stringify(CFG)), st: {} };
 let cls = "1"; let eIdx = null; let isSelMode = false; let selIds = new Set(); let pendingNext = false; 
+let isDirty = false; 
 
-// --- SECURITY & UTILS ---
-function sanitize(str) { if(!str) return ""; return str.replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+function sanitize(str) { if(!str) return ""; return str.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 
-// --- INIT ---
 function init() {
-    let th = localStorage.getItem("theme"); if(th === "dark") { document.body.classList.add("dark"); } updThemeBtn();
-    let s = localStorage.getItem("assess_v2_gold");
+    let th = localStorage.getItem("theme"); 
+    if (th === "dark" || (!th && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) { document.body.classList.add("dark"); }
+    updThemeBtn();
+    
+    cls = localStorage.getItem('assess_cls_mem') || "1";
+    
+    let s = LS.get("assess_v2_gold"); 
     if(s) {
         try {
-            let ld = JSON.parse(s); db.cf = {...CFG, ...ld.cf}; db.st = ld.st || {};
-            if(!db.cf.lm) db.cf.lm={...CFG.lm}; if(!db.cf.pr) db.cf.pr={...CFG.pr}; if(!db.cf.up) db.cf.up={...CFG.up};
-            if(!db.cf.subEn) { if(db.cf.subs) { db.cf.subEn=db.cf.subs; db.cf.subOd={...DEF_OD}; delete db.cf.subs; } else { db.cf.subEn={...DEF_EN}; db.cf.subOd={...DEF_OD}; } save(); }
-            for(let i=1; i<=MAX_CLS; i++) if(!db.st[i]) db.st[i] = [];
-        } catch(e) { alert("Data Corrupted. App reset safely."); for(let i=1; i<=MAX_CLS; i++) db.st[i] = []; db.cf.subEn={...DEF_EN}; db.cf.subOd={...DEF_OD}; }
-    } else { for(let i=1; i<=MAX_CLS; i++) db.st[i] = []; db.cf.subEn={...DEF_EN}; db.cf.subOd={...DEF_OD}; }
+            let ld = JSON.parse(s); 
+            db.cf = { ...CFG, ...(ld.cf || {}) };
+            db.cf.lm = { ...CFG.lm, ...(ld.cf?.lm || {}) };
+            db.cf.pr = { ...CFG.pr, ...(ld.cf?.pr || {}) };
+            db.cf.up = { ...CFG.up, ...(ld.cf?.up || {}) };
+            if(!db.cf.subEn) { 
+                if(ld.cf?.subs) { db.cf.subEn=ld.cf.subs; db.cf.subOd={...DEF_OD}; delete db.cf.subs; } else { db.cf.subEn={...DEF_EN}; db.cf.subOd={...DEF_OD}; } 
+            }
+
+            // FLAW 3 PATCH: Smart Migration Clone. Will inherit Class 6 customization instead of blindly forcing default.
+            if(!db.cf.subEn[8]) { 
+                db.cf.subEn[8] = db.cf.subEn[6] || DEF_EN[8]; 
+                db.cf.subOd[8] = db.cf.subOd[6] || DEF_OD[8]; 
+            }
+
+            db.st = ld.st || {};
+            for(let i=1; i<=MAX_CLS; i++) if(!Array.isArray(db.st[i])) db.st[i] = [];
+            logEvent("SYS", "DB Hydration Successful");
+        } catch(e) { 
+            logEvent("CRITICAL", "DB Hydration Corrupted");
+            showConfirm("Data Corrupted", "App will reset safely.", "Reset", true, () => { for(let i=1; i<=MAX_CLS; i++) db.st[i] = []; db.cf.subEn={...DEF_EN}; db.cf.subOd={...DEF_OD}; }); 
+        }
+    } else { for(let i=1; i<=MAX_CLS; i++) db.st[i] = []; db.cf.subEn={...DEF_EN}; db.cf.subOd={...DEF_OD}; logEvent("SYS", "New DB Created");}
     try { if(document.getElementById('menu-school')) document.getElementById('menu-school').value = db.cf.school || ""; if(document.getElementById('menu-udise')) document.getElementById('menu-udise').value = db.cf.udise || ""; if(document.getElementById('menu-ses')) document.getElementById('menu-ses').value = db.cf.session || ""; } catch(e) {}
     renderMenu(); renderList(); updUI();
 }
-function save() { localStorage.setItem("assess_v2_gold", JSON.stringify(db)); renderMenu(); renderList(); }
-function toast(m) { let b=document.getElementById('toast-box'), t=document.createElement('div'); t.className='toast'; t.innerText=m; b.appendChild(t); setTimeout(()=>t.classList.add('show'),10); setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),300)},2500); }
-function toggleDrawer() { let d=document.getElementById('drawer'),o=document.getElementById('overlay'); if(d.classList.contains('open')){d.classList.remove('open');o.classList.remove('show');setTimeout(()=>o.style.display='none',300)}else{o.style.display='block';setTimeout(()=>o.classList.add('show'),10);d.classList.add('open')} }
-function toggleDark() { document.body.classList.toggle('dark'); localStorage.setItem("theme", document.body.classList.contains('dark') ? "dark" : "light"); updThemeBtn(); }
-function updThemeBtn() { let isDark = document.body.classList.contains('dark'); document.getElementById('theme-btn').innerText = isDark ? "Current Theme: Dark 🌙" : "Current Theme: Light ☀️"; }
-function updCF(k,v) { db.cf[k]=v; save(); updUI(); }
-function updUI() { document.getElementById('ui-school').innerText=db.cf.school||"My Govt School"; document.getElementById('ui-class').innerText=`Class ${cls} Register`; }
 
-// --- ACTIONS ---
-function toggleSelMode() { isSelMode = !isSelMode; selIds.clear(); document.getElementById('sel-toggle').classList.toggle('active'); document.body.classList.toggle('sel-mode'); renderList(); updSelUI(); }
+function toggleDark() { 
+    document.body.classList.toggle('dark'); 
+    try { localStorage.setItem("theme", document.body.classList.contains('dark') ? "dark" : "light"); } catch(e){} 
+    updThemeBtn(); 
+}
+function updThemeBtn() { 
+    let isDark = document.body.classList.contains('dark'); 
+    let btn = document.getElementById('theme-btn');
+    if(btn) btn.innerHTML = `<span>${isDark ? '☀️ Light Mode' : '🌙 Dark Mode'}</span>`; 
+}
+
+function save() { 
+    let success = LS.set("assess_v2_gold", JSON.stringify(db));
+    if(success) { renderMenu(); renderList(); }
+    return success;
+} 
+
+let toastTimer;
+function toast(m) { 
+    let b = document.getElementById('toast-box');
+    b.innerHTML = `<span style="font-size:16px;">ℹ️</span> ${m}`; 
+    b.classList.add('show'); 
+    clearTimeout(toastTimer); 
+    toastTimer = setTimeout(() => { b.classList.remove('show'); }, 2500); 
+}
+
+function toggleDrawer() { 
+    let d=document.getElementById('drawer'), o=document.getElementById('overlay'); 
+    if(d.classList.contains('open')){
+        d.classList.remove('open'); o.style.opacity='0'; setTimeout(()=>{o.style.display='none'; updateScrollLock();},300);
+    } else {
+        o.style.display='block'; setTimeout(()=>o.style.opacity='1',10); d.classList.add('open'); updateScrollLock();
+    } 
+}
+function updCF(k,v) { db.cf[k]=v; save(); updUI(); logEvent("CFG", `Updated ${k}`);}
+function updUI() { document.getElementById('ui-school').innerText=sanitize(db.cf.school)||"My Govt School"; document.getElementById('ui-class-strip').innerText=`CLASS ${cls} REGISTER`; }
+
+function toggleSelMode() { isSelMode = !isSelMode; selIds.clear(); document.getElementById('sel-toggle').style.color = isSelMode ? 'var(--primary)' : 'var(--text-sec)'; document.body.classList.toggle('sel-mode'); renderList(); updSelUI(); }
 function toggleSel(idx) { if(selIds.has(idx)) selIds.delete(idx); else selIds.add(idx); renderList(); updSelUI(); }
 function updSelUI() { document.getElementById('sel-count').innerText = `${selIds.size} Selected`; }
-function deleteSelected() { if(selIds.size===0) return toast("Select first"); if(confirm(`Delete ${selIds.size} students?`)) { let sorted = Array.from(selIds).sort((a,b)=>b-a); sorted.forEach(idx => db.st[cls].splice(idx, 1)); toggleSelMode(); save(); toast("Deleted"); } }
+
+function deleteSelected() { 
+    if(selIds.size===0) return toast("Select students first."); 
+    showConfirm("Delete Selected?", `You are about to delete ${selIds.size} student(s).`, "Delete", true, () => {
+        let sorted = Array.from(selIds).sort((a,b)=>b-a); sorted.forEach(idx => db.st[cls].splice(idx, 1)); toggleSelMode(); save(); toast("✅ Records Deleted"); logEvent("DATA", `Deleted ${selIds.size} from Class ${cls}`);
+    });
+}
+
+function switchClass(newCls) {
+    if (document.getElementById('mod-edit').style.display === 'block' && isDirty) {
+        showConfirm("Discard changes?", "Unsaved marks will be lost.", "Discard", true, () => {
+            isDirty = false; cls = newCls.toString(); 
+            localStorage.setItem('assess_cls_mem', cls);
+            closeModal('mod-edit'); toggleDrawer(); renderMenu(); renderList(); updUI(); logEvent("UX", `Class switched to ${cls}`);
+        });
+    } else {
+        cls = newCls.toString(); 
+        localStorage.setItem('assess_cls_mem', cls);
+        if (document.getElementById('mod-edit').style.display === 'block') closeModal('mod-edit');
+        toggleDrawer(); renderMenu(); renderList(); updUI();
+    }
+}
 
 function renderMenu() {
-    // FIX: Clear selection when rendering menu/switching classes
-    selIds.clear(); isSelMode=false; document.body.classList.remove('sel-mode'); document.getElementById('sel-toggle').classList.remove('active');
+    selIds.clear(); isSelMode=false; document.body.classList.remove('sel-mode'); document.getElementById('sel-toggle').style.color = 'var(--text-sec)';
     let m = document.getElementById('menu-cls-list'); m.innerHTML = "";
     for(let i=1; i<=MAX_CLS; i++) {
         let d = db.st[i]||[]; let comp = d.filter(s => checkComp(s, i)).length;
         let div = document.createElement('div'); div.className = "menu-item" + (i.toString()===cls ? " active-cls" : "");
         div.innerHTML = `<span>Class ${i}</span><span class="count-badge ${comp===d.length && d.length>0 ? 'done':''}">${comp}/${d.length}</span>`;
-        div.onclick = () => { cls=i.toString(); closeModal('mod-edit'); toggleDrawer(); renderMenu(); renderList(); updUI(); };
+        div.onclick = () => switchClass(i);
         m.appendChild(div);
     }
 }
+
 function renderList() {
     let l = document.getElementById('list'); l.innerHTML = ""; let data = db.st[cls]||[];
-    if(data.length===0) { l.innerHTML=`<div class="empty-state"><div class="empty-icon">📂</div><div>No students in Class ${cls}.<br>Tap <b>+ Add Student</b> to start.</div></div>`; return; }
+    if(data.length===0) { l.innerHTML=`<div class="empty-state"><div style="font-size:42px; margin-bottom:12px; opacity:0.8">📂</div><div>No students in Class ${cls}.<br>Tap <b style="color:var(--primary)">+ Add Student</b> to start.</div></div>`; return; }
+    
     data.forEach((s, i) => {
-        let res = calcStudent(s, cls); let tag = res.complete ? `<span class="tag com">✅ Completed</span>` : `<span class="tag inc">⚠️ Incomplete</span>`;
-        let d = document.createElement('div'); d.className = "card" + (res.complete ? " pass" : "");
-        let chkHTML = `<div class="sel-chk ${selIds.has(i)?'checked':''}">✓</div>`;
-        // FIX: XSS Protection using sanitize()
-        d.innerHTML = `${chkHTML}<div class="card-content"><div class="row-top"><div class="st-name">${i+1}. ${sanitize(s.name)}</div><div class="st-score">${res.gt} <span style="font-size:11px;font-weight:400;color:var(--text-sec)">(${res.pct}%)</span></div></div><div class="tags">${tag}</div></div>`;
-        d.onclick = () => { if(isSelMode) toggleSel(i); else editStudent(i); };
-        l.appendChild(d);
+        try {
+            let res = calcStudent(s, cls); 
+            let tag = res.complete ? `<span class="tag com">Completed</span>` : `<span class="tag inc">Incomplete</span>`;
+            let d = document.createElement('div'); d.className = "glass-card" + (res.complete ? " pass" : " fail");
+            d.style.animationDelay = `${i * 0.05}s`;
+            let chkHTML = `<div class="sel-chk ${selIds.has(i)?'checked':''}">✓</div>`;
+            d.innerHTML = `${chkHTML}<div class="card-content"><div class="row-top"><div class="st-name">${i+1}. ${sanitize(s.name)}</div><div class="st-score">${res.gt} <span style="font-size:12px;font-weight:700;color:var(--text-sec);font-family:'Premium Mono', monospace;">(${res.pct}%)</span></div></div><div class="tags">${tag}</div></div>`;
+            d.onclick = () => { if(isSelMode) toggleSel(i); else editStudent(i); };
+            l.appendChild(d);
+        } catch(e) {
+            logEvent("ERROR", `Render failure St_ID ${i}`);
+            l.innerHTML += `<div class="glass-card fail" style="color:var(--error); font-family:'Premium Mono', monospace; font-size:13px;">⚠️ Record ${i+1} (${sanitize(s.name||'?')}) has corrupted data.</div>`;
+        }
     });
 }
 
-function getSubs(c, langOverride) { let n = parseInt(c); let lang = langOverride || db.cf.lang; let src = (lang === 'od') ? db.cf.subOd : db.cf.subEn; let list = ""; if(n>=6) list = src[6]; else if(n>=3) list = src[3]; else list = src[1]; return list.split(',').map(x=>x.trim()).filter(x=>x); }
-function checkComp(s, c) { if(!s.m) return false; let subs = getSubs(c, 'en'); let L = db.cf.lm; for(let sb of subs) { let mk = s.m?.[sb] ?? {}; let keys = ['f1','f2','s1','s2']; if(L.wr > 0) keys.push('a1','a2'); if(L.pr > 0) keys.push('p1','p2'); for(let k of keys) if(mk[k]==="" || mk[k]===undefined) return false; } return true; }
+function getSubs(c, langOverride) { 
+    let n = parseInt(c); 
+    let lang = langOverride || db.cf.lang; 
+    let src = (lang === 'od') ? db.cf.subOd : db.cf.subEn; 
+    let list = ""; 
+    if(n>=8) list = src[8]; 
+    else if(n>=6) list = src[6]; 
+    else if(n>=3) list = src[3]; 
+    else list = src[1]; 
+    return (list || "").split(',').map(x=>x.trim()).filter(x=>x); 
+}
+
+function checkComp(s, c) { 
+    if(!s.m) return false; 
+    let subs = getSubs(c, 'en'); let L = db.cf.lm; 
+    for(let sb of subs) { 
+        let mk = s.m?.[sb] ?? {}; let keys = []; 
+        if(L.fa > 0) keys.push('f1','f2'); 
+        if(L.sa > 0) keys.push('s1','s2'); 
+        if(L.wr > 0) keys.push('a1','a2'); 
+        if(L.pr > 0) keys.push('p1','p2'); 
+        if(keys.length === 0) return true;
+        for(let k of keys) {
+            if(mk[k]==="" || mk[k]===undefined || mk[k]===null) return false; 
+        }
+    } 
+    return true; 
+}
 function getWeights(c) { return parseInt(c)<=5 ? db.cf.pr : db.cf.up; }
+
 function calcStudent(s, c) {
-    // --- CALCULATION LOGIC (Editable Area) ---
     let subs = getSubs(c, 'en'); let W = getWeights(c); let L = db.cf.lm; let gt = 0, complete = true;
     subs.forEach(sb => {
-        let m = s.m?.[sb] ?? {}; if(!checkComp(s,c)) complete=false; let n = v => parseFloat(v)||0;
+        let m = s.m?.[sb] ?? {}; if(!checkComp(s,c)) complete=false; 
+        let n = v => parseFloat(v)||0; 
         let maxT1 = (L.fa*2)+L.sa; 
         let term1 = maxT1>0 ? ((n(m.f1)+n(m.f2)+n(m.s1)) / maxT1) * W.t1 : 0;
         let assess = L.wr>0 ? (Math.max(n(m.a1), n(m.a2)) / L.wr) * W.wr : 0;
         let project = L.pr>0 ? (Math.max(n(m.p1), n(m.p2)) / L.pr) * W.pr : 0;
         let term2 = L.sa>0 ? (n(m.s2) / L.sa) * W.sa : 0;
-        gt += Math.ceil(term1 + assess + project + term2); // Rounding UP as requested
+        
+        let fin = term1 + assess + project + term2;
+        if(!isFinite(fin) || isNaN(fin)) { fin = 0; }
+        fin = Math.ceil(Math.round(fin * 1000) / 1000); 
+        gt += fin;
     });
     let pct = subs.length ? ((gt / (subs.length*100))*100).toFixed(1) : 0; return { gt, pct, complete };
 }
 
-// --- EDIT (GRID OPTIMIZED - TETRIS) ---
+// FLAW 1 PATCH: Dangling Decimal formatting logic properly defined.
+function fmt(el) { 
+    isDirty = true;
+    if(el.value === '.') el.value = '0'; 
+    if(el.value.endsWith('.') && el.value !== '-') el.value = el.value.slice(0, -1);
+}
+
 function editStudent(idx) {
+    isDirty = false; 
     eIdx = idx; let s = (idx===null) ? {name:"", m:{}} : db.st[cls][idx];
     document.getElementById('edit-title').innerText = idx===null ? "Add Student" : "Edit Student";
     document.getElementById('inp-name').value = s.name;
-    document.getElementById('mod-edit').style.display = 'block';
+    
+       document.getElementById('mod-edit').style.display = 'block'; updateScrollLock();
+    setTimeout(() => document.getElementById('inp-name').focus(), 100); // FLAW 2 FIX
+
     document.getElementById('btn-del').style.display = idx===null ? 'none' : 'block';
     let box = document.getElementById('marks-area'); box.innerHTML = "";
     let subs = getSubs(cls, 'en'); let L = db.cf.lm;
+    
     subs.forEach(sb => {
         let m = s.m?.[sb] ?? {};
-        let html = `<div class="sub-card"><div class="sub-head">${sb}</div><div class="mark-grid">
-            <div class="mark-cell"><label>FA1 /${L.fa}</label><input type="text" inputmode="decimal" class="mark-inp" value="${m.f1||''}" data-s="${sb}" data-k="f1" data-mx="${L.fa}" oninput="chk(this)"></div>
-            <div class="mark-cell"><label>FA2 /${L.fa}</label><input type="text" inputmode="decimal" class="mark-inp" value="${m.f2||''}" data-s="${sb}" data-k="f2" data-mx="${L.fa}" oninput="chk(this)"></div>
-            <div class="mark-cell"><label>SA1 /${L.sa}</label><input type="text" inputmode="decimal" class="mark-inp" value="${m.s1||''}" data-s="${sb}" data-k="s1" data-mx="${L.sa}" oninput="chk(this)"></div>`;
-        if(L.wr > 0) {
-            html += `<div class="mark-cell"><label>Assign 1 /${L.wr}</label><input type="text" inputmode="decimal" class="mark-inp" value="${m.a1||''}" data-s="${sb}" data-k="a1" data-mx="${L.wr}" oninput="chk(this)"></div>
-            <div class="mark-cell"><label>Assign 2 /${L.wr}</label><input type="text" inputmode="decimal" class="mark-inp" value="${m.a2||''}" data-s="${sb}" data-k="a2" data-mx="${L.wr}" oninput="chk(this)"></div>`;
+        
+        // FLAW 5 PATCH: Safe String HTML replacement to block Modal UI XSS injection
+        let safeSb = sanitize(sb);
+        let safeAttr = sb.replace(/"/g, '&quot;'); 
+
+        // FLAW 1 PATCH: onblur="fmt(this)" appended to all generated inputs
+        let html = `<div class="sub-card"><div class="sub-head">${safeSb}</div><div class="mark-grid">`;
+        if(L.fa > 0) {
+            html += `<div class="mark-cell"><label>FA1 /${L.fa}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.f1||''}" data-s="${safeAttr}" data-k="f1" data-mx="${L.fa}" oninput="chk(this)" onblur="fmt(this)"></div>
+                     <div class="mark-cell"><label>FA2 /${L.fa}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.f2||''}" data-s="${safeAttr}" data-k="f2" data-mx="${L.fa}" oninput="chk(this)" onblur="fmt(this)"></div>`;
         }
-        if(L.pr > 0) {
-            html += `<div class="mark-cell"><label>Project 1 /${L.pr}</label><input type="text" inputmode="decimal" class="mark-inp" value="${m.p1||''}" data-s="${sb}" data-k="p1" data-mx="${L.pr}" oninput="chk(this)"></div>
-            <div class="mark-cell"><label>Project 2 /${L.pr}</label><input type="text" inputmode="decimal" class="mark-inp" value="${m.p2||''}" data-s="${sb}" data-k="p2" data-mx="${L.pr}" oninput="chk(this)"></div>`;
+        if(L.sa > 0) {
+            html += `<div class="mark-cell"><label>SA1 /${L.sa}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.s1||''}" data-s="${safeAttr}" data-k="s1" data-mx="${L.sa}" oninput="chk(this)" onblur="fmt(this)"></div>`;
         }
-        // SA2 spans 2 columns to fit nicely
-        html += `<div class="mark-cell" style="grid-column: span 2"><label>SA2 (Annual) /${L.sa}</label><input type="text" inputmode="decimal" class="mark-inp" value="${m.s2||''}" data-s="${sb}" data-k="s2" data-mx="${L.sa}" oninput="chk(this)"></div></div></div>`;
+        if(L.wr > 0) { html += `<div class="mark-cell"><label>ASN 1 /${L.wr}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.a1||''}" data-s="${safeAttr}" data-k="a1" data-mx="${L.wr}" oninput="chk(this)" onblur="fmt(this)"></div><div class="mark-cell"><label>ASN 2 /${L.wr}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.a2||''}" data-s="${safeAttr}" data-k="a2" data-mx="${L.wr}" oninput="chk(this)" onblur="fmt(this)"></div>`; }
+        if(L.pr > 0) { html += `<div class="mark-cell"><label>PRJ 1 /${L.pr}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.p1||''}" data-s="${safeAttr}" data-k="p1" data-mx="${L.pr}" oninput="chk(this)" onblur="fmt(this)"></div><div class="mark-cell"><label>PRJ 2 /${L.pr}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.p2||''}" data-s="${safeAttr}" data-k="p2" data-mx="${L.pr}" oninput="chk(this)" onblur="fmt(this)"></div>`; }
+        if(L.sa > 0) {
+            html += `<div class="mark-cell" style="grid-column: span 2"><label>SA2 (Annual) /${L.sa}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.s2||''}" data-s="${safeAttr}" data-k="s2" data-mx="${L.sa}" oninput="chk(this)" onblur="fmt(this)"></div>`;
+        }
+        html += `</div></div>`;
         box.innerHTML += html;
     });
 }
-function chk(el) { let mx = parseFloat(el.dataset.mx); if(parseFloat(el.value)>mx) { toast(`Max is ${mx}`); el.value=""; el.style.borderColor="var(--error)"; } else el.style.borderColor="var(--border)"; }
-function preSaveCheck(isNext) { pendingNext = isNext; let empty = false; document.querySelectorAll('.mark-inp').forEach(i => { if(i.value==="") empty=true; }); if(empty) document.getElementById('cfm-save').style.display = 'flex'; else confirmSave(); }
-function confirmSave() {
-    let n = document.getElementById('inp-name').value.toUpperCase().trim(); if(!n) return toast("Name required");
-    let marks = {}; document.querySelectorAll('.mark-inp').forEach(i => { let s = i.dataset.s, k = i.dataset.k; if(!marks[s]) marks[s] = {}; marks[s][k] = i.value; });
-    // Sanitize Name
-    let obj = { name:sanitize(n), m:marks }; if(eIdx===null) db.st[cls].push(obj); else db.st[cls][eIdx] = obj;
-    document.getElementById('cfm-save').style.display='none'; save(); 
-    if(pendingNext) { toast("Saved. Next Student."); eIdx = null; document.getElementById('edit-title').innerText = "Add Student"; document.getElementById('inp-name').value = ""; document.querySelectorAll('.mark-inp').forEach(i => i.value=""); document.getElementById('inp-name').focus(); document.getElementById('btn-del').style.display = 'none'; } 
-    else { closeModal('mod-edit'); toast("Saved"); renderList(); }
-}
-function delStudent() { if(confirm("Delete Student?")) { db.st[cls].splice(eIdx,1); save(); closeModal('mod-edit'); toast("Deleted"); } }
-function checkUnsaved() { if(confirm("Discard changes?")) closeModal('mod-edit'); }
 
-// --- SETTINGS (CRASH PROOF) ---
+function chk(el) { 
+    isDirty = true;
+    let mx = parseFloat(el.dataset.mx); 
+    
+    let raw = el.value.replace(/,/g, '.').toUpperCase();
+    if (raw.includes('..')) { raw = '-'; }
+
+    if (raw === '-') {
+        el.value = '-';
+        el.style.borderColor = "var(--panel-border)"; 
+        return;
+    }
+
+    let v = raw.replace(/[^0-9.]/g, ''); 
+    let parts = v.split('.');
+    if (parts.length > 2) { v = parts[0] + '.' + parts.slice(1).join(''); } 
+    if (el.value !== v) { el.value = v; }
+
+    let n = parseFloat(el.value);
+    if (!isNaN(n) && n > mx) { 
+        toast(`⚠️ Max mark is ${mx}`); 
+        el.value = mx; 
+        el.style.borderColor = "var(--error)"; 
+    } else {
+        el.style.borderColor = "var(--panel-border)"; 
+    }
+}
+
+function preSaveCheck(isNext) { 
+    pendingNext = isNext; let empty = false; 
+    document.querySelectorAll('.mark-inp').forEach(i => { if(i.value==="") empty=true; }); 
+    if(empty) showConfirm("Incomplete Marks", "Empty boxes will cause 'Incomplete' status.", "Save Anyway", false, confirmSave);
+    else confirmSave(); 
+}
+
+function confirmSave() {
+    let n = sanitize(document.getElementById('inp-name').value.toUpperCase().trim()); 
+    if(n.length < 2) return toast("⚠️ Name must be ≥ 2 characters");
+    
+    // FLAW 1 FIX: Store the warning string instead of triggering toast instantly
+    let dup = db.st[cls].some((s, i) => s.name === n && i !== eIdx);
+    let dupMsg = dup ? " (⚠️ Duplicate Name)" : ""; 
+
+    let marks = {}; document.querySelectorAll('.mark-inp').forEach(i => { let s = i.dataset.s, k = i.dataset.k; if(!marks[s]) marks[s] = {}; marks[s][k] = i.value; });
+    
+    let obj = { name:n, m:marks }; 
+    if(eIdx===null) db.st[cls].push(obj); else db.st[cls][eIdx] = obj;
+    
+    if (save()) {
+        logEvent("DATA", `Saved student ${n}`);
+        isDirty = false;
+        if(pendingNext) { 
+            toast("✅ Saved." + dupMsg + " Next Student."); 
+            if (eIdx !== null && eIdx < db.st[cls].length - 1) {
+                editStudent(eIdx + 1); 
+            } else {
+                eIdx = null; 
+                document.getElementById('edit-title').innerText = "Add Student"; 
+                document.getElementById('inp-name').value = ""; 
+                document.querySelectorAll('.mark-inp').forEach(i => i.value=""); 
+                document.getElementById('inp-name').focus(); 
+                document.getElementById('btn-del').style.display = 'none'; 
+            }
+        } else { 
+            closeModal('mod-edit'); toast("✅ Record Saved" + dupMsg); 
+        }
+    } else {
+        toast("⚠️ Sync Failure. Reloading..."); setTimeout(()=>location.reload(), 1500);
+    }
+}
+
+function checkUnsaved() { 
+    if(isDirty) {
+        showConfirm("Discard changes?", "Unsaved marks will be lost.", "Discard", true, () => { isDirty=false; closeModal('mod-edit'); });
+    } else {
+        closeModal('mod-edit');
+    }
+}
+
 function openSettings() {
     try {
         if (!db.cf.subEn || !db.cf.subOd) { db.cf.subEn = db.cf.subEn || {...DEF_EN}; db.cf.subOd = db.cf.subOd || {...DEF_OD}; save(); }
@@ -395,75 +823,154 @@ function openSettings() {
             sv('lm-fa', L.fa); sv('lm-sa', L.sa); sv('lm-wr', L.wr); sv('lm-pr', L.pr);
             sv('pr-t1', P.t1); sv('pr-wr', P.wr); sv('pr-pr', P.pr); sv('pr-sa', P.sa);
             sv('up-t1', U.t1); sv('up-wr', U.wr); sv('up-pr', U.pr); sv('up-sa', U.sa);
-            [1,3,6].forEach(k => {
+            [1,3,6,8].forEach(k => {
                 let enTxt = (db.cf.subEn && db.cf.subEn[k]) ? db.cf.subEn[k] : ""; let odTxt = (db.cf.subOd && db.cf.subOd[k]) ? db.cf.subOd[k] : "";
                 sv('sub-en-'+k, enTxt); sv('sub-od-'+k, odTxt);
                 if(document.getElementById('sub-en-'+k)) chkSubMatch(k); 
             });
         }
         if(document.getElementById('drawer').classList.contains('open')) toggleDrawer();
-        document.getElementById('mod-set').style.display='block';
-    } catch(e) { alert("Settings Error: " + e.message); }
+        document.getElementById('mod-set').style.display='block'; updateScrollLock();
+    } catch(e) { logEvent("ERROR", "Settings Load Fail"); alert("Settings Error: " + e.message); }
 }
 function chkSubMatch(k) {
     try {
         let elEn = document.getElementById('sub-en-'+k); let elOd = document.getElementById('sub-od-'+k); if(!elEn || !elOd) return;
         let en = elEn.value.split(',').filter(x=>x.trim()); let od = elOd.value.split(',').filter(x=>x.trim());
         let ui = document.getElementById('sm-'+k);
-        if(ui) { ui.innerText = `English: ${en.length} | Odia: ${od.length} - ${en.length===od.length ? 'Match ✅' : 'Mismatch ❌'}`; ui.className = en.length===od.length ? "sub-match-ui ok" : "sub-match-ui bad"; }
+        if(ui) { ui.innerText = `${en.length} / ${od.length} - ${en.length===od.length ? 'Match ✅' : 'Mismatch ❌'}`; ui.className = en.length===od.length ? "sub-match-ui ok" : "sub-match-ui bad"; }
     } catch(e) {}
 }
+
 function saveSettings() {
+    let p=(id)=> Math.max(0, parseInt(document.getElementById(id).value)||0); 
+    
+    let Lfa=p('lm-fa'), Lsa=p('lm-sa'), Lwr=p('lm-wr'), Lpr=p('lm-pr');
+    let Pt1=p('pr-t1'), Pwr=p('pr-wr'), Ppr=p('pr-pr'), Psa=p('pr-sa');
+    let Ut1=p('up-t1'), Uwr=p('up-wr'), Upr=p('up-pr'), Usa=p('up-sa');
+
+    let activePSum = (Lfa>0||Lsa>0 ? Pt1 : 0) + (Lwr>0 ? Pwr : 0) + (Lpr>0 ? Ppr : 0) + (Lsa>0 ? Psa : 0);
+    let activeUSum = (Lfa>0||Lsa>0 ? Ut1 : 0) + (Lwr>0 ? Uwr : 0) + (Lpr>0 ? Upr : 0) + (Lsa>0 ? Usa : 0);
+    if(activePSum !== 100 || activeUSum !== 100) return toast(`⚠️ Active Weightage Primary: ${activePSum}% | Upper: ${activeUSum}% (Must sum to 100)`);
+
+    // FLAW 5 XSS INJECTION BLOCKER PRE-DB
+    let sE1 = sanitize(document.getElementById('sub-en-1').value.trim()); let sO1 = sanitize(document.getElementById('sub-od-1').value.trim());
+    let sE3 = sanitize(document.getElementById('sub-en-3').value.trim()); let sO3 = sanitize(document.getElementById('sub-od-3').value.trim());
+    let sE6 = sanitize(document.getElementById('sub-en-6').value.trim()); let sO6 = sanitize(document.getElementById('sub-od-6').value.trim());
+    let sE8 = sanitize(document.getElementById('sub-en-8').value.trim()); let sO8 = sanitize(document.getElementById('sub-od-8').value.trim());
+
+    if(!sE1 || !sO1 || !sE3 || !sO3 || !sE6 || !sO6 || !sE8 || !sO8) return toast("⚠️ Subjects cannot be entirely empty!");
+    
+    let enArr = [sE1, sE3, sE6, sE8]; let odArr = [sO1, sO3, sO6, sO8];
+    let grpLabels = ['1 & 2', '3 to 5', '6 & 7', '8'];
+    for(let i=0; i<4; i++) {
+        let enList = enArr[i].split(',').map(x=>x.trim()).filter(x=>x);
+        let odList = odArr[i].split(',').map(x=>x.trim()).filter(x=>x);
+        
+        if(enList.length !== odList.length) return toast(`⚠️ Mismatch in Class ${grpLabels[i]} subjects.`);
+        // FLAW 7 PATCH: Infinite Layout Crash Block
+        if(enList.length > 10) return toast(`⚠️ Max 10 subjects allowed (Class ${grpLabels[i]}). Print layout will break.`);
+        // FLAW 4 PATCH: Duplicate Database Overwrite Block
+        if(new Set(enList).size !== enList.length) return toast(`⚠️ Duplicate English subject in Class ${grpLabels[i]}.`);
+        if(new Set(odList).size !== odList.length) return toast(`⚠️ Duplicate Odia subject in Class ${grpLabels[i]}.`);
+    }
+
     db.cf.lang = document.getElementById('cfg-lang').value;
     let L=db.cf.lm, P=db.cf.pr, U=db.cf.up;
     if(document.getElementById('lm-fa')) {
-        L.fa=p(document.getElementById('lm-fa')); L.sa=p(document.getElementById('lm-sa')); L.wr=p(document.getElementById('lm-wr')); L.pr=p(document.getElementById('lm-pr'));
-        P.t1=p(document.getElementById('pr-t1')); P.wr=p(document.getElementById('pr-wr')); P.pr=p(document.getElementById('pr-pr')); P.sa=p(document.getElementById('pr-sa'));
-        U.t1=p(document.getElementById('up-t1')); U.wr=p(document.getElementById('up-wr')); U.pr=p(document.getElementById('up-pr')); U.sa=p(document.getElementById('up-sa'));
-        [1,3,6].forEach(k => { db.cf.subEn[k] = document.getElementById('sub-en-'+k).value; db.cf.subOd[k] = document.getElementById('sub-od-'+k).value; });
+        L.fa=Lfa; L.sa=Lsa; L.wr=Lwr; L.pr=Lpr;
+        P.t1=Pt1; P.wr=Pwr; P.pr=Ppr; P.sa=Psa;
+        U.t1=Ut1; U.wr=Uwr; U.pr=Upr; U.sa=Usa;
+        db.cf.subEn[1] = sE1; db.cf.subOd[1] = sO1;
+        db.cf.subEn[3] = sE3; db.cf.subOd[3] = sO3;
+        db.cf.subEn[6] = sE6; db.cf.subOd[6] = sO6;
+        db.cf.subEn[8] = sE8; db.cf.subOd[8] = sO8;
     }
-    save(); closeModal('mod-set'); toast("Updated"); renderList(); 
+    if (save()) {
+        closeModal('mod-set'); toast("✅ Configuration Updated"); logEvent("SYS", "Settings globally updated");
+    } else {
+        toast("⚠️ Settings Sync Failed");
+    }
 }
-function p(el) { return parseInt(el.value)||0; }
-function closeModal(id) { document.getElementById(id).style.display='none'; }
-function openAbout() { if(document.getElementById('drawer').classList.contains('open')) toggleDrawer(); document.getElementById('mod-abt').style.display='block'; }
+function closeModal(id) { document.getElementById(id).style.display='none'; updateScrollLock(); }
+function openAbout() { if(document.getElementById('drawer').classList.contains('open')) toggleDrawer(); document.getElementById('mod-abt').style.display='block'; updateScrollLock(); }
 
-// --- BACKUP ---
-function backupData() { let d = new Date().toISOString().slice(0,10); let fname = `!_Assess_Backup_${d}.json`; let a=document.createElement('a'); a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(db)); a.download=fname; a.click(); }
+function backupData() { 
+    try {
+        let str = JSON.stringify(db);
+        const isIOS = /iP(ad|hone|od)/.test(navigator.userAgent);
+        if(isIOS) {
+            navigator.clipboard.writeText(str).then(() => toast("📋 Copied! Paste to Notes (iOS)"));
+        } else {
+            let d = new Date().toISOString().slice(0,10); let fname = `Assess_Backup_${d}.json`; 
+            let a=document.createElement('a'); a.href="data:text/json;charset=utf-8,"+encodeURIComponent(str); a.download=fname; a.click();
+            toast("💾 Backup Downloaded");
+        }
+        logEvent("SYS", "Backup Generated");
+    } catch(e) { logEvent("ERROR", "Backup Fail"); toast("⚠️ Backup Failed"); }
+}
+
 function restoreData(i) { 
     let f=i.files[0]; if(!f) return; let r=new FileReader(); 
     r.onload=(e)=>{
+        i.value = ""; 
         try {
-            let obj = JSON.parse(e.target.result);
-            if(!obj.cf || !obj.st) throw new Error("Invalid Backup File");
-            // Sanity Loop on Restore
+            let text = e.target.result.replace(/^\uFEFF/, ''); 
+            let obj = JSON.parse(text);
+            if(!obj.st) throw new Error("Invalid format missing 'st'");
+            
+            db.cf = { ...CFG, ...(obj.cf || {}) };
+            db.cf.lm = { ...CFG.lm, ...(obj.cf?.lm || {}) };
+            db.cf.pr = { ...CFG.pr, ...(obj.cf?.pr || {}) };
+            db.cf.up = { ...CFG.up, ...(obj.cf?.up || {}) };
+            if(obj.cf?.subEn) db.cf.subEn = obj.cf.subEn; else if(obj.cf?.subs) db.cf.subEn = obj.cf.subs;
+            if(obj.cf?.subOd) db.cf.subOd = obj.cf.subOd;
+            
             for(let k=1; k<=MAX_CLS; k++) if(!Array.isArray(obj.st[k])) obj.st[k] = [];
-                // 1. Load the old data    
-                db = obj;
-                // 2. FORCE update the Limits to your new defaults (20)
-                // This ignores the old '10' from the backup file
-                db.cf.lm = JSON.parse(JSON.stringify(CFG.lm));
-                // 3. Save and Reload
-                save(); alert("Restore Successful"); location.reload();
-        } catch(err) { alert("Error: " + err.message); }
-    }; r.readAsText(f); 
+            db.st = obj.st;
+            if(save()) {
+                logEvent("SYS", "Restore Successful"); toast("✅ Restored successfully"); setTimeout(()=>location.reload(), 800);
+            } else { throw new Error("Storage full"); }
+        } catch(err) { logEvent("ERROR", `Restore Fail: ${err.message}`); toast("❌ Error: Invalid Backup File"); }
+    }; 
+    r.readAsText(f); 
 }
-function resetAll() { if(confirm("FACTORY RESET: All data will be lost. Confirm?")) { localStorage.removeItem("assess_v2_gold"); location.reload(); } }
+
+function resetAll() { showConfirm("FACTORY RESET", "ALL data will be permanently lost. Type YES to confirm.", "Factory Reset", true, () => { localStorage.removeItem("assess_v2_gold"); localStorage.removeItem("assess_cls_mem"); location.reload(); }); }
 
 function prepExport(mode) {
     try {
+        for(let k of [1,3,6,8]) {
+            let en = getSubs(k, 'en').length; let od = getSubs(k, 'od').length;
+            if(en !== od) return toast(`⚠️ Subject mismatch in Class ${k} group. Fix in Settings first.`);
+        }
         let oldTitle = document.title;
         let classPart = (mode === 'all') ? "All class" : `Class ${cls}`;
         let session = db.cf.session || "";
         let udise = db.cf.udise ? ` (${db.cf.udise})` : ""; 
-        document.title = `${classPart} (${session}) Mark Register${udise}`;
+        
         let T = TR[db.cf.lang]; let h = "";
         if(mode==='single') h = getHTML(cls, true, T);
         else for(let i=1;i<=MAX_CLS;i++) { let t=getHTML(i.toString(), true, T); if(t) h+=`<div class="page-break"></div>`+t; }
-        if(!h) { document.title = oldTitle; return toast("No Data Found"); }
+        if(!h) { return toast("⚠️ No Data Found"); }
+        
         let pWrap = document.getElementById('print-wrap'); pWrap.innerHTML = h;
-        setTimeout(() => { window.print(); document.title = oldTitle; }, 500);
-    } catch(e) { alert("PDF Error: " + e.message); }
+        document.title = `${classPart} (${session}) Mark Register${udise}`;
+        logEvent("EXPORT", `PDF generated for ${mode}`);
+        
+        toast("⏳ Preparing PDF...");
+        setTimeout(() => { 
+            requestAnimationFrame(() => { 
+                window.print(); 
+                document.title = oldTitle; 
+                // FLAW 3 FIX: Nuke the massive DOM table after printing
+                setTimeout(() => { document.getElementById('print-wrap').innerHTML = ""; }, 1000);
+            }); 
+        }, 1200); 
+    } catch(e) { 
+        logEvent("ERROR", "PDF Export Fail"); 
+        toast("⚠️ Export Error: " + e.message); 
+    }
 }
 
 function getHTML(c, header, T) {
@@ -473,34 +980,50 @@ function getHTML(c, header, T) {
     let sbs = (db.cf.lang==='od') ? sbsOd : sbsEn; 
     let hT1=T.wgt.replace('[x]',W.t1), hWr=T.wgt.replace('[x]',W.wr);
     let hPr=T.wgt.replace('[x]',W.pr), hSa=T.wgt.replace('[x]',W.sa);
-    let h = header ? `<div class="p-head"><div class="p-school">${db.cf.school}</div><div style="font-size:12pt; font-weight:bold">MARK REGISTER ${db.cf.session} | CLASS: ${c} | UDISE: ${db.cf.udise}</div></div>` : "";
-    h += `<table><thead><tr>
-    <th rowspan="2" style="width:30px">Sl.</th><th rowspan="2" class="t-left" style="width:120px">${T.n}</th><th rowspan="2" class="t-left" style="width:80px">${T.s}</th>
-    <th class="v-th"><div class="v-txt">FA-1</div></th><th class="v-th"><div class="v-txt">FA-2</div></th><th class="v-th"><div class="v-txt">SA-1</div></th>
-    <th class="v-th"><div class="v-txt">${T.t1}</div></th><th class="v-th"><div class="v-txt">${hT1}</div></th>
-    <th class="v-th"><div class="v-txt">${T.asn} 1</div></th><th class="v-th"><div class="v-txt">${T.asn} 2</div></th><th class="v-th"><div class="v-txt">${T.best}</div></th><th class="v-th"><div class="v-txt">${hWr}</div></th>
-    <th class="v-th"><div class="v-txt">${T.prj} 1</div></th><th class="v-th"><div class="v-txt">${T.prj} 2</div></th><th class="v-th"><div class="v-txt">${T.best}</div></th><th class="v-th"><div class="v-txt">${hPr}</div></th>
-    <th class="v-th"><div class="v-txt">${T.sa2}</div></th><th class="v-th"><div class="v-txt">${hSa}</div></th>
-    <th class="v-th"><div class="v-txt">${T.tot}</div></th>
+    let h = header ? `<div class="p-head"><div class="p-school">${sanitize(db.cf.school)}</div><div style="font-size:12pt; font-weight:bold">MARK REGISTER ${sanitize(db.cf.session)} | CLASS: ${c} | UDISE: ${sanitize(db.cf.udise)}</div></div>` : "";
+    
+    h += `<table border="1"><thead><tr>
+    <th rowspan="2" style="width:30px">Sl.</th><th rowspan="2" class="t-left" style="width:120px">${T.n}</th><th rowspan="2" class="t-left" style="width:80px">${T.s}</th>`;
+    if(L.fa > 0) h += `<th class="v-th"><div class="v-txt">FA-1</div></th><th class="v-th"><div class="v-txt">FA-2</div></th>`;
+    if(L.sa > 0) h += `<th class="v-th"><div class="v-txt">SA-1</div></th>`;
+    h += `<th class="v-th"><div class="v-txt">${T.t1}</div></th><th class="v-th"><div class="v-txt">${hT1}</div></th>`;
+    if(L.wr > 0) h += `<th class="v-th"><div class="v-txt">${T.asn} 1</div></th><th class="v-th"><div class="v-txt">${T.asn} 2</div></th><th class="v-th"><div class="v-txt">${T.best}</div></th><th class="v-th"><div class="v-txt">${hWr}</div></th>`;
+    if(L.pr > 0) h += `<th class="v-th"><div class="v-txt">${T.prj} 1</div></th><th class="v-th"><div class="v-txt">${T.prj} 2</div></th><th class="v-th"><div class="v-txt">${T.best}</div></th><th class="v-th"><div class="v-txt">${hPr}</div></th>`;
+    if(L.sa > 0) h += `<th class="v-th"><div class="v-txt">${T.sa2}</div></th><th class="v-th"><div class="v-txt">${hSa}</div></th>`;
+    h += `<th class="v-th"><div class="v-txt">${T.tot}</div></th>
     <th rowspan="2"><div class="v-txt" style="font-size:10pt; font-weight:bold">${T.gt}</div></th><th rowspan="2"><div class="v-txt" style="font-size:10pt; font-weight:bold">${T.pct}</div></th>
-    </tr><tr>
-    <th>${L.fa}</th><th>${L.fa}</th><th>${L.sa}</th><th>100</th><th>${W.t1}%</th>
-    <th>${L.wr}</th><th>${L.wr}</th><th>${L.wr}</th><th>${W.wr}%</th>
-    <th>${L.pr}</th><th>${L.pr}</th><th>${L.pr}</th><th>${W.pr}%</th>
-    <th>${L.sa}</th><th>${W.sa}%</th><th>100</th>
-    </tr></thead><tbody>`;
+    </tr><tr>`;
+    if(L.fa > 0) h += `<th>${L.fa}</th><th>${L.fa}</th>`;
+    if(L.sa > 0) h += `<th>${L.sa}</th>`;
+    h += `<th>${(L.fa*2)+L.sa}</th><th>${W.t1}%</th>`;
+    if(L.wr > 0) h += `<th>${L.wr}</th><th>${L.wr}</th><th>${L.wr}</th><th>${W.wr}%</th>`;
+    if(L.pr > 0) h += `<th>${L.pr}</th><th>${L.pr}</th><th>${L.pr}</th><th>${W.pr}%</th>`;
+    if(L.sa > 0) h += `<th>${L.sa}</th><th>${W.sa}%</th>`;
+    h += `<th>100</th></tr></thead><tbody>`;
+
     d.forEach((s, idx) => {
-        let gt = 0, subRows = "", n = v => parseFloat(v)||0;
+        let gt = 0, subRows = "", n = v => parseFloat(v)||0; 
         sbsEn.forEach((sbKey, sbIdx) => {
             let m = s.m?.[sbKey] ?? {};
             let sumT1 = n(m.f1)+n(m.f2)+n(m.s1); let maxT1 = (L.fa*2)+L.sa; 
-            // Human-Readable Calculation Block
             let term1 = maxT1>0 ? (sumT1/maxT1)*W.t1 : 0;
             let assess = L.wr>0 ? (Math.max(n(m.a1), n(m.a2))/L.wr)*W.wr : 0;
             let project = L.pr>0 ? (Math.max(n(m.p1), n(m.p2))/L.pr)*W.pr : 0;
             let term2 = L.sa>0 ? (n(m.s2)/L.sa)*W.sa : 0;
-            let fin = Math.ceil(term1+assess+project+term2); gt += fin;
-            subRows += `<tr><td class="t-left">${sbs[sbIdx]||sbKey}</td><td>${m.f1||0}</td><td>${m.f2||0}</td><td>${m.s1||0}</td><td><b>${sumT1}</b></td><td>${term1.toFixed(1)}</td><td>${m.a1||0}</td><td>${m.a2||0}</td><td>${Math.max(n(m.a1),n(m.a2))}</td><td>${assess.toFixed(1)}</td><td>${m.p1||0}</td><td>${m.p2||0}</td><td>${Math.max(n(m.p1),n(m.p2))}</td><td>${project.toFixed(1)}</td><td>${m.s2||0}</td><td>${term2.toFixed(1)}</td><td style="font-weight:bold">${fin}</td></tr>`;
+            
+            let fin = term1+assess+project+term2; 
+            if(!isFinite(fin) || isNaN(fin)) fin = 0;
+            fin = Math.ceil(Math.round(fin * 1000) / 1000); 
+            gt += fin;
+            
+            subRows += `<tr><td class="t-left">${sanitize(sbs[sbIdx]||sbKey)}</td>`;
+            if(L.fa > 0) subRows += `<td>${m.f1||0}</td><td>${m.f2||0}</td>`;
+            if(L.sa > 0) subRows += `<td>${m.s1||0}</td>`;
+            subRows += `<td><b>${sumT1}</b></td><td>${term1.toFixed(1)}</td>`;
+            if(L.wr > 0) subRows += `<td>${m.a1||0}</td><td>${m.a2||0}</td><td>${Math.max(n(m.a1),n(m.a2))}</td><td>${assess.toFixed(1)}</td>`;
+            if(L.pr > 0) subRows += `<td>${m.p1||0}</td><td>${m.p2||0}</td><td>${Math.max(n(m.p1),n(m.p2))}</td><td>${project.toFixed(1)}</td>`;
+            if(L.sa > 0) subRows += `<td>${m.s2||0}</td><td>${term2.toFixed(1)}</td>`;
+            subRows += `<td style="font-weight:bold">${fin}</td></tr>`;
         });
         let rows = subRows.split('</tr>'); rows.pop();
         rows.forEach((r,ri) => {
@@ -515,58 +1038,39 @@ function getHTML(c, header, T) {
 }
 
 function genExcel() {
-    let d = db.st[cls]||[]; if(d.length===0) return toast("Empty Class");
-    let t = getHTML(cls, false, TR[db.cf.lang]);
-    let content = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"></head><body><h3>${db.cf.school} - Class ${cls}</h3>${t}</body></html>`;
-    let blob = new Blob(["\uFEFF"+content], {type: 'application/vnd.ms-excel;charset=utf-8'});
-    let url = URL.createObjectURL(blob); let a = document.createElement('a'); a.href = url; a.download = `Register_${cls}.xls`;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+    let d = db.st[cls]||[]; if(d.length===0) return toast("⚠️ Empty Class");
+    for(let k of [1,3,6,8]) {
+        let en = getSubs(k, 'en').length; let od = getSubs(k, 'od').length;
+        if(en !== od) return toast(`⚠️ Subject mismatch in Class ${k} group. Fix in Settings first.`);
+    }
+    
+    try {
+        let t = getHTML(cls, false, TR[db.cf.lang]);
+        let content = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><style>table{border-collapse:collapse;font-family:sans-serif;font-size:12px;} th,td{border:1px solid #000;padding:4px;text-align:center;} th{background-color:#f0f0f0;font-weight:bold;} .v-txt{mso-rotate:90; white-space:nowrap;} .v-th{height:100px;}</style></head><body><h3>${sanitize(db.cf.school)} - Class ${cls}</h3>${t}</body></html>`;
+        let blob = new Blob(["\uFEFF"+content], {type: 'application/vnd.ms-excel;charset=utf-8'});
+        let url = URL.createObjectURL(blob); let a = document.createElement('a'); a.href = url; a.download = `Register_${cls}.xls`;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+        logEvent("EXPORT", "Excel generated"); toast("✅ Excel Downloaded");
+    } catch(e) { logEvent("ERROR", "Excel Export Fail"); toast("⚠️ Excel Export Failed"); }
 }
+// --- FLAW 4 FIX: ANDROID HARDWARE BACK-BUTTON TRAP ---
+history.pushState({page: 1}, "", "");
+window.onpopstate = function(e) {
+    let closedSomething = false;
+    if (document.getElementById('cfm-dialog').style.display === 'flex') { closeConfirm(); closedSomething = true; }
+    else if (document.getElementById('mod-edit').style.display === 'block') { checkUnsaved(); closedSomething = true; }
+    else if (document.getElementById('mod-set').style.display === 'block') { closeModal('mod-set'); closedSomething = true; }
+    else if (document.getElementById('mod-abt').style.display === 'block') { closeModal('mod-abt'); closedSomething = true; }
+    else if (document.getElementById('drawer').classList.contains('open')) { toggleDrawer(); closedSomething = true; }
+    
+    if (closedSomething) {
+        history.pushState({page: 1}, "", ""); // Stay in the app
+    } else {
+        history.back(); // Nothing is open, let the user exit the app normally
+    }
+};
 
 init();
-</script>
-<script>
-(function(){
-    try {
-        // 1. Find the Contact Section inside About Modal
-        var abt = document.getElementById('mod-abt');
-        var targets = abt.getElementsByTagName('div');
-        
-        for(var i = 0; i < targets.length; i++) {
-            // Locate the specific text block
-            if(targets[i].innerHTML.includes('For bugs or suggestions')) {
-                
-                // 2. Define Premium Links HTML
-                var linksHTML = `
-                <div style="margin-top:12px; padding-top:12px; border-top:1px dashed var(--border);">
-                    <div style="font-size:11px; font-weight:700; color:var(--text-sec); margin-bottom:8px; text-transform:uppercase;">Community & Updates</div>
-                    
-                    <a href="https://t.me/+pV0H_iNurNAyMmZl" target="_blank" 
-                       style="display:flex; align-items:center; gap:8px; text-decoration:none; color:var(--text); background:var(--zebra); padding:10px; border-radius:8px; margin-bottom:8px; border:1px solid var(--border);">
-                       <span style="font-size:18px;">👥</span>
-                       <div>
-                           <div style="font-weight:600; font-size:13px;">Join Support Group</div>
-                           <div style="font-size:10px; opacity:0.7;">Get help & discuss features</div>
-                       </div>
-                    </a>
-
-                    <a href="https://t.me/assess_offline_channel" target="_blank" 
-                       style="display:flex; align-items:center; gap:8px; text-decoration:none; color:var(--text); background:var(--zebra); padding:10px; border-radius:8px; border:1px solid var(--border);">
-                       <span style="font-size:18px;">📢</span>
-                       <div>
-                           <div style="font-weight:600; font-size:13px;">Follow Channel</div>
-                           <div style="font-size:10px; opacity:0.7;">@assess_offline_channel</div>
-                       </div>
-                    </a>
-                </div>`;
-
-                // 3. Inject safely
-                targets[i].insertAdjacentHTML('beforeend', linksHTML);
-                break; // Stop once found
-            }
-        }
-    } catch(e) { console.log("Patch Skipped"); }
-})();
 </script>
 </body>
 </html>
