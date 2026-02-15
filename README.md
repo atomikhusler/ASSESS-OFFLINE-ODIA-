@@ -4,14 +4,14 @@
   
   <br><br>
 
-  # 🎓 Assess Offline v4.1
+  # 🎓 Assess Offline WebApp
   ### The Ultimate Offline-First Student Assessment Tool
 
   <p>
-    <img src="https://img.shields.io/badge/Version-v4.1_Final_Stable-1a73e8?style=for-the-badge&logo=github&logoColor=white" alt="Version">
+    <img src="https://img.shields.io/badge/Version-v4.5_Stable_Glass_Edition-1a73e8?style=for-the-badge&logo=github&logoColor=white" alt="Version">
     <img src="https://img.shields.io/badge/License-MIT-2ea44f?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="License">
-    <img src="https://img.shields.io/badge/Platform-Web_|_Android-orange?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Platform">
-    <img src="https://img.shields.io/badge/Size-<20KB-lightgrey?style=for-the-badge&logo=files&logoColor=black" alt="Size">
+    <img src="https://img.shields.io/badge/Platform-Web_|_Android_|_IOS-orange?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Platform">
+    <img src="https://img.shields.io/badge/Size-<100KB-lightgrey?style=for-the-badge&logo=files&logoColor=black" alt="Size">
   </p>
 
   <br>
@@ -28,6 +28,7 @@
 **Assess Offline** is a high-performance, single-file web application engineered for teachers to manage marks, calculate complex weightages, and generate reports without an internet connection. 
 
 Built with a **"Monolithic Architecture"**, the entire app lives inside one `index.html` file. It uses advanced `localStorage` techniques to ensure your data never leaves your device.
+**Assess Offline** solves the connectivity problem in remote classrooms. It runs 100% in your browser without requiring a backend, a database, or an internet connection after the initial load. Zero cost, zero logins, and absolute data privacy.
 
 ---
 
@@ -48,9 +49,38 @@ A smart, responsive marking grid that adapts to mobile screens.
 
 ---
 
+
+
+## 🔗 Quick Links
+* 🚀 **[Open the Web App][https://atomikhusler.github.io/ASSESS-OFFLINE/]**
+
+  
+* 📺 **[Watch the Video Tutorial][https://youtu.be/xhutzDh2UqY?si=Ew4jg-2NVq7XkCqE]**
+
+  
+* 👥 **[Join the Telegram Support Group](https://t.me/+pV0H_iNurNAyMmZl)**
+
+  
+* 📢 **[Follow the Telegram Channel](https://t.me/assess_offline_channel)**
+
+
+---
+
+
+## ✨ Core Features
+* 🛡️ **100% Offline-First:** All student data is persisted locally using standard browser `localStorage`. No data ever leaves your device.
+* 💎 **Glass Morphism UI:** A stunning, optically modern interface featuring frosted glass panels, abstract gradients, and smooth hardware-accelerated transitions.
+* 🖨️ **Print & Export Engine:** Generate massive A4 Landscape PDF reports and legacy-friendly Microsoft Excel (`.xls`) spreadsheets instantly.
+* 🌍 **Regional Keyboard Support:** Built-in parsers intercept and convert regional commas (`,`) to decimal dots (`.`) for seamless data entry on all global mobile keyboards.
+* 🇮🇳 **Bilingual Support:** Full UI support for both English and Odia (ଓଡ଼ିଆ).
+
+
+---
+
+
 ## 🚀 Quick Start
 
-1.  **Download:** Get the latest `index.html` from the **[Releases](#)** page.
+1.  **Download:** Get the latest `index.html` from the Link:[https://atomikhusler.github.io/ASSESS-OFFLINE/]
 2.  **Run:** Open the file in **Chrome**, **Edge**, or **Android System WebView**.
 3.  **Configure:** Tap `☰ Menu` > `School Profile` to set your school details.
 4.  **Start:** Click `+ Add Student` and begin entering marks.
@@ -82,8 +112,27 @@ For developers and auditors reviewing the source:
 
 ---
 
-## 📜 Changelog
+# 📜 Changelog
 
+### 🚀 Changelog: v4.5 (The "Fortress" Update)
+*This update brings an elite-level architectural overhaul, resolving deep mobile OS bottlenecks and securing the UI physics.*
+
+### 🛠️ Elite Engineering & Mobile Bypasses
+* **Android Back-Button Trap:** Implemented a custom `window.history.pushState` router. Pressing the physical back button now safely closes active modals instead of killing the browser tab.
+* **XSS Layout Armor:** Deep string sanitization injected into all UI rendering loops and PDF/Excel export engines. Malicious input strings can no longer shatter the table layouts.
+* **Native OS Routing Security:** Bypassed aggressive Android/iOS anti-malware pop-up blockers by migrating the "Restore Data" trigger to a native HTML `<label>` node.
+* **iOS Safari Scroll Lock:** Added native `ontouchmove="event.preventDefault()"` to overlay backgrounds to stop iPhones from "rubber-banding" behind Glass modals.
+
+### ⚡ UX & Input Speed Hacks
+* **The "Double-Dot" Speed Hack:** Tapping `..` on a mobile numeric keypad instantly transforms into a `-` (Absent). The math engine safely parses this as a 0, preventing `NaN` calculation crashes.
+* **Singleton Notification Engine:** Re-architected notifications into a strict Singleton DOM node to prevent invisible ghost elements from stacking in the DOM.
+* **Smart Auto-Focus:** Opening the "Add Student" modal instantly triggers the hardware keyboard and focuses the cursor, eliminating repetitive screen tapping.
+
+### 📊 Structural Math Upgrades
+* **Class 8 Autonomy:** Class 8 has been surgically separated into an independent database tier to accommodate its unique subject count.
+* **Elective Merge:** Hindi and Sanskrit are now elegantly merged into a single `"Hindi / Sanskrit"` column, permanently resolving validation errors for the 3rd language elective.
+* **Smart Migration Engine:** The boot sequence automatically detects missing Class 8 databases in older save files and safely clones existing customizations instead of overwriting them with defaults.
+  
 ### **v4.1 (Final Stable) - *The Golden Master***
 > *Released: Feb 2026*
 * **✨ UI:** Implemented "Tetris Grid" logic—`SA-2` box now spans 2 columns.
