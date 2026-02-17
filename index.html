@@ -16,11 +16,12 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.-->
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Assess Offline v4.5 (Stable Glass Edition)</title>
+<title>Assess Offline v4.6 (Stable Glass Edition)</title>
 <style>
     /* --- PREMIUM OFFLINE FONT STACK --- */
     @font-face { font-family: 'Premium UI'; src: local('.SFNSText-Light'), local('.HelveticaNeueDeskInterface-Light'), local('Segoe UI Light'), local('Roboto-Light'); font-weight: 300; }
@@ -273,7 +274,7 @@ SOFTWARE.-->
     <div class="drawer-head">
         <div>
             <div style="font-weight:700; font-size:24px; color:var(--primary); display:flex; align-items:center; gap:8px;">ASSESS OFFLINE <button class="guide-btn-sq" onclick="openGuide()">📖</button></div>
-            <div style="font-size:12px; opacity:0.7; font-family:'Premium Mono', monospace; font-weight:700;">v4.5 (Stable Glass Edition)</div>
+            <div style="font-size:12px; opacity:0.7; font-family:'Premium Mono', monospace; font-weight:700;">v4.6 (Stable Glass Edition)</div>
         </div>
     </div>
     <div class="drawer-body">
@@ -296,7 +297,7 @@ SOFTWARE.-->
         <div onclick="toggleDark()" class="menu-item" id="theme-btn" style="color:var(--primary)"><span>🌙 Dark Mode</span></div>
         <div onclick="openSettings()" class="menu-item"><span>⚙️ Settings</span></div>
         <div onclick="openGuide()" class="menu-item"><span>📖 User Guide</span></div>
-        <div onclick="openAbout()" class="menu-item"><span>ℹ️ About & Support</span></div>
+        <div onclick="openAbout()" class="menu-item"><span>ℹ️ About &amp; Support </span></div>
         <div onclick="resetAll()" class="menu-item" style="color:var(--error);"><span>⚠️ Factory Reset</span></div>
     </div>
 </div>
@@ -309,8 +310,8 @@ SOFTWARE.-->
         </div>
         <div id="marks-area" style="margin-top:10px;"></div>
         <div class="btn-row">
-            <button class="btn-save" onclick="preSaveCheck(false)">SAVE & CLOSE</button>
-            <button class="btn-save btn-next" onclick="preSaveCheck(true)">SAVE & NEXT ➡️</button>
+            <button class="btn-save" onclick="preSaveCheck(false)">SAVE &amp; CLOSE</button>
+            <button class="btn-save btn-next" onclick="preSaveCheck(true)">SAVE &amp; NEXT ➡️</button>
         </div>
         <button class="btn-del" id="btn-del" onclick="delStudent()" style="display:none;">DELETE STUDENT</button>
     </div>
@@ -320,11 +321,31 @@ SOFTWARE.-->
     <div class="modal-head"><span>Settings</span><button class="menu-icon" onclick="closeModal('mod-set')" style="margin:0; border:none; background:none; padding:10px;">✕</button></div>
     <div class="modal-body">
         <div class="inp-grp"><label>Report Language / ରିପୋର୍ଟ ଭାଷା</label><select id="cfg-lang" class="inp-txt"><option value="od">Odia (ଓଡ଼ିଆ) [Default]</option><option value="en">English</option></select></div>
+        
         <div class="set-box">
             <div class="set-title">Group A: Max Marks (Limits)</div>
-            <div style="display:flex; gap:12px;"><div class="inp-grp" style="flex:1"><label>FA Max</label><input type="number" id="lm-fa" class="inp-txt"></div><div class="inp-grp" style="flex:1"><label>SA Max</label><input type="number" id="lm-sa" class="inp-txt"></div></div>
-            <div style="display:flex; gap:12px;"><div class="inp-grp" style="flex:1"><label>Written</label><input type="number" id="lm-wr" class="inp-txt"></div><div class="inp-grp" style="flex:1"><label>Project</label><input type="number" id="lm-pr" class="inp-txt"></div></div>
+            
+            <div style="font-family:'Premium Mono', monospace; font-size:11px; font-weight:700; color:var(--text-sec); margin-bottom:8px; text-transform:uppercase;">Primary (Class 1-5)</div>
+            <div style="display:flex; gap:12px;">
+                <div class="inp-grp" style="flex:1"><label>FA Max</label><input type="number" id="lm-fa" class="inp-txt"></div>
+                <div class="inp-grp" style="flex:1"><label>SA Max</label><input type="number" id="lm-sa" class="inp-txt"></div>
+            </div>
+            <div style="display:flex; gap:12px; margin-bottom:16px;">
+                <div class="inp-grp" style="flex:1"><label>Written</label><input type="number" id="lm-wr" class="inp-txt"></div>
+                <div class="inp-grp" style="flex:1"><label>Project</label><input type="number" id="lm-pr" class="inp-txt"></div>
+            </div>
+
+            <div style="font-family:'Premium Mono', monospace; font-size:11px; font-weight:700; color:var(--text-sec); margin-bottom:8px; text-transform:uppercase;">Upper Primary (Class 6-8)</div>
+            <div style="display:flex; gap:12px;">
+                <div class="inp-grp" style="flex:1"><label>FA Max</label><input type="number" id="lm-up-fa" class="inp-txt"></div>
+                <div class="inp-grp" style="flex:1"><label>SA Max</label><input type="number" id="lm-up-sa" class="inp-txt"></div>
+            </div>
+            <div style="display:flex; gap:12px;">
+                <div class="inp-grp" style="flex:1"><label>Written</label><input type="number" id="lm-up-wr" class="inp-txt"></div>
+                <div class="inp-grp" style="flex:1"><label>Project</label><input type="number" id="lm-up-pr" class="inp-txt"></div>
+            </div>
         </div>
+
         <div class="set-box">
             <div class="set-title">Group B: Weightage %</div>
             <div style="font-family:'Premium Mono', monospace; font-size:11px; font-weight:700; color:var(--text-sec); margin-bottom:8px; text-transform:uppercase;">Primary (Class 1-5)</div>
@@ -336,15 +357,15 @@ SOFTWARE.-->
             <div class="set-title">📝 Edit Subjects</div>
             <div style="font-size:13px; color:var(--error); margin-bottom:12px; font-weight:600; background:var(--error-bg); padding:12px; border-radius:8px;">⚠️ Renaming a subject hides marks saved under the old name.</div>
             
-            <label style="font-size:12px; font-weight:700">Class 1 & 2</label>
+            <label style="font-size:12px; font-weight:700">Class 1 &amp; 2</label>
             <div class="dual-sub-grid"><textarea id="sub-en-1" class="inp-txt" placeholder="English" oninput="chkSubMatch(1)"></textarea><textarea id="sub-od-1" class="inp-txt" placeholder="Odia" oninput="chkSubMatch(1)"></textarea></div>
             <div id="sm-1" class="sub-match-ui"><div style="clear:both"></div></div>
             
-            <label style="font-size:12px; font-weight:700; margin-top:10px; display:block;">Class 3, 4 & 5</label>
+            <label style="font-size:12px; font-weight:700; margin-top:10px; display:block;">Class 3, 4 &amp; 5</label>
             <div class="dual-sub-grid"><textarea id="sub-en-3" class="inp-txt" placeholder="English" oninput="chkSubMatch(3)"></textarea><textarea id="sub-od-3" class="inp-txt" placeholder="Odia" oninput="chkSubMatch(3)"></textarea></div>
             <div id="sm-3" class="sub-match-ui"><div style="clear:both"></div></div>
             
-            <label style="font-size:12px; font-weight:700; margin-top:10px; display:block;">Class 6 & 7</label>
+            <label style="font-size:12px; font-weight:700; margin-top:10px; display:block;">Class 6 &amp; 7</label>
             <div class="dual-sub-grid"><textarea id="sub-en-6" class="inp-txt" placeholder="English" oninput="chkSubMatch(6)"></textarea><textarea id="sub-od-6" class="inp-txt" placeholder="Odia" oninput="chkSubMatch(6)"></textarea></div>
             <div id="sm-6" class="sub-match-ui"><div style="clear:both"></div></div>
 
@@ -394,7 +415,7 @@ SOFTWARE.-->
             <div style="color:var(--text-sec)">Simply tap on the student's name card on the dashboard to reopen their mark entry form. <br><em>ସେମାନଙ୍କର ମାର୍କ ଫର୍ମ ଖୋଲିବା ପାଇଁ କେବଳ ଛାତ୍ରଙ୍କ ନାମ କାର୍ଡ ଉପରେ ଟ୍ୟାପ୍ କରନ୍ତୁ।</em></div>
         </div>
         <div class="set-box" style="padding:16px;">
-            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 8. What is the use of "SAVE & NEXT"? <br><span style="font-size:13px; color:var(--primary)">"SAVE & NEXT" ର ବ୍ୟବହାର କ'ଣ?</span></div>
+            <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 8. What is the use of "SAVE &amp; NEXT"? <br><span style="font-size:13px; color:var(--primary)">"SAVE &amp; NEXT" ର ବ୍ୟବହାର କ'ଣ?</span></div>
             <div style="color:var(--text-sec)">It saves the current student and instantly clears the form for the next student without closing the window. <br><em>ଏହା ବର୍ତ୍ତମାନର ଛାତ୍ରଙ୍କ ମାର୍କ ସେଭ୍ କରେ ଏବଂ ୱିଣ୍ଡୋ ବନ୍ଦ ନକରି ପରବର୍ତ୍ତୀ ଛାତ୍ରଙ୍କ ପାଇଁ ଫର୍ମ ଖାଲି କରେ।</em></div>
         </div>
         <div class="set-box" style="padding:16px;">
@@ -425,7 +446,7 @@ SOFTWARE.-->
             <div style="color:var(--text-sec)">When you click out of the box, the app auto-corrects it cleanly to <code>12</code>. <br><em>ଯେତେବେଳେ ଆପଣ ଅନ୍ୟ ବକ୍ସକୁ ଯିବେ, ଆପ୍ ଏହାକୁ ଆପେ <code>12</code> ରେ ସଜାଡି ଦେବ।</em></div>
         </div>
 
-        <div style="font-family:'Premium Mono', monospace; font-size:12px; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:1px; margin:24px 0 10px;">4. Settings & Subjects (ସେଟିଂସ୍ ଏବଂ ବିଷୟ)</div>
+        <div style="font-family:'Premium Mono', monospace; font-size:12px; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:1px; margin:24px 0 10px;">4. Settings &amp; Subjects (ସେଟିଂସ୍ ଏବଂ ବିଷୟ)</div>
 
         <div class="set-box" style="padding:16px;">
             <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 15. How to change Max Marks (FA/SA)? <br><span style="font-size:13px; color:var(--primary)">ସର୍ବାଧିକ ମାର୍କ କିପରି ପରିବର୍ତ୍ତନ କରିବେ?</span></div>
@@ -440,7 +461,7 @@ SOFTWARE.-->
             <div style="color:var(--text-sec)">You must have the EXACT SAME number of subjects in both the English and Odia text boxes. If English has 5, Odia must have 5. <br><em>ଇଂରାଜୀ ଏବଂ ଓଡ଼ିଆ ଉଭୟ ବକ୍ସରେ ବିଷୟ ସଂଖ୍ୟା ସମାନ ରହିବା ଆବଶ୍ୟକ।</em></div>
         </div>
 
-        <div style="font-family:'Premium Mono', monospace; font-size:12px; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:1px; margin:24px 0 10px;">5. PDF Export & Print (ପ୍ରିଣ୍ଟ ଏବଂ ଏକ୍ସପୋର୍ଟ)</div>
+<div style="font-family:'Premium Mono', monospace; font-size:12px; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:1px; margin:24px 0 10px;">5. PDF Export &amp; Print (ପ୍ରିଣ୍ଟ ଏବଂ ଏକ୍ସପୋର୍ଟ)</div>
 
         <div class="set-box" style="padding:16px;">
             <div class="set-title" style="font-size:15px; margin-bottom:8px;">📌 18. How to print or save as a PDF? <br><span style="font-size:13px; color:var(--primary)">PDF କିପରି ପ୍ରିଣ୍ଟ ବା ସେଭ୍ କରିବେ?</span></div>
@@ -471,17 +492,17 @@ SOFTWARE.-->
     <div class="modal-body">
         <div style="text-align:center; margin-bottom:24px;">
             <h2 style="color:var(--primary); margin:10px 0; font-size:28px;">ASSESS OFFLINE</h2>
-            <p style="color:var(--text-sec); font-family:'Premium Mono', monospace; font-size:13px; font-weight:700;">v4.5 (Stable Glass Edition)</p>
+            <p style="color:var(--text-sec); font-family:'Premium Mono', monospace; font-size:13px; font-weight:700;">v4.6 (Stable Glass Edition)</p>
             <p style="font-weight:700; margin-top:8px; font-size:15px;">Developed by Sahil Kumar Rout</p>
         </div>
         <div style="background:var(--warn-bg); color:var(--warn); border:1px solid rgba(217,119,6,0.4); padding:16px; border-radius:12px; margin-bottom:20px; font-size:14px; line-height:1.5;"><strong>⚠️ DISCLAIMER</strong><br>This is an independent open-source project. It is <strong>NOT</strong> a Government app and is <strong>NOT</strong> developed, funded, or endorsed by any Government entity.</div>
         <div style="font-family:'Premium Mono', monospace; font-size:11px; font-weight:700; color:var(--text-sec); margin-bottom:8px; text-transform:uppercase;">CONTACT / SUPPORT</div>
-        <div style="font-size:14px; color:var(--text); margin-bottom:20px; line-height:1.6;">For bugs or suggestions, please contact the developer.<br><span style="color:var(--primary); font-weight:600;">License:</span> MIT License (Free & Open Source).</div>
+        <div style="font-size:14px; color:var(--text); margin-bottom:20px; line-height:1.6;">For bugs or suggestions, please contact the developer.<br><span style="color:var(--primary); font-weight:600;">License:</span> MIT License (Free &amp; Open Source).</div>
         
         <div style="margin-top:12px; padding-top:12px; border-top:1px dashed var(--panel-border);">
-            <div style="font-family:'Premium Mono', monospace; font-size:11px; font-weight:700; color:var(--text-sec); margin-bottom:12px; text-transform:uppercase;">Community & Updates</div>
+            <div style="font-family:'Premium Mono', monospace; font-size:11px; font-weight:700; color:var(--text-sec); margin-bottom:12px; text-transform:uppercase;">Community &amp; Updates</div>
             <a href="https://t.me/+pV0H_iNurNAyMmZl" target="_blank" style="display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--text); background:var(--input-bg); padding:12px; border-radius:12px; margin-bottom:10px; border:1px solid var(--panel-border); transition:0.2s;">
-               <span style="font-size:22px;">👥</span><div><div style="font-weight:700; font-size:15px;">Join Support Group</div><div style="font-size:12px; color:var(--text-sec); font-weight:600;">Get help & discuss features</div></div>
+               <span style="font-size:22px;">👥</span><div><div style="font-weight:700; font-size:15px;">Join Support Group</div><div style="font-size:12px; color:var(--text-sec); font-weight:600;">Get help &amp; discuss features</div></div>
             </a>
             <a href="https://t.me/assess_offline_channel" target="_blank" style="display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--text); background:var(--input-bg); padding:12px; border-radius:12px; border:1px solid var(--panel-border); transition:0.2s;">
                <span style="font-size:22px;">📢</span><div><div style="font-weight:700; font-size:15px;">Follow Channel</div><div style="font-size:12px; color:var(--text-sec); font-weight:600;">@assess_offline_channel</div></div>
@@ -506,7 +527,7 @@ SOFTWARE.-->
 <div id="toast-box" class="toast"></div>
 <script>
 // --- BLACK BOX LOGGER SYSTEM ---
-let appLogs = [`[${new Date().toLocaleTimeString()}] [SYS] Assess Offline v4.5 Boot Sequence Initialized`];
+let appLogs = [`[${new Date().toLocaleTimeString()}] [SYS] Assess Offline v4.6 Boot Sequence Initialized`];
 function logEvent(type, msg) {
     let ts = new Date().toLocaleTimeString();
     appLogs.push(`[${ts}] [${type}] ${msg}`);
@@ -524,7 +545,7 @@ function devClick() {
         devTaps = 0; logEvent("SYS", "User triggered Crash Log Dump.");
         let blob = new Blob([appLogs.join('\n')], { type: 'text/plain' });
         let a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-        a.download = `Assess_v4.5_Logs_${new Date().getTime()}.txt`;
+        a.download = `Assess_v4.6_Logs_${new Date().getTime()}.txt`;
         document.body.appendChild(a); a.click(); document.body.removeChild(a);
         toast("🛠️ Crash Logs Downloaded!");
     }
@@ -578,7 +599,8 @@ function closeConfirm() {
 function executeConfirm() { closeConfirm(); if(cfmCallback) cfmCallback(); }
 
 const MAX_CLS = 8;
-const CFG = { school: "", udise: "", session: "2025-26", lang: "od", lm: { fa:25, sa:50, wr:10, pr:20 }, pr: { t1:30, wr:10, pr:20, sa:40 }, up: { t1:30, wr:5, pr:15, sa:50 } };
+// ELITE FIX v4.6: Added Dedicated Upper Primary Limits (lm_up)
+const CFG = { school: "", udise: "", session: "2025-26", lang: "od", lm: { fa:25, sa:50, wr:10, pr:20 }, lm_up: { fa:25, sa:50, wr:5, pr:15 }, pr: { t1:30, wr:10, pr:20, sa:40 }, up: { t1:30, wr:5, pr:15, sa:50 } };
 const DEF_EN = { 1: "Language (Odia), Mathematics, EVS, Drawing", 3: "Language (Odia), Mathematics, English, EVS, Drawing", 6: "Language (Odia), Mathematics, English, Science, History & Civics, Geography, Hindi, Sanskrit, Drawing", 8: "Language (Odia), Mathematics, English, Science, History & Civics, Geography, Hindi / Sanskrit, Drawing" };
 const DEF_OD = { 1: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ପରିବେଶ ବିଜ୍ଞାନ, ଚିତ୍ରାଙ୍କନ", 3: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ଇଂରାଜୀ, ପରିବେଶ ବିଜ୍ଞାନ, ଚିତ୍ରାଙ୍କନ", 6: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ଇଂରାଜୀ, ବିଜ୍ଞାନ, ଇତିହାସ ଓ ରାଜନୀତି ବିଜ୍ଞାନ, ଭୂଗୋଳ, ହିନ୍ଦୀ, ସଂସ୍କୃତ, ଚିତ୍ରାଙ୍କନ", 8: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ଇଂରାଜୀ, ବିଜ୍ଞାନ, ଇତିହାସ ଓ ରାଜନୀତି ବିଜ୍ଞାନ, ଭୂଗୋଳ, ହିନ୍ଦୀ / ସଂସ୍କୃତ, ଚିତ୍ରାଙ୍କନ" };
 const TR = { en: { n:"Name Of The Student", s:"Subject", t1:"(FA-1 + FA-2 + SA-1)", wgt:"SCORE @ [x]% weightage", asn:"Assignment", prj:"Project", sa2:"SA-2 / Annual Exam", tot:"TOTAL SCORE (SUBJECT)", gt:"GRAND TOTAL SCORE", pct:"GT SCORE %", best:"Best" }, od: { n:"ଶିକ୍ଷାର୍ଥୀର ନାମ", s:"ବିଷୟ", t1:"(FA-1 + FA-2 + SA-1)", wgt:"ପ୍ରାପ୍ତାଙ୍କ @ [x]% ଗୁରୁତ୍ଵ", asn:"ଲିଖିତ କାର୍ଯ୍ୟ", prj:"ପ୍ରକଳ୍ପ କାର୍ଯ୍ୟ", sa2:"SA-2 / ବାର୍ଷିକ ପରୀକ୍ଷା", tot:"ମୋଟ ପ୍ରାପ୍ରାଙ୍କ (ବିଷୟ)", gt:"ସର୍ବମୋଟ ପ୍ରାପ୍ତାଙ୍କ", pct:"% ସର୍ବମୋଟ ପ୍ରାପ୍ତାଙ୍କ", best:"ଶ୍ରେଷ୍ଠ" } };
@@ -604,6 +626,8 @@ function init() {
             let ld = JSON.parse(s); 
             db.cf = { ...CFG, ...(ld.cf || {}) };
             db.cf.lm = { ...CFG.lm, ...(ld.cf?.lm || {}) };
+            // ELITE FIX v4.6: Safely hydrate Upper Primary Limits without data loss
+            db.cf.lm_up = { ...CFG.lm_up, ...(ld.cf?.lm_up || {}) };
             db.cf.pr = { ...CFG.pr, ...(ld.cf?.pr || {}) };
             db.cf.up = { ...CFG.up, ...(ld.cf?.up || {}) };
             if(!db.cf.subEn) db.cf.subEn = ld.cf?.subs ? ld.cf.subs : {...DEF_EN};
@@ -760,9 +784,13 @@ function getSubs(c, langOverride) {
     return (list || "").split(',').map(x=>x.trim()).filter(x=>x); 
 }
 
+// ELITE FIX v4.6: Dynamic router functions based on class
+function getWeights(c) { return parseInt(c)<=5 ? db.cf.pr : db.cf.up; }
+function getLimits(c) { return parseInt(c)<=5 ? db.cf.lm : db.cf.lm_up; }
+
 function checkComp(s, c) { 
     if(!s.m) return false; 
-    let subs = getSubs(c, 'en'); let L = db.cf.lm; 
+    let subs = getSubs(c, 'en'); let L = getLimits(c); 
     for(let sb of subs) { 
         let mk = s.m?.[sb] ?? {}; let keys = []; 
         if(L.fa > 0) keys.push('f1','f2'); 
@@ -776,19 +804,21 @@ function checkComp(s, c) {
     } 
     return true; 
 }
-function getWeights(c) { return parseInt(c)<=5 ? db.cf.pr : db.cf.up; }
 
-// ELITE FIX: Locked Math Engine to standard Math.round
+// ELITE FIX v4.6: Math Engine Data Clamping logic (Math.min) to prevent legacy data overflows
 function calcStudent(s, c) {
-    let subs = getSubs(c, 'en'); let W = getWeights(c); let L = db.cf.lm; let gt = 0, complete = true;
+    let subs = getSubs(c, 'en'); let W = getWeights(c); let L = getLimits(c); let gt = 0, complete = true;
     subs.forEach(sb => {
         let m = s.m?.[sb] ?? {}; if(!checkComp(s,c)) complete=false; 
-        let n = v => parseFloat(v)||0; 
+        
+        // Data Clamping Hack: Raw DB values are clamped strictly against active configuration
+        let n = (v, max) => Math.min(parseFloat(v)||0, max); 
+        
         let maxT1 = (L.fa*2)+L.sa; 
-        let term1 = maxT1>0 ? ((n(m.f1)+n(m.f2)+n(m.s1)) / maxT1) * W.t1 : 0;
-        let assess = L.wr>0 ? (Math.max(n(m.a1), n(m.a2)) / L.wr) * W.wr : 0;
-        let project = L.pr>0 ? (Math.max(n(m.p1), n(m.p2)) / L.pr) * W.pr : 0;
-        let term2 = L.sa>0 ? (n(m.s2) / L.sa) * W.sa : 0;
+        let term1 = maxT1>0 ? ((n(m.f1, L.fa)+n(m.f2, L.fa)+n(m.s1, L.sa)) / maxT1) * W.t1 : 0;
+        let assess = L.wr>0 ? (Math.max(n(m.a1, L.wr), n(m.a2, L.wr)) / L.wr) * W.wr : 0;
+        let project = L.pr>0 ? (Math.max(n(m.p1, L.pr), n(m.p2, L.pr)) / L.pr) * W.pr : 0;
+        let term2 = L.sa>0 ? (n(m.s2, L.sa) / L.sa) * W.sa : 0;
         
         let fin = term1 + assess + project + term2;
         if(!isFinite(fin) || isNaN(fin)) { fin = 0; }
@@ -816,7 +846,9 @@ function editStudent(idx) {
 
     document.getElementById('btn-del').style.display = idx===null ? 'none' : 'block';
     let box = document.getElementById('marks-area'); box.innerHTML = "";
-    let subs = getSubs(cls, 'en'); let L = db.cf.lm;
+    
+    // Dynamically routing Limits configuration
+    let subs = getSubs(cls, 'en'); let L = getLimits(cls);
     
     subs.forEach(sb => {
         let m = s.m?.[sb] ?? {};
@@ -925,9 +957,16 @@ function openSettings() {
         if (!db.cf.subEn || !db.cf.subOd) { db.cf.subEn = db.cf.subEn || {...DEF_EN}; db.cf.subOd = db.cf.subOd || {...DEF_OD}; save(); }
         const sv = (id, v) => { let el = document.getElementById(id); if(el) el.value = v; };
         sv('cfg-lang', db.cf.lang);
-        let L = db.cf.lm || { fa:25, sa:50, wr:10, pr:10 }; let P = db.cf.pr || { t1:30, wr:10, pr:20, sa:40 }; let U = db.cf.up || { t1:30, wr:5, pr:15, sa:50 };
+        
+        let L = db.cf.lm || { fa:25, sa:50, wr:10, pr:20 }; 
+        let L_UP = db.cf.lm_up || { fa:25, sa:50, wr:5, pr:15 };
+        let P = db.cf.pr || { t1:30, wr:10, pr:20, sa:40 }; 
+        let U = db.cf.up || { t1:30, wr:5, pr:15, sa:50 };
+        
         if(document.getElementById('lm-fa')) {
             sv('lm-fa', L.fa); sv('lm-sa', L.sa); sv('lm-wr', L.wr); sv('lm-pr', L.pr);
+            sv('lm-up-fa', L_UP.fa); sv('lm-up-sa', L_UP.sa); sv('lm-up-wr', L_UP.wr); sv('lm-up-pr', L_UP.pr);
+            
             sv('pr-t1', P.t1); sv('pr-wr', P.wr); sv('pr-pr', P.pr); sv('pr-sa', P.sa);
             sv('up-t1', U.t1); sv('up-wr', U.wr); sv('up-pr', U.pr); sv('up-sa', U.sa);
             [1,3,6,8].forEach(k => {
@@ -954,11 +993,13 @@ function saveSettings() {
     let p=(id)=> Math.max(0, parseInt(document.getElementById(id).value)||0); 
     
     let Lfa=p('lm-fa'), Lsa=p('lm-sa'), Lwr=p('lm-wr'), Lpr=p('lm-pr');
+    let LUPfa=p('lm-up-fa'), LUPsa=p('lm-up-sa'), LUPwr=p('lm-up-wr'), LUPpr=p('lm-up-pr');
+    
     let Pt1=p('pr-t1'), Pwr=p('pr-wr'), Ppr=p('pr-pr'), Psa=p('pr-sa');
     let Ut1=p('up-t1'), Uwr=p('up-wr'), Upr=p('up-pr'), Usa=p('up-sa');
 
     let activePSum = (Lfa>0||Lsa>0 ? Pt1 : 0) + (Lwr>0 ? Pwr : 0) + (Lpr>0 ? Ppr : 0) + (Lsa>0 ? Psa : 0);
-    let activeUSum = (Lfa>0||Lsa>0 ? Ut1 : 0) + (Lwr>0 ? Uwr : 0) + (Lpr>0 ? Upr : 0) + (Lsa>0 ? Usa : 0);
+    let activeUSum = (LUPfa>0||LUPsa>0 ? Ut1 : 0) + (LUPwr>0 ? Uwr : 0) + (LUPpr>0 ? Upr : 0) + (LUPsa>0 ? Usa : 0);
     if(activePSum !== 100 || activeUSum !== 100) return toast(`⚠️ Active Weightage Primary: ${activePSum}% | Upper: ${activeUSum}% (Must sum to 100)`);
 
     let sE1 = document.getElementById('sub-en-1').value.trim(); let sO1 = document.getElementById('sub-od-1').value.trim();
@@ -984,6 +1025,10 @@ function saveSettings() {
     let L=db.cf.lm, P=db.cf.pr, U=db.cf.up;
     if(document.getElementById('lm-fa')) {
         L.fa=Lfa; L.sa=Lsa; L.wr=Lwr; L.pr=Lpr;
+        
+        if(!db.cf.lm_up) db.cf.lm_up = {};
+        db.cf.lm_up.fa=LUPfa; db.cf.lm_up.sa=LUPsa; db.cf.lm_up.wr=LUPwr; db.cf.lm_up.pr=LUPpr;
+
         P.t1=Pt1; P.wr=Pwr; P.pr=Ppr; P.sa=Psa;
         U.t1=Ut1; U.wr=Uwr; U.pr=Upr; U.sa=Usa;
         db.cf.subEn[1] = sE1; db.cf.subOd[1] = sO1;
@@ -1027,6 +1072,7 @@ function restoreData(i) {
             
             db.cf = { ...CFG, ...(obj.cf || {}) };
             db.cf.lm = { ...CFG.lm, ...(obj.cf?.lm || {}) };
+            db.cf.lm_up = { ...CFG.lm_up, ...(obj.cf?.lm_up || {}) };
             db.cf.pr = { ...CFG.pr, ...(obj.cf?.pr || {}) };
             db.cf.up = { ...CFG.up, ...(obj.cf?.up || {}) };
             if(obj.cf?.subEn) db.cf.subEn = obj.cf.subEn; else if(obj.cf?.subs) db.cf.subEn = obj.cf.subs;
@@ -1121,10 +1167,11 @@ function prepExport(mode) {
     }
 }
 
+// ELITE FIX v4.6: Data Clamping replicated in the Print Generator safely
 function getHTML(c, header, T) {
     let d = db.st[c]||[]; if(d.length===0) return "";
     let sbsEn = getSubs(c, 'en'); let sbsOd = getSubs(c, 'od'); 
-    let W = getWeights(c), L = db.cf.lm;
+    let W = getWeights(c), L = getLimits(c);
     let sbs = (db.cf.lang==='od') ? sbsOd : sbsEn; 
     let hT1=T.wgt.replace('[x]',W.t1), hWr=T.wgt.replace('[x]',W.wr);
     let hPr=T.wgt.replace('[x]',W.pr), hSa=T.wgt.replace('[x]',W.sa);
@@ -1150,14 +1197,15 @@ function getHTML(c, header, T) {
     h += `<th>100</th></tr></thead><tbody>`;
 
     d.forEach((s, idx) => {
-        let gt = 0, subRows = "", n = v => parseFloat(v)||0; 
+        let gt = 0, subRows = "", n = (v, max) => Math.min(parseFloat(v)||0, max); 
         sbsEn.forEach((sbKey, sbIdx) => {
             let m = s.m?.[sbKey] ?? {};
-            let sumT1 = n(m.f1)+n(m.f2)+n(m.s1); let maxT1 = (L.fa*2)+L.sa; 
+            let sumT1 = n(m.f1, L.fa)+n(m.f2, L.fa)+n(m.s1, L.sa); 
+            let maxT1 = (L.fa*2)+L.sa; 
             let term1 = maxT1>0 ? (sumT1/maxT1)*W.t1 : 0;
-            let assess = L.wr>0 ? (Math.max(n(m.a1), n(m.a2))/L.wr)*W.wr : 0;
-            let project = L.pr>0 ? (Math.max(n(m.p1), n(m.p2))/L.pr)*W.pr : 0;
-            let term2 = L.sa>0 ? (n(m.s2)/L.sa)*W.sa : 0;
+            let assess = L.wr>0 ? (Math.max(n(m.a1, L.wr), n(m.a2, L.wr))/L.wr)*W.wr : 0;
+            let project = L.pr>0 ? (Math.max(n(m.p1, L.pr), n(m.p2, L.pr))/L.pr)*W.pr : 0;
+            let term2 = L.sa>0 ? (n(m.s2, L.sa)/L.sa)*W.sa : 0;
             
             let fin = term1+assess+project+term2; 
             if(!isFinite(fin) || isNaN(fin)) fin = 0;
@@ -1168,8 +1216,8 @@ function getHTML(c, header, T) {
             if(L.fa > 0) subRows += `<td>${m.f1||0}</td><td>${m.f2||0}</td>`;
             if(L.sa > 0) subRows += `<td>${m.s1||0}</td>`;
             subRows += `<td><b>${sumT1}</b></td><td>${term1.toFixed(1)}</td>`;
-            if(L.wr > 0) subRows += `<td>${m.a1||0}</td><td>${m.a2||0}</td><td>${Math.max(n(m.a1),n(m.a2))}</td><td>${assess.toFixed(1)}</td>`;
-            if(L.pr > 0) subRows += `<td>${m.p1||0}</td><td>${m.p2||0}</td><td>${Math.max(n(m.p1),n(m.p2))}</td><td>${project.toFixed(1)}</td>`;
+            if(L.wr > 0) subRows += `<td>${m.a1||0}</td><td>${m.a2||0}</td><td>${Math.max(n(m.a1, L.wr),n(m.a2, L.wr))}</td><td>${assess.toFixed(1)}</td>`;
+            if(L.pr > 0) subRows += `<td>${m.p1||0}</td><td>${m.p2||0}</td><td>${Math.max(n(m.p1, L.pr),n(m.p2, L.pr))}</td><td>${project.toFixed(1)}</td>`;
             if(L.sa > 0) subRows += `<td>${m.s2||0}</td><td>${term2.toFixed(1)}</td>`;
             subRows += `<td style="font-weight:bold">${fin}</td></tr>`;
         });
