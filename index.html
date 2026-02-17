@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-ASSESS OFFLINE v4.5 (Stable Glass Edition)
+ASSESS OFFLINE: DIGITAL CCE REGISTER
 Copyright (c) 2026 Sahil Kumar Rout Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -21,7 +21,7 @@ SOFTWARE.-->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Assess Offline v4.6 (Stable Glass Edition)</title>
+<title>Assess Offline: Digital CCE Register </title>
 <style>
     /* --- PREMIUM OFFLINE FONT STACK --- */
     @font-face { font-family: 'Premium UI'; src: local('.SFNSText-Light'), local('.HelveticaNeueDeskInterface-Light'), local('Segoe UI Light'), local('Roboto-Light'); font-weight: 300; }
@@ -162,7 +162,8 @@ SOFTWARE.-->
         color: var(--text-sec); letter-spacing: 1px; white-space: nowrap;
         pointer-events: auto; cursor: pointer; z-index: 800;
         animation: fadeSlideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
-    }
+        /* ELITE FIX: Disables OS text selection on rapid taps */
+        -webkit-user-select: none; user-select: none;}
     .dev-pill:active { transform: translateX(-50%) scale(0.95); }
 
     /* --- FAB & SELECTION BAR --- */
@@ -208,7 +209,7 @@ SOFTWARE.-->
     .sub-head { font-weight: 700; color: var(--text); margin-bottom: 12px; font-size: 16px; }
     .mark-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(75px, 1fr)); gap: 8px; }
     .mark-cell { text-align: center; }
-    .mark-cell label { display: block; font-family: 'Premium Mono', monospace; font-size: 9.5px; letter-spacing: -0.2px; color: var(--text-sec); margin-bottom: 4px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mark-cell label { display: block; font-family: 'Premium Mono', monospace; font-size: 9.5px; letter-spacing: -0.5px; color: var(--text-sec); margin-bottom: 4px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .mark-inp { width: 100%; padding: 12px 0; text-align: center; border: 1px solid var(--panel-border); border-radius: 8px; font-family: 'Premium Mono', monospace; font-size: 16px; font-weight: 700; background: var(--input-bg); color: var(--text); inputmode: decimal; transition: 0.2s; }
     .mark-inp:focus { border-color: var(--primary); background: var(--input-focus); box-shadow: 0 0 10px rgba(0,0,0,0.05); }
     
@@ -274,7 +275,7 @@ SOFTWARE.-->
     <div class="drawer-head">
         <div>
             <div style="font-weight:700; font-size:24px; color:var(--primary); display:flex; align-items:center; gap:8px;">ASSESS OFFLINE <button class="guide-btn-sq" onclick="openGuide()">📖</button></div>
-            <div style="font-size:12px; opacity:0.7; font-family:'Premium Mono', monospace; font-weight:700;">v4.6 (Stable Glass Edition)</div>
+            <div style="font-size:12px; opacity:0.7; font-family:'Premium Mono', monospace; font-weight:700;">Digital CCE Register(v4.6)</div>
         </div>
     </div>
     <div class="drawer-body">
@@ -492,7 +493,7 @@ SOFTWARE.-->
     <div class="modal-body">
         <div style="text-align:center; margin-bottom:24px;">
             <h2 style="color:var(--primary); margin:10px 0; font-size:28px;">ASSESS OFFLINE</h2>
-            <p style="color:var(--text-sec); font-family:'Premium Mono', monospace; font-size:13px; font-weight:700;">v4.6 (Stable Glass Edition)</p>
+            <p style="color:var(--text-sec); font-family:'Premium Mono', monospace; font-size:13px; font-weight:700;">Digital CCE Register(v4.6)</p>
             <p style="font-weight:700; margin-top:8px; font-size:15px;">Developed by Sahil Kumar Rout</p>
         </div>
         <div style="background:var(--warn-bg); color:var(--warn); border:1px solid rgba(217,119,6,0.4); padding:16px; border-radius:12px; margin-bottom:20px; font-size:14px; line-height:1.5;"><strong>⚠️ DISCLAIMER</strong><br>This is an independent open-source project. It is <strong>NOT</strong> a Government app and is <strong>NOT</strong> developed, funded, or endorsed by any Government entity.</div>
@@ -527,7 +528,7 @@ SOFTWARE.-->
 <div id="toast-box" class="toast"></div>
 <script>
 // --- BLACK BOX LOGGER SYSTEM ---
-let appLogs = [`[${new Date().toLocaleTimeString()}] [SYS] Assess Offline v4.6 Boot Sequence Initialized`];
+let appLogs = [`[${new Date().toLocaleTimeString()}] [SYS] Digital CCE Register v4.6 Boot Sequence Initialized`];
 function logEvent(type, msg) {
     let ts = new Date().toLocaleTimeString();
     appLogs.push(`[${ts}] [${type}] ${msg}`);
@@ -603,7 +604,9 @@ const MAX_CLS = 8;
 const CFG = { school: "", udise: "", session: "2025-26", lang: "od", lm: { fa:25, sa:50, wr:10, pr:20 }, lm_up: { fa:25, sa:50, wr:5, pr:15 }, pr: { t1:30, wr:10, pr:20, sa:40 }, up: { t1:30, wr:5, pr:15, sa:50 } };
 const DEF_EN = { 1: "Language (Odia), Mathematics, EVS, Drawing", 3: "Language (Odia), Mathematics, English, EVS, Drawing", 6: "Language (Odia), Mathematics, English, Science, History & Civics, Geography, Hindi, Sanskrit, Drawing", 8: "Language (Odia), Mathematics, English, Science, History & Civics, Geography, Hindi / Sanskrit, Drawing" };
 const DEF_OD = { 1: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ପରିବେଶ ବିଜ୍ଞାନ, ଚିତ୍ରାଙ୍କନ", 3: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ଇଂରାଜୀ, ପରିବେଶ ବିଜ୍ଞାନ, ଚିତ୍ରାଙ୍କନ", 6: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ଇଂରାଜୀ, ବିଜ୍ଞାନ, ଇତିହାସ ଓ ରାଜନୀତି ବିଜ୍ଞାନ, ଭୂଗୋଳ, ହିନ୍ଦୀ, ସଂସ୍କୃତ, ଚିତ୍ରାଙ୍କନ", 8: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ଇଂରାଜୀ, ବିଜ୍ଞାନ, ଇତିହାସ ଓ ରାଜନୀତି ବିଜ୍ଞାନ, ଭୂଗୋଳ, ହିନ୍ଦୀ / ସଂସ୍କୃତ, ଚିତ୍ରାଙ୍କନ" };
-const TR = { en: { n:"Name Of The Student", s:"Subject", t1:"(FA-1 + FA-2 + SA-1)", wgt:"SCORE @ [x]% weightage", asn:"Assignment", prj:"Project", sa2:"SA-2 / Annual Exam", tot:"TOTAL SCORE (SUBJECT)", gt:"GRAND TOTAL SCORE", pct:"GT SCORE %", best:"Best" }, od: { n:"ଶିକ୍ଷାର୍ଥୀର ନାମ", s:"ବିଷୟ", t1:"(FA-1 + FA-2 + SA-1)", wgt:"ପ୍ରାପ୍ତାଙ୍କ @ [x]% ଗୁରୁତ୍ଵ", asn:"ଲିଖିତ କାର୍ଯ୍ୟ", prj:"ପ୍ରକଳ୍ପ କାର୍ଯ୍ୟ", sa2:"SA-2 / ବାର୍ଷିକ ପରୀକ୍ଷା", tot:"ମୋଟ ପ୍ରାପ୍ରାଙ୍କ (ବିଷୟ)", gt:"ସର୍ବମୋଟ ପ୍ରାପ୍ତାଙ୍କ", pct:"% ସର୍ବମୋଟ ପ୍ରାପ୍ତାଙ୍କ", best:"ଶ୍ରେଷ୍ଠ" } };
+const TR = { 
+    en: { title:"Annual CCE Register", n:"Name Of The Student", s:"Subject", t1:"(FA-1 + FA-2 + SA-1)", wgt:"SCORE @ [x]% weightage", asn:"Assignment", prj:"Project", sa2:"SA-2 / Annual Exam", tot:"TOTAL SCORE (SUBJECT)", gt:"GRAND TOTAL SCORE", pct:"GT SCORE %", best:"Best" }, 
+    od: { title:"ନିରନ୍ତର ଓ ବ୍ୟାପକ ଆକଳନ ଫର୍ଦ୍ଦ", n:"ଶିକ୍ଷାର୍ଥୀର ନାମ", s:"ବିଷୟ", t1:"(FA-1 + FA-2 + SA-1)", wgt:"ପ୍ରାପ୍ତାଙ୍କ @ [x]% ଗୁରୁତ୍ଵ", asn:"ଲିଖିତ କାର୍ଯ୍ୟ", prj:"ପ୍ରକଳ୍ପ କାର୍ଯ୍ୟ", sa2:"SA-2 / ବାର୍ଷିକ ପରୀକ୍ଷା", tot:"ମୋଟ ପ୍ରାପ୍ରାଙ୍କ (ବିଷୟ)", gt:"ସର୍ବମୋଟ ପ୍ରାପ୍ତାଙ୍କ", pct:"% ସର୍ବମୋଟ ପ୍ରାପ୍ତାଙ୍କ", best:"ଶ୍ରେଷ୍ଠ"} };
 
 let db = { cf: JSON.parse(JSON.stringify(CFG)), st: {} };
 let cls = "1"; let eIdx = null; let isSelMode = false; let selIds = new Set(); let pendingNext = false; 
@@ -681,12 +684,17 @@ function toast(m) {
     toastTimer = setTimeout(() => { b.classList.remove('show'); }, 2500); 
 }
 
+let drawTmr; // ELITE FIX: State lock for the animation race condition
 function toggleDrawer() { 
     let d=document.getElementById('drawer'), o=document.getElementById('overlay'); 
+    clearTimeout(drawTmr); // Cancels any rogue background timers
     if(d.classList.contains('open')){
-        d.classList.remove('open'); o.style.opacity='0'; setTimeout(()=>{o.style.display='none'; updateScrollLock();},300);
+        d.classList.remove('open'); 
+        o.style.opacity='0'; 
+        drawTmr = setTimeout(()=>{ o.style.display='none'; updateScrollLock(); }, 300);
     } else {
-        o.style.display='block'; setTimeout(()=>o.style.opacity='1',10); d.classList.add('open'); updateScrollLock();
+        o.style.display='block'; 
+        drawTmr = setTimeout(()=>{ o.style.opacity='1'; d.classList.add('open'); updateScrollLock(); }, 10);
     } 
 }
 function updCF(k,v) { db.cf[k]=v; save(); updUI(); logEvent("CFG", `Updated ${k}`);}
@@ -799,7 +807,8 @@ function checkComp(s, c) {
         if(L.pr > 0) keys.push('p1','p2'); 
         if(keys.length === 0) return true;
         for(let k of keys) {
-            if(mk[k]==="" || mk[k]===undefined || mk[k]===null) return false; 
+            let v = mk[k];
+            if(v === "" || v === undefined || v === null || (v !== '-' && isNaN(parseFloat(v)))) return false;
         }
     } 
     return true; 
@@ -863,8 +872,8 @@ function editStudent(idx) {
         if(L.sa > 0) {
             html += `<div class="mark-cell"><label>SA1 /${L.sa}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.s1||''}" data-s="${safeAttr}" data-k="s1" data-mx="${L.sa}" oninput="chk(this)" onblur="fmt(this)"></div>`;
         }
-        if(L.wr > 0) { html += `<div class="mark-cell"><label>ASN 1 /${L.wr}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.a1||''}" data-s="${safeAttr}" data-k="a1" data-mx="${L.wr}" oninput="chk(this)" onblur="fmt(this)"></div><div class="mark-cell"><label>ASN 2 /${L.wr}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.a2||''}" data-s="${safeAttr}" data-k="a2" data-mx="${L.wr}" oninput="chk(this)" onblur="fmt(this)"></div>`; }
-        if(L.pr > 0) { html += `<div class="mark-cell"><label>PRJ 1 /${L.pr}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.p1||''}" data-s="${safeAttr}" data-k="p1" data-mx="${L.pr}" oninput="chk(this)" onblur="fmt(this)"></div><div class="mark-cell"><label>PRJ 2 /${L.pr}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.p2||''}" data-s="${safeAttr}" data-k="p2" data-mx="${L.pr}" oninput="chk(this)" onblur="fmt(this)"></div>`; }
+        if(L.wr > 0) { html += `<div class="mark-cell"><label>Assignment 1 /${L.wr}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.a1||''}" data-s="${safeAttr}" data-k="a1" data-mx="${L.wr}" oninput="chk(this)" onblur="fmt(this)"></div><div class="mark-cell"><label>Assignment 2 /${L.wr}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.a2||''}" data-s="${safeAttr}" data-k="a2" data-mx="${L.wr}" oninput="chk(this)" onblur="fmt(this)"></div>`; }
+        if(L.pr > 0) { html += `<div class="mark-cell"><label>Project 1 /${L.pr}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.p1||''}" data-s="${safeAttr}" data-k="p1" data-mx="${L.pr}" oninput="chk(this)" onblur="fmt(this)"></div><div class="mark-cell"><label>Project 2 /${L.pr}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.p2||''}" data-s="${safeAttr}" data-k="p2" data-mx="${L.pr}" oninput="chk(this)" onblur="fmt(this)"></div>`; }
         if(L.sa > 0) {
             html += `<div class="mark-cell" style="grid-column: span 2"><label>SA2 (Annual) /${L.sa}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.s2||''}" data-s="${safeAttr}" data-k="s2" data-mx="${L.sa}" oninput="chk(this)" onblur="fmt(this)"></div>`;
         }
@@ -894,7 +903,7 @@ function chk(el) {
     let n = parseFloat(el.value);
     if (!isNaN(n) && n > mx) { 
         toast(`⚠️ Max mark is ${mx}`); 
-        el.value = mx; 
+        el.value = ''; // ELITE FIX: Clears the box entirely instead of auto-filling
         el.style.borderColor = "var(--error)"; 
     } else {
         el.style.borderColor = "var(--panel-border)"; 
@@ -1053,7 +1062,7 @@ function backupData() {
         if(isIOS) {
             navigator.clipboard.writeText(str).then(() => toast("📋 Copied! Paste to Notes (iOS)"));
         } else {
-            let d = new Date().toISOString().slice(0,10); let fname = `Assess_Backup_${d}.json`; 
+            let d = new Date().toISOString().slice(0,10); let fname = `!_Assess_Backup_${d}.json`; 
             let a=document.createElement('a'); a.href="data:text/json;charset=utf-8,"+encodeURIComponent(str); a.download=fname; a.click();
             toast("💾 Backup Downloaded");
         }
@@ -1130,8 +1139,16 @@ function prepExport(mode) {
             tr { page-break-inside: avoid; }
             th, td { border: 1pt solid black; padding: 4px 2px; text-align: center; vertical-align: middle; word-wrap: break-word; }
             thead th { background: #f0f0f0 !important; font-weight: bold; -webkit-print-color-adjust: exact; }
-            .v-th { height: 100px; vertical-align: bottom; }
-            .v-txt { writing-mode: vertical-rl; text-orientation: mixed; margin: 0 auto; white-space: nowrap; font-size: 7.5pt; line-height: 1; }
+            .v-th { height: 130px; vertical-align: middle; min-width: 30px; }
+            .v-txt { 
+                writing-mode: vertical-rl;
+                transform: rotate(180deg);
+                text-orientation: mixed;
+                display: inline-block;
+                margin: 0 auto;
+                white-space: nowrap;
+                font-size: 7.5pt;
+                line-height: 1;}
             .t-left { text-align: left; padding-left: 8px; }
             .p-head { text-align: center; border-bottom: 2pt solid black; margin-bottom: 15px; padding-bottom: 10px; font-size: 14pt; }
             .page-break { page-break-before: always; }
@@ -1175,8 +1192,7 @@ function getHTML(c, header, T) {
     let sbs = (db.cf.lang==='od') ? sbsOd : sbsEn; 
     let hT1=T.wgt.replace('[x]',W.t1), hWr=T.wgt.replace('[x]',W.wr);
     let hPr=T.wgt.replace('[x]',W.pr), hSa=T.wgt.replace('[x]',W.sa);
-    let h = header ? `<div class="p-head"><div class="p-school">${sanitize(db.cf.school)}</div><div style="font-size:12pt; font-weight:bold">MARK REGISTER ${sanitize(db.cf.session)} | CLASS: ${c} | UDISE: ${sanitize(db.cf.udise)}</div></div>` : "";
-    
+    let h = header ? `<div class="p-head"><div class="p-school">${sanitize(db.cf.school)}</div><div style="font-size:12pt; font-weight:bold">${T.title || 'MARK REGISTER'} ${sanitize(db.cf.session)} | CLASS: ${c} | UDISE: ${sanitize(db.cf.udise)}</div></div>` : "";
     h += `<table border="1"><thead><tr>
     <th rowspan="2" style="width:30px">Sl.</th><th rowspan="2" class="t-left" style="width:120px">${T.n}</th><th rowspan="2" class="t-left" style="width:80px">${T.s}</th>`;
     if(L.fa > 0) h += `<th class="v-th"><div class="v-txt">FA-1</div></th><th class="v-th"><div class="v-txt">FA-2</div></th>`;
@@ -1212,13 +1228,14 @@ function getHTML(c, header, T) {
             fin = Math.round(fin); 
             gt += fin;
             
+            let pM = (val, max) => val === '-' ? '-' : (val ? Math.min(parseFloat(val)||0, max) : 0);
             subRows += `<tr><td class="t-left">${sanitize(sbs[sbIdx]||sbKey)}</td>`;
-            if(L.fa > 0) subRows += `<td>${m.f1||0}</td><td>${m.f2||0}</td>`;
-            if(L.sa > 0) subRows += `<td>${m.s1||0}</td>`;
+            if(L.fa > 0) subRows += `<td>${pM(m.f1, L.fa)}</td><td>${pM(m.f2, L.fa)}</td>`;
+            if(L.sa > 0) subRows += `<td>${pM(m.s1, L.sa)}</td>`;
             subRows += `<td><b>${sumT1}</b></td><td>${term1.toFixed(1)}</td>`;
-            if(L.wr > 0) subRows += `<td>${m.a1||0}</td><td>${m.a2||0}</td><td>${Math.max(n(m.a1, L.wr),n(m.a2, L.wr))}</td><td>${assess.toFixed(1)}</td>`;
-            if(L.pr > 0) subRows += `<td>${m.p1||0}</td><td>${m.p2||0}</td><td>${Math.max(n(m.p1, L.pr),n(m.p2, L.pr))}</td><td>${project.toFixed(1)}</td>`;
-            if(L.sa > 0) subRows += `<td>${m.s2||0}</td><td>${term2.toFixed(1)}</td>`;
+            if(L.wr > 0) subRows += `<td>${pM(m.a1, L.wr)}</td><td>${pM(m.a2, L.wr)}</td><td>${Math.max(n(m.a1, L.wr),n(m.a2, L.wr))}</td><td>${assess.toFixed(1)}</td>`;
+            if(L.pr > 0) subRows += `<td>${pM(m.p1, L.pr)}</td><td>${pM(m.p2, L.pr)}</td><td>${Math.max(n(m.p1, L.pr),n(m.p2, L.pr))}</td><td>${project.toFixed(1)}</td>`;
+            if(L.sa > 0) subRows += `<td>${pM(m.s2, L.sa)}</td><td>${term2.toFixed(1)}</td>`;
             subRows += `<td style="font-weight:bold">${fin}</td></tr>`;
         });
         let rows = subRows.split('</tr>'); rows.pop();
@@ -1267,7 +1284,6 @@ window.onpopstate = function(e) {
         history.back(); 
     }
 };
-
 init();
 </script>
 </body>
