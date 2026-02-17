@@ -4,11 +4,11 @@
   
   <br><br>
 
-  # 🎓 Assess Offline WebApp
+  # 🎓 Assess Offline: Digital CCE Register
   ### The Ultimate Offline-First Student Assessment Tool
 
   <p>
-    <img src="https://img.shields.io/badge/Version-v4.5_Stable_Glass_Edition-1a73e8?style=for-the-badge&logo=github&logoColor=white" alt="Version">
+    <img src="https://img.shields.io/badge/Version-v4.6_Stable_-1a73e8?style=for-the-badge&logo=github&logoColor=white" alt="Version">
     <img src="https://img.shields.io/badge/License-MIT-2ea44f?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="License">
     <img src="https://img.shields.io/badge/Platform-Web_|_Android_|_IOS-orange?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Platform">
     <img src="https://img.shields.io/badge/Size-<100KB-lightgrey?style=for-the-badge&logo=files&logoColor=black" alt="Size">
@@ -113,6 +113,40 @@ For developers and auditors reviewing the source:
 ---
 
 # 📜 Changelog
+
+
+
+## [v4.6] - 2026-02-17
+### **Rebranding & Identity**
+* **New Official Name**: Rebranded to **Assess Offline: Digital CCE Register** to align with government educational standards.
+* **School-Compliant PDF Headers**: Integrated the formal Odia title **"ନିରନ୍ତର ଓ ବ୍ୟାପକ ଆକଳନ ଫର୍ଦ୍ଦ"** (Continuous & Comprehensive Assessment Sheet) for official school records.
+* **Dynamic Title Engine**: Updated the translation object (`TR`) to automatically switch report titles between English and Odia based on user settings.
+
+### **Architectural Upgrades**
+* **Split Limits Tiering**: Introduced independent Max Mark configurations for **Primary (Class 1-5)** and **Upper Primary (Class 6-8)**.
+
+* **Safe Schema Hydration**: Implemented intelligent database booting in `init()` to silently patch old save files with new Upper Primary limit keys without risking user data loss.
+  
+* **Legacy Data Clamping**: Modified the math engine and PDF generator to use strict `Math.min()` clamping, ensuring that legacy marks from v4.5 do not exceed new v4.6 limits in grand total calculations.
+
+### **PDF & Print Engine Fixes**
+* **Bottom-to-Top Headers**: Re-engineered vertical table headers to read from bottom-to-top using a 180-degree rotation, matching traditional physical registers.
+  
+* **Layout Stability**: Fixed the CSS for vertical text (`.v-txt`) by removing absolute positioning to prevent table cell collapse during browser-side PDF generation.
+  
+* **NaN Protection**: Added division-by-zero safeguards (`maxT1 > 0 ? ... : 0`) to prevent "NaN" errors in grand totals for non-exam classes.
+  
+* **Absentee Rendering**: Updated the `pM` (Safe Render) function to correctly display the "-" (Absent) flag on printed reports.
+
+### **UI/UX & Mobile Optimization**
+* **Compact Label Hack**: Applied a `-0.5px` letter-spacing constraint to UI labels, allowing full text for **"Assignment 1"** and **"Project 1"** without causing "..." truncation on narrow mobile screens.
+* **Drawer Animation Lock**: Resolved a race condition in `toggleDrawer()` using a global `clearTimeout` variable, preventing background interaction while the menu is transitioning.
+* **Touch-Tap Protection**: Disabled native OS text selection on the developer pill via CSS (`user-select: none`) to prevent accidental Google Search popups during rapid log tapping.
+* **Validation Hardening**: Strengthened `checkComp` logic to detect and block malformed data (such as standalone decimal points) that previously caused silent math failures.
+
+### **Data Management**
+* **Anchor Sorting for Backups**: Prepended the `!` symbol to JSON backup filenames to ensure they always appear at the absolute top of the user's download list regardless of sort order.
+* **Log System Rebranding**: Updated internal black-box logging to reflect the new **Digital CCE Register** identity for easier troubleshooting.
 
 ### 🚀 Changelog: v4.5 (The "Fortress" Update)
 *This update brings an elite-level architectural overhaul, resolving deep mobile OS bottlenecks and securing the UI physics.*
