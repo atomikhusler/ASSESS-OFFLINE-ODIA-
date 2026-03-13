@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Official CCE Register</title>
+<style>
+    /* Premium Spooler Config: Minimal margins let the table stretch */
+    @page { size: landscape; margin: 8mm 5mm; }
+
+    html, body { 
+        width: 100%; /* Fluid width eliminates the shrinking bug */
+        height: auto !important; 
+        overflow: visible !important; 
+        margin: 0; 
+        padding: 0; 
+        background: #fff; 
+        color: #000;
+        filter: grayscale(100%); 
+        -webkit-filter: grayscale(100%);
+    }
+    
+    body { font-family: 'Times New Roman', serif; padding: 10px 15px; }
+    
+    table { 
+        width: 100%; 
+        border-collapse: collapse; 
+        table-layout: auto; 
+        font-size: 9.5pt; /* Slightly larger for premium readability */
+    }
+    
+    tr { page-break-inside: avoid; }
+    thead { display: table-header-group; }
+    
+    /* Premium Padding: Makes the rows taller and more professional */
+    th, td { 
+        border: 1pt solid black; 
+        padding: 6px 4px; 
+        text-align: center; 
+        vertical-align: middle; 
+        word-wrap: break-word; 
+    }
+    
+    thead th { background: #f0f0f0 !important; font-weight: bold; -webkit-print-color-adjust: exact; color: #000; }
+    .v-th { height: 130px; vertical-align: middle; min-width: 32px; }
+    .v-txt { writing-mode: vertical-rl; transform: rotate(180deg); text-orientation: mixed; display: inline-block; margin: 0 auto; white-space: nowrap; font-size: 8pt; line-height: 1; }
+    .t-left { text-align: left; padding-left: 10px; font-weight: bold; }
+    .p-head { text-align: center; border-bottom: 2pt solid black; margin-bottom: 20px; padding-bottom: 15px; font-size: 15pt; text-transform: uppercase;}
+    
+    /* Branding & Signatures */
+    .sig-block { margin-top: 60px; text-align: right; padding-right: 40px; font-size: 13pt; font-weight: bold; color: #000; }
+    .pdf-footer { text-align: center; font-size: 8.5pt; font-style: italic; color: #333; padding-top: 10px; border-top: 1pt solid #000; margin-top: 25px; }
+
+    /* Fallback scaling for portrait flip */
+    @media print and (orientation: portrait) {
+        .v-th { height: 75px !important; }
+        .v-txt { font-size: 6pt !important; }
+        table { font-size: 6.5pt !important; }
+    }
+    
+    /* --- FLOATING SEMI-TRANSPARENT BLUE BUTTON --- */
+    .dl-btn {
+        position: fixed; bottom: 24px; right: 24px;
+        background: rgba(37, 99, 235, 0.85); color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+        padding: 14px 28px; border-radius: 50px;
+        font-family: sans-serif; font-size: 15px; font-weight: bold;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        cursor: pointer; z-index: 9999; transition: transform 0.2s;
+    }
+    .dl-btn:active { transform: scale(0.95); }
+    
+    @media print { .dl-btn { display: none !important; } }
+</style>
+</head>
+<body>
+
+    <div id="print-content"></div>
+
+    <div class="sig-block">Signature of Headmaster</div>
+    <div class="pdf-footer">Generated via Assess Offline (Digital CCE Register) | Developed by Sahil Kumar Rout</div>
+    <button class="dl-btn" onclick="downloadOfflineFile()">🔵 Download HTML File</button>
+    
+    <script>
+        // --- ELITE DOWNLOAD ENGINE (Static Snapshot Method) ---
+        function downloadOfflineFile() {
+            const title = document.title || 'Mark_Register';
+            
+            // 1. Create a clone of the entire page in its current, fully-loaded state
+            const clone = document.documentElement.cloneNode(true);
+            
+            // 2. Strip out ALL scripts so the downloaded file doesn't self-destruct
+            const scripts = clone.querySelectorAll('script');
+            scripts.forEach(s => s.remove());
+            
+            // 3. Remove the blue download button from the clone so it looks like a clean paper
+            const btn = clone.querySelector('.dl-btn');
+            if(btn) btn.remove();
+
+            // 4. Package the clean, static HTML into a file
+            const pageContent = "<!DOCTYPE html>\n" + clone.outerHTML;
+            const blob = new Blob([pageContent], { type: 'text/html;charset=utf-8' });
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = title + '.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // --- THE RECEIVER ENGINE (Runs only on the live site) ---
+        window.onload = function() {
+            const payload = localStorage.getItem('print_payload');
+            const title = localStorage.getItem('print_title');
+
+            if (payload) {
+                document.getElementById('print-content').innerHTML = payload;
+                if (title) document.title = title;
+
+                setTimeout(function() {
+                    window.print();
+                }, 1500);
+            } else {
+                document.getElementById('print-content').innerHTML = "<h2 style='text-align:center; margin-top:50px;'>No data found. Please export from the main Assess Offline app.</h2>";
+            }
+        };
+        
+        // --- THE RECEIVER ENGINE (Runs only on the live site) ---
+        window.onload = function() {
+            const payload = localStorage.getItem('print_payload');
+            const title = localStorage.getItem('print_title');
+
+            if (payload) {
+                document.getElementById('print-content').innerHTML = payload;
+                if (title) document.title = title;
+
+                setTimeout(function() {
+                    window.print();
+                }, 2500);
+            } else {
+                // ELITE FIX: Hide signature and footer if there is no data
+                document.querySelector('.sig-block').style.display = 'none';
+                document.querySelector('.pdf-footer').style.display = 'none';
+                document.getElementById('print-content').innerHTML = "<h2 style='text-align:center; margin-top:50px; font-family:sans-serif;'>No data found. Please export from the main Assess Offline app.</h2>";
+            }
+        };
+    </script>
+</body>
+</html>

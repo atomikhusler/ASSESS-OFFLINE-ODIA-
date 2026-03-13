@@ -162,7 +162,7 @@ SOFTWARE.-->
         color: var(--text-sec); letter-spacing: 1px; white-space: nowrap;
         pointer-events: auto; cursor: pointer; z-index: 800;
         animation: fadeSlideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
-        /* ELITE FIX: Disables OS text selection on rapid taps */
+        /*   FIX: Disables OS text selection on rapid taps */
         -webkit-user-select: none; user-select: none;}
     .dev-pill:active { transform: translateX(-50%) scale(0.95); }
 
@@ -249,6 +249,29 @@ SOFTWARE.-->
     
     /* --- MOBILE KEYBOARD FIX --- */
     @media (max-height: 500px) { .fab, .sel-bar, .dev-pill { display: none !important; } }
+        /* --- GLASSMORPHIC INFO SYSTEM --- */
+    #info-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        display: none; align-items: center; justify-content: center; z-index: 10000;
+        opacity: 0; transition: opacity 0.3s;
+    }
+    #info-overlay.show { opacity: 1; }
+    .info-card {
+        width: 90%; max-width: 380px; background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 24px;
+        padding: 25px 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        position: relative; color: white; text-align: center;
+        transform: scale(0.95); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    #info-overlay.show .info-card { transform: scale(1); }
+    .info-card h3 { margin: 10px 0; font-size: 1.3rem; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+    .info-card p { font-size: 0.95rem; line-height: 1.5; color: rgba(255, 255, 255, 0.95); margin-bottom: 20px; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+    .info-close { position: absolute; top: 12px; right: 18px; font-size: 28px; cursor: pointer; color: rgba(255, 255, 255, 0.8); transition: 0.2s; }
+    .info-close:active { transform: scale(0.8); }
+    .info-btn { width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; background: #22c55e; color: white; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3); }
+    .info-btn:active { transform: scale(0.96); }
+    .dark .info-card { background: rgba(30, 41, 59, 0.4); border-color: rgba(255,255,255,0.1); }
 </style>
 </head>
 <body>
@@ -259,7 +282,7 @@ SOFTWARE.-->
         <h1 id="ui-school">My Govt School</h1>
         <p id="ui-udise-strip">UDISE: Not Set</p>
     </div>
-    <button class="btn-pdf" onclick="prepExport('single')">📄 Export PDF</button>
+    <button class="btn-pdf" onclick="showInfo('pdf', 'single')">📄 Export PDF</button>
 </header>
 <div class="brand-strip glass-panel"><span id="ui-class-strip">CLASS 1 REGISTER</span> <span id="sel-toggle" class="pencil-icon" onclick="toggleSelMode()">✏️</span></div>
 
@@ -275,7 +298,7 @@ SOFTWARE.-->
     <div class="drawer-head">
         <div>
             <div style="font-weight:700; font-size:24px; color:var(--primary); display:flex; align-items:center; gap:8px;">ASSESS OFFLINE <button class="guide-btn-sq" onclick="openGuide()">📖</button></div>
-            <div style="font-size:12px; opacity:0.7; font-family:'Premium Mono', monospace; font-weight:700;">Digital CCE Register(v4.6)</div>
+            <div style="font-size:12px; opacity:0.7; font-family:'Premium Mono', monospace; font-weight:700;">Digital CCE Register(v 5.0)</div>
         </div>
     </div>
     <div class="drawer-body">
@@ -286,12 +309,12 @@ SOFTWARE.-->
             <div class="inp-grp"><label>Session</label><input type="text" id="menu-ses" class="inp-txt" onchange="updCF('session', this.value)"></div>
         </div>
         <div class="sec-title">Class Registers</div><div id="menu-cls-list"></div>
-        <div class="sec-title">Data Management</div>
-        <div onclick="prepExport('all')" class="menu-item"><span>🖨️ Print All Classes</span></div>
-        <div onclick="genExcel()" class="menu-item"><span>📊 Excel Export (.xls)</span></div>
-        <div onclick="backupData()" class="menu-item"><span>💾 Backup Data</span></div>
-        
-        <label class="menu-item" for="file-res"><span>📂 Restore Data</span></label>
+                        <div class="sec-title">Data Management</div>
+        <div onclick="showInfo('pdf', 'all')" class="menu-item"><span>🖨️ Print All Classes (PDF)</span></div>
+        <div onclick="showInfo('excel', 'single')" class="menu-item"><span>📊 Excel Export (Current Class)</span></div>
+        <div onclick="showInfo('excel', 'all')" class="menu-item"><span>📊 Excel Export (All Classes)</span></div>
+        <div onclick="showInfo('backup')" class="menu-item"><span>💾 Backup Data</span></div>
+        <div onclick="showInfo('restore')" class="menu-item"><span>📂 Restore Data</span></div>
         <input type="file" id="file-res" style="display:none" onchange="restoreData(this)" accept=".json,application/json,text/plain,*/*">
         
         <div class="sec-title">Configuration</div>
@@ -493,7 +516,7 @@ SOFTWARE.-->
     <div class="modal-body">
         <div style="text-align:center; margin-bottom:24px;">
             <h2 style="color:var(--primary); margin:10px 0; font-size:28px;">ASSESS OFFLINE</h2>
-            <p style="color:var(--text-sec); font-family:'Premium Mono', monospace; font-size:13px; font-weight:700;">Digital CCE Register(v4.6)</p>
+            <p style="color:var(--text-sec); font-family:'Premium Mono', monospace; font-size:13px; font-weight:700;">Digital CCE Register(v5.0)</p>
             <p style="font-weight:700; margin-top:8px; font-size:15px;">Developed by Sahil Kumar Rout</p>
         </div>
         <div style="background:var(--warn-bg); color:var(--warn); border:1px solid rgba(217,119,6,0.4); padding:16px; border-radius:12px; margin-bottom:20px; font-size:14px; line-height:1.5;"><strong>⚠️ DISCLAIMER</strong><br>This is an independent open-source project. It is <strong>NOT</strong> a Government app and is <strong>NOT</strong> developed, funded, or endorsed by any Government entity.</div>
@@ -526,9 +549,21 @@ SOFTWARE.-->
 </div>
 
 <div id="toast-box" class="toast"></div>
+<div id="info-overlay" ontouchmove="event.preventDefault()">
+    <div class="info-card">
+        <span class="info-close" onclick="closeInfo()">&times;</span>
+        <div id="info-icon" style="font-size: 42px; margin-bottom: 5px;">ℹ️</div>
+        <h3 id="info-title">Title</h3>
+        <p id="info-msg">Message goes here</p>
+        <button id="info-proceed-btn" class="info-btn">OK, Proceed</button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 <script>
+
 // --- BLACK BOX LOGGER SYSTEM ---
-let appLogs = [`[${new Date().toLocaleTimeString()}] [SYS] Digital CCE Register v4.6 Boot Sequence Initialized`];
+let appLogs = [`[${new Date().toLocaleTimeString()}] [SYS] Digital CCE Register v5.0 Boot Sequence Initialized`];
 function logEvent(type, msg) {
     let ts = new Date().toLocaleTimeString();
     appLogs.push(`[${ts}] [${type}] ${msg}`);
@@ -546,18 +581,19 @@ function devClick() {
         devTaps = 0; logEvent("SYS", "User triggered Crash Log Dump.");
         let blob = new Blob([appLogs.join('\n')], { type: 'text/plain' });
         let a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-        a.download = `Assess_v4.6_Logs_${new Date().getTime()}.txt`;
+        a.download = `Assess_v5.0_Logs_${new Date().getTime()}.txt`;
         document.body.appendChild(a); a.click(); document.body.removeChild(a);
         toast("🛠️ Crash Logs Downloaded!");
     }
 }
 
-// ELITE FIX: Synchronous scroll lock
+// v.5.0 FIX: Synchronous scroll lock includes the new Info Modal
 function updateScrollLock() {
     let mOpen = Array.from(document.querySelectorAll('.modal')).some(m => m.style.display === 'block');
     let dOpen = document.getElementById('drawer').classList.contains('open');
     let cOpen = document.getElementById('cfm-dialog').style.display === 'flex'; 
-    document.body.style.overflow = (mOpen || dOpen || cOpen) ? 'hidden' : '';
+    let iOpen = document.getElementById('info-overlay') && document.getElementById('info-overlay').style.display === 'flex';
+    document.body.style.overflow = (mOpen || dOpen || cOpen || iOpen) ? 'hidden' : '';
 }
 
 const LS = {
@@ -600,7 +636,7 @@ function closeConfirm() {
 function executeConfirm() { closeConfirm(); if(cfmCallback) cfmCallback(); }
 
 const MAX_CLS = 8;
-// ELITE FIX v4.6: Added Dedicated Upper Primary Limits (lm_up)
+//   FIX v5.0: Added Dedicated Upper Primary Limits (lm_up)
 const CFG = { school: "", udise: "", session: "2025-26", lang: "od", lm: { fa:25, sa:50, wr:10, pr:20 }, lm_up: { fa:25, sa:50, wr:5, pr:15 }, pr: { t1:30, wr:10, pr:20, sa:40 }, up: { t1:30, wr:5, pr:15, sa:50 } };
 const DEF_EN = { 1: "Language (Odia), Mathematics, EVS, Drawing", 3: "Language (Odia), Mathematics, English, EVS, Drawing", 6: "Language (Odia), Mathematics, English, Science, History & Civics, Geography, Hindi, Sanskrit, Drawing", 8: "Language (Odia), Mathematics, English, Science, History & Civics, Geography, Hindi / Sanskrit, Drawing" };
 const DEF_OD = { 1: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ପରିବେଶ ବିଜ୍ଞାନ, ଚିତ୍ରାଙ୍କନ", 3: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ଇଂରାଜୀ, ପରିବେଶ ବିଜ୍ଞାନ, ଚିତ୍ରାଙ୍କନ", 6: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ଇଂରାଜୀ, ବିଜ୍ଞାନ, ଇତିହାସ ଓ ରାଜନୀତି ବିଜ୍ଞାନ, ଭୂଗୋଳ, ହିନ୍ଦୀ, ସଂସ୍କୃତ, ଚିତ୍ରାଙ୍କନ", 8: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ଇଂରାଜୀ, ବିଜ୍ଞାନ, ଇତିହାସ ଓ ରାଜନୀତି ବିଜ୍ଞାନ, ଭୂଗୋଳ, ହିନ୍ଦୀ / ସଂସ୍କୃତ, ଚିତ୍ରାଙ୍କନ" };
@@ -612,7 +648,7 @@ let db = { cf: JSON.parse(JSON.stringify(CFG)), st: {} };
 let cls = "1"; let eIdx = null; let isSelMode = false; let selIds = new Set(); let pendingNext = false; 
 let isDirty = false; 
 
-// ELITE FIX: Render-only Sanitization (No DB corruption)
+//   FIX: Render-only Sanitization (No DB corruption)
 function sanitize(str) { if(!str) return ""; return str.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 function decodeHtml(html) { if(!html) return ""; let txt = document.createElement("textarea"); txt.innerHTML = html; return txt.value; }
 
@@ -629,7 +665,7 @@ function init() {
             let ld = JSON.parse(s); 
             db.cf = { ...CFG, ...(ld.cf || {}) };
             db.cf.lm = { ...CFG.lm, ...(ld.cf?.lm || {}) };
-            // ELITE FIX v4.6: Safely hydrate Upper Primary Limits without data loss
+            //   FIX v4.6: Safely hydrate Upper Primary Limits without data loss
             db.cf.lm_up = { ...CFG.lm_up, ...(ld.cf?.lm_up || {}) };
             db.cf.pr = { ...CFG.pr, ...(ld.cf?.pr || {}) };
             db.cf.up = { ...CFG.up, ...(ld.cf?.up || {}) };
@@ -648,7 +684,7 @@ function init() {
             showConfirm("Data Corrupted", "App will reset safely.", "Reset", true, () => { 
                 for(let i=1; i<=MAX_CLS; i++) db.st[i] = []; 
                 db.cf.subEn={...DEF_EN}; db.cf.subOd={...DEF_OD}; 
-                save(); // ELITE FIX: Actually overwrite the corrupted storage
+                save(); //   FIX: Actually overwrite the corrupted storage
                 setTimeout(()=>location.reload(), 500);
             }); 
         }
@@ -684,7 +720,71 @@ function toast(m) {
     toastTimer = setTimeout(() => { b.classList.remove('show'); }, 2500); 
 }
 
-let drawTmr; // ELITE FIX: State lock for the animation race condition
+let drawTmr; //   FIX: State lock for the animation race condition
+function showInfo(type, action) {
+    const title = document.getElementById('info-title');
+    const msg = document.getElementById('info-msg');
+    const btn = document.getElementById('info-proceed-btn');
+    const icon = document.getElementById('info-icon');
+    const overlay = document.getElementById('info-overlay');
+
+    const config = {
+        'pdf-single': {
+            icon: '📄', title: 'Print Register',
+            msg: 'Mobile printers can be unpredictable. <br><br>Wait <b>3 seconds</b> for the layout to load. If it fails, use the <b>🔵 Download HTML</b> button on the next screen and print via PC.',
+            run: () => prepExport('single')
+        },
+        'pdf-all': {
+            icon: '🖨️', title: 'Print All Classes',
+            msg: 'This generates a massive report.<br><br>For the best A4 formatting, we highly recommend downloading the file and printing it from a <b>Computer</b>.',
+            run: () => prepExport('all')
+        },
+        'excel-single': {
+            icon: '📊', title: 'Export Excel',
+            msg: 'This file is strictly optimized for PCs.<br><br>Open it on a computer using <b>MS Office</b> or <b>WPS</b> for perfect A4 Landscape formatting.',
+            run: () => exportExcel('single')
+        },
+        'excel-all': {
+            icon: '📂', title: 'Export Full Excel',
+            msg: 'This will compile all class data into a multi-sheet file. Open on a PC for best results.',
+            run: () => exportExcel('all')
+        },
+        'backup': {
+            icon: '💾', title: 'Secure Backup',
+            msg: 'This will save your entire database to a file on your phone. Please do this regularly to prevent data loss.',
+            run: () => backupData()
+        },
+        'restore': {
+            icon: '🔄', title: 'Restore Data',
+            msg: '<b>⚠️ Warning:</b> This will overwrite all your current marks with the data from your backup file.',
+            run: () => document.getElementById('file-res').click()
+        }
+    };
+
+    // ELITE FIX: Clean target keys
+    const targetKey = action ? `${type}-${action}` : type;
+    const target = config[targetKey];
+    if(!target) return;
+
+    if (document.getElementById('drawer').classList.contains('open')) toggleDrawer();
+
+    icon.innerText = target.icon;
+    title.innerText = target.title;
+    msg.innerHTML = target.msg;
+    
+    // ELITE FIX: Synchronous execution prevents browser pop-up blocking
+    btn.onclick = () => { target.run(); closeInfo(); };
+    
+    overlay.style.display = 'flex';
+    requestAnimationFrame(() => overlay.classList.add('show'));
+    updateScrollLock();
+}
+
+function closeInfo() { 
+    const overlay = document.getElementById('info-overlay');
+    overlay.classList.remove('show');
+    setTimeout(() => { overlay.style.display = 'none'; updateScrollLock(); }, 300);
+}
 function toggleDrawer() { 
     let d=document.getElementById('drawer'), o=document.getElementById('overlay'); 
     clearTimeout(drawTmr); // Cancels any rogue background timers
@@ -715,7 +815,7 @@ function deleteSelected() {
     });
 }
 
-// ELITE FIX: Restored delStudent Missing Logic
+//   FIX: Restored delStudent Missing Logic
 function delStudent() {
     if (eIdx === null) return;
     showConfirm("Delete Student?", "Are you sure you want to delete this record? This cannot be undone.", "DELETE", true, () => {
@@ -792,7 +892,7 @@ function getSubs(c, langOverride) {
     return (list || "").split(',').map(x=>x.trim()).filter(x=>x); 
 }
 
-// ELITE FIX v4.6: Dynamic router functions based on class
+//   FIX v4.6: Dynamic router functions based on class
 function getWeights(c) { return parseInt(c)<=5 ? db.cf.pr : db.cf.up; }
 function getLimits(c) { return parseInt(c)<=5 ? db.cf.lm : db.cf.lm_up; }
 
@@ -814,7 +914,7 @@ function checkComp(s, c) {
     return true; 
 }
 
-// ELITE FIX v4.6: Math Engine Data Clamping logic (Math.min) to prevent legacy data overflows
+//   FIX v4.6: Math Engine Data Clamping logic (Math.min) to prevent legacy data overflows
 function calcStudent(s, c) {
     let subs = getSubs(c, 'en'); let W = getWeights(c); let L = getLimits(c); let gt = 0, complete = true;
     subs.forEach(sb => {
@@ -847,7 +947,7 @@ function editStudent(idx) {
     isDirty = false; 
     eIdx = idx; let s = (idx===null) ? {name:"", m:{}} : db.st[cls][idx];
     document.getElementById('edit-title').innerText = idx===null ? "Add Student" : "Edit Student";
-    // ELITE FIX: Render safety bypass for previously sanitized strings
+    //   FIX: Render safety bypass for previously sanitized strings
     document.getElementById('inp-name').value = decodeHtml(s.name);
     
     document.getElementById('mod-edit').style.display = 'block'; updateScrollLock();
@@ -903,7 +1003,7 @@ function chk(el) {
     let n = parseFloat(el.value);
     if (!isNaN(n) && n > mx) { 
         toast(`⚠️ Max mark is ${mx}`); 
-        el.value = ''; // ELITE FIX: Clears the box entirely instead of auto-filling
+        el.value = ''; //   FIX: Clears the box entirely instead of auto-filling
         el.style.borderColor = "var(--error)"; 
     } else {
         el.style.borderColor = "var(--panel-border)"; 
@@ -917,7 +1017,7 @@ function preSaveCheck(isNext) {
     else confirmSave(); 
 }
 
-// ELITE FIX: Raw Text Storage, removed pre-DB sanitize()
+//   FIX: Raw Text Storage, removed pre-DB sanitize()
 function confirmSave() {
     let n = document.getElementById('inp-name').value.toUpperCase().trim(); 
     if(n.length < 2) return toast("⚠️ Name must be ≥ 2 characters");
@@ -997,7 +1097,7 @@ function chkSubMatch(k) {
     } catch(e) {}
 }
 
-// ELITE FIX: Raw Text Storage, removed pre-DB sanitize()
+//   FIX: Raw Text Storage, removed pre-DB sanitize()
 function saveSettings() {
     let p=(id)=> Math.max(0, parseInt(document.getElementById(id).value)||0); 
     
@@ -1099,7 +1199,7 @@ function restoreData(i) {
 
 function resetAll() { showConfirm("FACTORY RESET", "ALL data will be permanently lost. Type YES to confirm.", "Factory Reset", true, () => { localStorage.removeItem("assess_v2_gold"); localStorage.removeItem("assess_cls_mem"); location.reload(); }); }
 
-// ELITE FIX: Dedicated Print Tab with 100% Parser Immunity
+// --- ELITE PRINT ENGINE (The "Payload" Sender) ---
 function prepExport(mode) {
     try {
         for(let k of [1,3,6,8]) {
@@ -1122,69 +1222,24 @@ function prepExport(mode) {
         }
         if(!h) return toast("⚠️ No Data Found");
 
-        toast("⏳ Opening Print Preview...");
+        toast("⏳ Opening Print Spooler...");
 
-        const w = window.open('', '_blank');
-        
-        if(!w) {
-            alert("⚠️ Pop-up Blocked! Please allow pop-ups for this site to view the PDF.");
-            return;
-        }
-        
-            const printCSS = `
-            @page { margin: 8mm; } /* Unlocked orientation */
-            html, body { height: auto !important; overflow: visible !important; margin: 0; padding: 0; background: #fff; }
-            body { font-family: 'Times New Roman', serif; padding: 10px; color: #000; }
-            table { width: 100%; border-collapse: collapse; table-layout: auto; font-size: 8.5pt; }
-            tr { page-break-inside: avoid; }
-            th, td { border: 1pt solid black; padding: 4px 2px; text-align: center; vertical-align: middle; word-wrap: break-word; }
-            thead th { background: #f0f0f0 !important; font-weight: bold; -webkit-print-color-adjust: exact; }
-            .v-th { height: 130px; vertical-align: middle; min-width: 30px; }
-            .v-txt { 
-                writing-mode: vertical-rl;
-                transform: rotate(180deg);
-                text-orientation: mixed;
-                display: inline-block;
-                margin: 0 auto;
-                white-space: nowrap;
-                font-size: 7.5pt;
-                line-height: 1;}
-            .t-left { text-align: left; padding-left: 8px; }
-            .p-head { text-align: center; border-bottom: 2pt solid black; margin-bottom: 15px; padding-bottom: 10px; font-size: 14pt; }
-            .page-break { page-break-before: always; }
-            
-            /* --- ELITE FIX: AUTO-ADJUST FOR PORTRAIT MODE --- */
-            @media print and (orientation: portrait) {
-                body { padding: 5px; }
-                table { font-size: 6pt !important; }
-                th, td { padding: 2px 1px !important; border: 0.5pt solid black !important; }
-                .v-th { height: 75px !important; }
-                .v-txt { font-size: 5pt !important; }
-                .p-head { font-size: 11pt !important; margin-bottom: 5px !important; padding-bottom: 5px !important; }
-            }
-        `;
+        // THE BRIDGE: Save the HTML table and the Title to shared memory
+        localStorage.setItem('print_payload', h);
+        localStorage.setItem('print_title', docTitle);
 
-        // Mathematical guarantee against HTML parser crashing via strict \x3C Hex Escaping
-        w.document.write('<!DOCTYPE html><html><head><title>' + docTitle + '</title><style>' + printCSS + '</style></head><body>' + h + 
-            '\x3Cscript\x3E' +
-            'window.onload = function() {' +
-                'setTimeout(function() {' +
-                    'window.focus();' +
-                    'window.print();' +
-                '}, 800);' +
-            '};' +
-            '\x3C/script\x3E</body></html>');
-        w.document.close();
-        
-        logEvent("EXPORT", "Generated PDF in new tab sandbox.");
+                // THE BRIDGE: Securely open the print file bypassing pop-up blockers
+        const link = document.createElement('a');
+        link.href = 'print.html';
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
 
-    } catch(e) { 
-        logEvent("ERROR", "PDF Tab Fail"); 
-        toast("❌ Error: " + e.message); 
-    }
+    } catch(e) { toast("❌ Error: " + e.message); }
 }
 
-// ELITE FIX v4.6: Data Clamping replicated in the Print Generator safely
+//  FIX v5.0: Data Clamping replicated in the Print Generator safely
 function getHTML(c, header, T) {
     let d = db.st[c]||[]; if(d.length===0) return "";
     let sbsEn = getSubs(c, 'en'); let sbsOd = getSubs(c, 'od'); 
@@ -1250,21 +1305,102 @@ function getHTML(c, header, T) {
     return h + "</tbody></table>";
 }
 
-function genExcel() {
-    let d = db.st[cls]||[]; if(d.length===0) return toast("⚠️ Empty Class");
-    for(let k of [1,3,6,8]) {
-        let en = getSubs(k, 'en').length; let od = getSubs(k, 'od').length;
-        if(en !== od) return toast(`⚠️ Subject mismatch in Class ${k} group. Fix in Settings first.`);
-    }
-    
+// --- ELITE PREMIUM .XLSX ENGINE ---
+function exportExcel(mode) {
     try {
-        let t = getHTML(cls, false, TR[db.cf.lang]);
-        let content = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><style>table{border-collapse:collapse;font-family:sans-serif;font-size:12px;} th,td{border:1px solid #000;padding:4px;text-align:center;} th{background-color:#f0f0f0;font-weight:bold;} .v-txt{mso-rotate:90; white-space:nowrap;} .v-th{height:100px;}</style></head><body><h3>' + sanitize(db.cf.school) + ' - Class ' + cls + '</h3>' + t + '</body></html>';
-        let blob = new Blob(["\uFEFF"+content], {type: 'application/vnd.ms-excel;charset=utf-8'});
-        let url = URL.createObjectURL(blob); let a = document.createElement('a'); a.href = url; a.download = `Register_${cls}.xls`;
-        document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
-        logEvent("EXPORT", "Excel generated"); toast("✅ Excel Downloaded");
-    } catch(e) { logEvent("ERROR", "Excel Export Fail"); toast("⚠️ Excel Export Failed"); }
+        for(let k of [1,3,6,8]) {
+            let en = getSubs(k, 'en').length, od = getSubs(k, 'od').length;
+            if(en !== od) return toast(`⚠️ Subject mismatch in Class ${k}.`);
+        }
+
+        if(typeof XLSX === 'undefined') return toast("⚠️ Premium Engine missing. Check internet connection.");
+        
+        const T = TR[db.cf.lang];
+        const session = sanitize(db.cf.session) || "2025-26";
+        const schoolName = sanitize(db.cf.school).toUpperCase();
+        const udise = sanitize(db.cf.udise) ? `UDISE: ${sanitize(db.cf.udise)}` : "UDISE: N/A";
+        
+        let classesToExport = mode === 'all' ? [1, 3, 6, 8].filter(c => db.st[c] && db.st[c].length > 0) : [cls];
+        let d = db.st[cls]||[];
+        
+        if(mode === 'single' && d.length === 0) return toast(`⚠️ No students in Class ${cls}`);
+        if(classesToExport.length === 0) return toast("⚠️ No Data Found");
+
+        if(document.getElementById('drawer') && document.getElementById('drawer').classList.contains('open')) toggleDrawer();
+        toast("⏳ Engineering Premium Register (.xlsx)...");
+
+        var wb = XLSX.utils.book_new();
+
+        for(let c of classesToExport) {
+            let tableHtml = getHTML(c.toString(), false, T);
+            if(!tableHtml) continue;
+
+            let tempDiv = document.createElement('div');
+            tempDiv.innerHTML = tableHtml;
+            let tableEl = tempDiv.querySelector('table');
+
+            let tr0 = tableEl.insertRow(0); let td0 = tr0.insertCell(0);
+            td0.colSpan = 30; td0.innerText = schoolName;
+
+            let tr1 = tableEl.insertRow(1); let td1 = tr1.insertCell(0);
+            td1.colSpan = 30; td1.innerText = `CLASS ${c} MARK REGISTER (${session}) | ${udise}`;
+
+            let ws = XLSX.utils.table_to_sheet(tableEl, {raw: true});
+
+            ws['!rows'] = [{hpt: 30}, {hpt: 25}, {hpt: 120}, {hpt: 25}]; 
+            ws['!printHeader'] = [0, 3]; 
+            ws['!pageSetup'] = { orientation: 'landscape', paperSize: 9, fitToWidth: 1, fitToHeight: 999, margins: { left: 0.2, right: 0.2, top: 0.4, bottom: 0.6, header: 0.2, footer: 0.2 } };
+            ws['!printOptions'] = { horizontalCentered: true, verticalCentered: false };
+            ws['!headerFooter'] = { oddFooter: "&C&8&IGenerated via Assess Offline (Digital CCE Register) | Developed by Sahil Kumar Rout" };
+
+            let cols = [{wch: 4}, {wch: 22}, {wch: 15}]; 
+            for(let i=0; i<25; i++) cols.push({wch: 6});
+            ws['!cols'] = cols;
+
+            let range = XLSX.utils.decode_range(ws['!ref']);
+            let subsPerStudent = getSubs(c, 'en').length;
+            let totalCols = range.e.c;
+
+            for(let R = range.s.r; R <= range.e.r; R++) {
+                for(let C = range.s.c; C <= range.e.c; C++) {
+                    let cellAddress = XLSX.utils.encode_cell({r:R, c:C});
+                    let cell = ws[cellAddress];
+                    if(!cell) { XLSX.utils.sheet_add_aoa(ws, [[""]], {origin: cellAddress}); cell = ws[cellAddress]; }
+
+                    cell.s = { font: { name: "Times New Roman", sz: 10, color: {rgb: "000000"} }, alignment: { vertical: "center", horizontal: "center", wrapText: true } };
+
+                    if(R === 0) { cell.s.font.sz = 16; cell.s.font.bold = true; } 
+                    else if(R === 1) { cell.s.font.sz = 11; cell.s.font.bold = true; } 
+                    else if(R === 2 || R === 3) {
+                        cell.s.font.bold = true; cell.s.fill = { fgColor: {rgb: "F8F9FA"} };
+                        cell.s.border = { top: {style: "thin", color:{rgb:"000000"}}, bottom: {style: "thin", color:{rgb:"000000"}}, left: {style: "thin", color:{rgb:"000000"}}, right: {style: "thin", color:{rgb:"000000"}} };
+                        if(R === 2 && C > 2) { cell.s.alignment.textRotation = 90; }
+                    } else {
+                        cell.s.border = { top: {style: "thin", color:{rgb:"000000"}}, bottom: {style: "thin", color:{rgb:"000000"}}, left: {style: "thin", color:{rgb:"000000"}}, right: {style: "thin", color:{rgb:"000000"}} };
+                        if(C === 1 || C === 2) cell.s.alignment.horizontal = "left";
+                        if(C >= totalCols - 1) { cell.s.fill = { fgColor: {rgb: "F8F9FA"} }; cell.s.font.bold = true; }
+                        let dataRowIdx = R - 3; 
+                        if(dataRowIdx > 0 && (dataRowIdx % subsPerStudent === 0)) cell.s.border.bottom = {style: "medium", color:{rgb:"000000"}};
+                    }
+                }
+            }
+
+            let endRow = range.e.r + 3; 
+            XLSX.utils.sheet_add_aoa(ws, [["Signature of Class Teacher", "", "", "", "", "", "", "", "", "", "", "Signature of Headmaster"]], {origin: {r: endRow, c: 1}});
+            let sigTeacherCell = ws[XLSX.utils.encode_cell({r: endRow, c: 1})];
+            let sigHeadCell = ws[XLSX.utils.encode_cell({r: endRow, c: 11})];
+            if(sigTeacherCell) sigTeacherCell.s = { font: { name: "Times New Roman", sz: 11, bold: true }, alignment: { horizontal: "left" } };
+            if(sigHeadCell) sigHeadCell.s = { font: { name: "Times New Roman", sz: 11, bold: true }, alignment: { horizontal: "right" } };
+
+            ws['!ref'] = XLSX.utils.encode_range({s: {r:0, c:0}, e: {r:endRow, c:totalCols}});
+            XLSX.utils.book_append_sheet(wb, ws, `Class ${c}`);
+        }
+
+        let filename = mode === 'all' ? `All_Classes_Register_${session}.xlsx` : `Class_${cls}_Register_${session}.xlsx`;
+        XLSX.writeFile(wb, filename);
+        toast("✅ PC-Optimized Document Exported!");
+
+    } catch(e) { toast("❌ Export Failed: " + e.message); }
 }
 
 // --- FLAW 4 FIX: ANDROID HARDWARE BACK-BUTTON TRAP ---
