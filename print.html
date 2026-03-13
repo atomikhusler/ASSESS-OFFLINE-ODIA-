@@ -2,106 +2,143 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Official CCE Register</title>
-<style>
-    /* Premium Spooler Config: Minimal margins let the table stretch */
-    @page { size: landscape; margin: 8mm 5mm; }
-
-    html, body { 
-        width: 100%; /* Fluid width eliminates the shrinking bug */
-        height: auto !important; 
-        overflow: visible !important; 
-        margin: 0; 
-        padding: 0; 
-        background: #fff; 
+<meta name="viewport" content="width=1200"> <title>Official CCE Register</title>
+<style id="core-styles">
+    /* --- 1. BASE STYLES (Clean White Look) --- */
+    body {
+        font-family: 'Times New Roman', serif;
+        margin: 0;
+        padding: 20px;
+        background: #fff;
         color: #000;
-        filter: grayscale(100%); 
-        -webkit-filter: grayscale(100%);
     }
-    
-    body { font-family: 'Times New Roman', serif; padding: 10px 15px; }
-    
-    table { 
-        width: 100%; 
-        border-collapse: collapse; 
-        table-layout: auto; 
-        font-size: 9.5pt; /* Slightly larger for premium readability */
-    }
-    
-    tr { page-break-inside: avoid; }
-    thead { display: table-header-group; }
-    
-    /* Premium Padding: Makes the rows taller and more professional */
-    th, td { 
-        border: 1pt solid black; 
-        padding: 6px 4px; 
-        text-align: center; 
-        vertical-align: middle; 
-        word-wrap: break-word; 
-    }
-    
-    thead th { background: #f0f0f0 !important; font-weight: bold; -webkit-print-color-adjust: exact; color: #000; }
-    .v-th { height: 130px; vertical-align: middle; min-width: 32px; }
-    .v-txt { writing-mode: vertical-rl; transform: rotate(180deg); text-orientation: mixed; display: inline-block; margin: 0 auto; white-space: nowrap; font-size: 8pt; line-height: 1; }
-    .t-left { text-align: left; padding-left: 10px; font-weight: bold; }
-    .p-head { text-align: center; border-bottom: 2pt solid black; margin-bottom: 20px; padding-bottom: 15px; font-size: 15pt; text-transform: uppercase;}
-    
-    /* Branding & Signatures */
-    .sig-block { margin-top: 60px; text-align: right; padding-right: 40px; font-size: 13pt; font-weight: bold; color: #000; }
-    .pdf-footer { text-align: center; font-size: 8.5pt; font-style: italic; color: #333; padding-top: 10px; border-top: 1pt solid #000; margin-top: 25px; }
 
-    /* Fallback scaling for portrait flip */
-    @media print and (orientation: portrait) {
-        .v-th { height: 75px !important; }
-        .v-txt { font-size: 6pt !important; }
-        table { font-size: 6.5pt !important; }
+    /* --- 2. THE RIGID TABLE ARCHITECTURE --- */
+    table {
+        width: 100%;
+        table-layout: fixed; /* PRO FIX: Forces all columns to fit without cutting off */
+        border-collapse: collapse;
+        font-size: 8pt; 
+    }
+    th, td {
+        border: 1pt solid #000;
+        padding: 4px 2px;
+        text-align: center;
+        vertical-align: middle;
+        word-wrap: break-word;
+        overflow: hidden;
     }
     
-    /* --- FLOATING SEMI-TRANSPARENT BLUE BUTTON --- */
+    /* REPEATS HEADER ON ALL PRINTED PAGES */
+    thead { display: table-header-group; } 
+    thead th { background: #f0f0f0 !important; font-weight: bold; color: #000; }
+    
+    .t-left { text-align: left; padding-left: 5px; font-weight: bold; }
+    .v-th { height: 110px; vertical-align: bottom; padding-bottom: 5px; }
+    .v-txt { writing-mode: vertical-rl; transform: rotate(180deg); display: inline-block; font-size: 7pt; font-weight: bold; white-space: nowrap; }
+
+    /* --- 3. HEADER & BRANDING POSITIONING --- */
+    .p-head {
+        text-align: center;
+        border-bottom: 2pt solid #000;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+    }
+    .p-school {
+        font-size: 20pt;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #000;
+        margin-bottom: 6px;
+    }
+    .p-head > div:nth-child(2) { font-size: 11pt !important; font-weight: bold; }
+
+    .sig-block {
+        margin-top: 50px;
+        text-align: right;
+        padding-right: 40px;
+        font-size: 13pt;
+        font-weight: bold;
+        color: #000;
+        page-break-inside: avoid;
+    }
+    
+    .pdf-footer {
+        text-align: center;
+        font-size: 8.5pt;
+        font-style: italic;
+        color: #444;
+        margin-top: 30px;
+        border-top: 1pt solid #000;
+        padding-top: 10px;
+        page-break-inside: avoid;
+    }
+    .page-break { page-break-before: always; }
+
+    /* --- 4. HARDWARE PRINT SPOOLER RULES --- */
+    @media print {
+        @page { size: landscape; margin: 8mm; }
+        body { padding: 0; }
+        .dl-btn { display: none !important; }
+        * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    }
+
+    /* --- 5. FLOATING DOWNLOAD BUTTON --- */
     .dl-btn {
-        position: fixed; bottom: 24px; right: 24px;
-        background: rgba(37, 99, 235, 0.85); color: #fff;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-        padding: 14px 28px; border-radius: 50px;
+        position: fixed; bottom: 25px; right: 25px;
+        background: #2563eb; color: #fff; border: 2px solid #fff;
+        padding: 15px 25px; border-radius: 50px;
         font-family: sans-serif; font-size: 15px; font-weight: bold;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        cursor: pointer; z-index: 9999; transition: transform 0.2s;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        cursor: pointer; z-index: 9999;
     }
     .dl-btn:active { transform: scale(0.95); }
-    
-    @media print { .dl-btn { display: none !important; } }
 </style>
 </head>
 <body>
-
     <div id="print-content"></div>
-
-    <div class="sig-block">Signature of Headmaster</div>
-    <div class="pdf-footer">Generated via Assess Offline (Digital CCE Register) | Developed by Sahil Kumar Rout</div>
-    <button class="dl-btn" onclick="downloadOfflineFile()">🔵 Download HTML File</button>
+    <div class="sig-block" id="sig" style="display:none;">Signature of Headmaster</div>
+    <div class="pdf-footer" id="ftr" style="display:none;">Generated via Assess Offline (Digital CCE Register) | Developed by Sahil Kumar Rout</div>
     
-    <script>
-        // --- ELITE DOWNLOAD ENGINE (Static Snapshot Method) ---
-        function downloadOfflineFile() {
-            const title = document.title || 'Mark_Register';
-            
-            // 1. Create a clone of the entire page in its current, fully-loaded state
-            const clone = document.documentElement.cloneNode(true);
-            
-            // 2. Strip out ALL scripts so the downloaded file doesn't self-destruct
-            const scripts = clone.querySelectorAll('script');
-            scripts.forEach(s => s.remove());
-            
-            // 3. Remove the blue download button from the clone so it looks like a clean paper
-            const btn = clone.querySelector('.dl-btn');
-            if(btn) btn.remove();
+    <button class="dl-btn" id="dl-btn" onclick="downloadPureHTML()" style="display:none;">🔵 Download HTML File</button>
 
-            // 4. Package the clean, static HTML into a file
-            const pageContent = "<!DOCTYPE html>\n" + clone.outerHTML;
-            const blob = new Blob([pageContent], { type: 'text/html;charset=utf-8' });
-            
+    <script>
+        // --- 1. THE RECEIVER ENGINE ---
+        window.onload = function() {
+            const payload = localStorage.getItem('print_payload');
+            const title = localStorage.getItem('print_title');
+
+            if (payload) {
+                document.getElementById('print-content').innerHTML = payload;
+                document.getElementById('sig').style.display = 'block';
+                document.getElementById('ftr').style.display = 'block';
+                document.getElementById('dl-btn').style.display = 'block';
+                if (title) document.title = title;
+
+                // Trigger print spooler safely after 1 second
+                setTimeout(function() {
+                    window.print();
+                }, 1000);
+            } else {
+                document.getElementById('print-content').innerHTML = "<h2 style='text-align:center; margin-top:50px; font-family:sans-serif;'>No data found. Please export from the main Assess Offline app.</h2>";
+            }
+        };
+
+        // --- 2. THE BULLETPROOF DOWNLOADER ---
+        function downloadPureHTML() {
+            const title = document.title || 'Mark_Register';
+            const payload = localStorage.getItem('print_payload') || document.getElementById('print-content').innerHTML;
+            const pageStyles = document.getElementById('core-styles').innerHTML;
+
+            // Using pure string concatenation to guarantee it never breaks in your editor or browser
+            const pureHTML = '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n' +
+                '<title>' + title + '</title>\n<style>\n' + pageStyles + '\n</style>\n</head>\n<body>\n' +
+                payload + '\n<div class="sig-block">Signature of Headmaster</div>\n' +
+                '<div class="pdf-footer">Generated via Assess Offline (Digital CCE Register) | Developed by Sahil Kumar Rout</div>\n' +
+                '</body>\n</html>';
+
+            const blob = new Blob([pureHTML], { type: 'text/html;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -111,43 +148,6 @@
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
-
-        // --- THE RECEIVER ENGINE (Runs only on the live site) ---
-        window.onload = function() {
-            const payload = localStorage.getItem('print_payload');
-            const title = localStorage.getItem('print_title');
-
-            if (payload) {
-                document.getElementById('print-content').innerHTML = payload;
-                if (title) document.title = title;
-
-                setTimeout(function() {
-                    window.print();
-                }, 1500);
-            } else {
-                document.getElementById('print-content').innerHTML = "<h2 style='text-align:center; margin-top:50px;'>No data found. Please export from the main Assess Offline app.</h2>";
-            }
-        };
-        
-        // --- THE RECEIVER ENGINE (Runs only on the live site) ---
-        window.onload = function() {
-            const payload = localStorage.getItem('print_payload');
-            const title = localStorage.getItem('print_title');
-
-            if (payload) {
-                document.getElementById('print-content').innerHTML = payload;
-                if (title) document.title = title;
-
-                setTimeout(function() {
-                    window.print();
-                }, 2500);
-            } else {
-                // ELITE FIX: Hide signature and footer if there is no data
-                document.querySelector('.sig-block').style.display = 'none';
-                document.querySelector('.pdf-footer').style.display = 'none';
-                document.getElementById('print-content').innerHTML = "<h2 style='text-align:center; margin-top:50px; font-family:sans-serif;'>No data found. Please export from the main Assess Offline app.</h2>";
-            }
-        };
     </script>
 </body>
 </html>
