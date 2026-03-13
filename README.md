@@ -113,6 +113,29 @@ For developers and auditors reviewing the source:
 ---
 
 # 📜 Changelog
+## [v5.0] - 2026-03-13
+### 🚀 Major Architectural Upgrades
+* **Decoupled Print Engine:** Transitioned from a single-file system to a high-performance **Two-File Architecture** (`index.html` + `print.html`) to bypass mobile browser security restrictions.
+* **Pure-Payload Delivery:** Developed a "Bridge" system that transfers raw data from the main app to a dedicated print tab via `localStorage`, ensuring 100% data integrity without server dependencies.
+* **Static Snapshot Downloader:** The "Download HTML" feature now generates a pure, script-free HTML file, preventing "No Data Found" errors when opened from local device storage.
+* **Named-Tab Navigation:** Implemented a synchronous tab-reusage strategy to prevent local server freezes and bypass aggressive mobile pop-up blockers.
+
+### 💎 User Interface & Experience (UX)
+* **Glassmorphic Info System:** 
+* **Scroll-Lock Synchronization:** 
+* **Safety Exit (X-Close):**
+
+### 🖨️ Printing & Export Optimizations
+* **Rigid Table Architecture:** Implemented `table-layout: fixed` and explicit mathematical column widths to solve the "Chopped Column" bug on Android print spoolers.
+* **Repeated Header Logic:** Engineered CSS `table-header-group` rules to ensure school headings and subject labels repeat automatically on every page of a multi-page printed report.
+* **1-Second Rapid Spooling:** Optimized the font-loading delay from 3 seconds to 1 second for a faster, more responsive export workflow.
+* **PC-Optimized Excel:** Refined the `.xlsx` engine to include hardcoded landscape formatting and signature blocks for perfect "One-Click" printing on computers.
+
+### 🛠️ Bug Fixes
+* **Resolved:** Fixed the "Loading..." hang on mobile browsers by switching to a synchronous named-tab navigation strategy.
+* **Corrected:** Fixed a critical string concatenation error (`${payload}`) that caused the HTML downloader to fail in certain mobile environments.
+* **Cleaned:** Removed duplicate script execution in the print engine that caused potential browser crashes on low-RAM devices.
+* **Optimized:** Fixed viewport scaling issues that caused headers and signatures to misalign on mobile screens.
 
 
 
