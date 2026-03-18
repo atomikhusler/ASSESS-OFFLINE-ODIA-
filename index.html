@@ -298,7 +298,7 @@ SOFTWARE.-->
     <div class="drawer-head">
         <div>
             <div style="font-weight:700; font-size:24px; color:var(--primary); display:flex; align-items:center; gap:8px;">ASSESS OFFLINE <button class="guide-btn-sq" onclick="openGuide()">📖</button></div>
-            <div style="font-size:12px; opacity:0.7; font-family:'Premium Mono', monospace; font-weight:700;">Digital CCE Register(v 5.0)</div>
+            <div style="font-size:12px; opacity:0.7; font-family:'Premium Mono', monospace; font-weight:700;">Digital CCE Register(v6.0)</div>
         </div>
     </div>
     <div class="drawer-body">
@@ -516,7 +516,7 @@ SOFTWARE.-->
     <div class="modal-body">
         <div style="text-align:center; margin-bottom:24px;">
             <h2 style="color:var(--primary); margin:10px 0; font-size:28px;">ASSESS OFFLINE</h2>
-            <p style="color:var(--text-sec); font-family:'Premium Mono', monospace; font-size:13px; font-weight:700;">Digital CCE Register(v5.0)</p>
+            <p style="color:var(--text-sec); font-family:'Premium Mono', monospace; font-size:13px; font-weight:700;">Digital CCE Register(v6.0)</p>
             <p style="font-weight:700; margin-top:8px; font-size:15px;">Developed by Sahil Kumar Rout</p>
         </div>
         <div style="background:var(--warn-bg); color:var(--warn); border:1px solid rgba(217,119,6,0.4); padding:16px; border-radius:12px; margin-bottom:20px; font-size:14px; line-height:1.5;"><strong>⚠️ DISCLAIMER</strong><br>This is an independent open-source project. It is <strong>NOT</strong> a Government app and is <strong>NOT</strong> developed, funded, or endorsed by any Government entity.</div>
@@ -559,14 +559,19 @@ SOFTWARE.-->
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js">
+  
+</script>
 <script>
+// ============================================================================
+// THE ASSESS OFFLINE DATA ENGINE (ELITE UPGRADE v6.0)
+// Architecture: 3-Tier Headers, Subject-Specific Pass/Fail, Dynamic Excel Styling
+// ============================================================================
 
 // --- BLACK BOX LOGGER SYSTEM ---
-let appLogs = [`[${new Date().toLocaleTimeString()}] [SYS] Digital CCE Register v5.0 Boot Sequence Initialized`];
+let appLogs = [`[${new Date().toLocaleTimeString()}] [SYS] Digital CCE Register v6.0 Boot Sequence Initialized`];
 function logEvent(type, msg) {
-    let ts = new Date().toLocaleTimeString();
-    appLogs.push(`[${ts}] [${type}] ${msg}`);
+    let ts = new Date().toLocaleTimeString(); appLogs.push(`[${ts}] [${type}] ${msg}`);
     if(appLogs.length > 300) appLogs.shift();
 }
 window.onerror = function(msg, url, line) { logEvent("CRITICAL", `${msg} at L:${line}`); };
@@ -574,20 +579,17 @@ window.onunhandledrejection = function(e) { logEvent("PROMISE_FAIL", e.reason); 
 
 let devTaps = 0; let devTimer;
 function devClick() {
-    devTaps++; clearTimeout(devTimer);
-    devTimer = setTimeout(() => devTaps = 0, 2000);
+    devTaps++; clearTimeout(devTimer); devTimer = setTimeout(() => devTaps = 0, 2000);
     if(devTaps === 4) toast(`🛠️ ${7 - devTaps} more taps for logs`);
     if(devTaps >= 7) {
         devTaps = 0; logEvent("SYS", "User triggered Crash Log Dump.");
         let blob = new Blob([appLogs.join('\n')], { type: 'text/plain' });
         let a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-        a.download = `Assess_v5.0_Logs_${new Date().getTime()}.txt`;
-        document.body.appendChild(a); a.click(); document.body.removeChild(a);
-        toast("🛠️ Crash Logs Downloaded!");
+        a.download = `Assess_v6.0_Logs_${new Date().getTime()}.txt`;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a); toast("🛠️ Crash Logs Downloaded!");
     }
 }
 
-// v.5.0 FIX: Synchronous scroll lock includes the new Info Modal
 function updateScrollLock() {
     let mOpen = Array.from(document.querySelectorAll('.modal')).some(m => m.style.display === 'block');
     let dOpen = document.getElementById('drawer').classList.contains('open');
@@ -601,9 +603,7 @@ const LS = {
     set(k, v) { 
         try { localStorage.setItem(k,v); return true; } 
         catch(e) { 
-            logEvent("LS_FAIL", e.name);
-            if(e.name === "QuotaExceededError") toast("⚠️ Storage full! Backup now.");
-            else toast("⚠️ Private Mode: Data won't save.");
+            if(e.name === "QuotaExceededError") toast("⚠️ Storage full! Backup now."); else toast("⚠️ Private Mode: Data won't save.");
             return false; 
         } 
     }
@@ -611,242 +611,107 @@ const LS = {
 
 let cfmCallback = null;
 function showConfirm(title, msg, btnText, isDanger, callback) {
-    document.getElementById('cfm-title').innerText = title;
-    document.getElementById('cfm-msg').innerText = msg;
-    let btn = document.getElementById('cfm-btn');
-    btn.innerText = btnText;
+    document.getElementById('cfm-title').innerText = title; document.getElementById('cfm-msg').innerText = msg;
+    let btn = document.getElementById('cfm-btn'); btn.innerText = btnText;
     btn.style.background = isDanger ? "var(--error)" : "var(--primary)";
     btn.style.boxShadow = isDanger ? "0 4px 15px rgba(220,38,38,0.4)" : "0 4px 15px var(--primary-glow)";
-    cfmCallback = callback;
-    let ov = document.getElementById('cfm-dialog');
-    ov.style.display = 'flex'; 
-    
-    updateScrollLock();
-    requestAnimationFrame(() => { ov.classList.add('show'); });
+    cfmCallback = callback; let ov = document.getElementById('cfm-dialog'); ov.style.display = 'flex'; 
+    updateScrollLock(); requestAnimationFrame(() => { ov.classList.add('show'); });
 }
-function closeConfirm() {
-    let ov = document.getElementById('cfm-dialog');
-    ov.classList.remove('show'); 
-    setTimeout(()=> { 
-        ov.style.display = 'none'; 
-        cfmCallback = null; 
-        updateScrollLock(); 
-    }, 200);
-}
+function closeConfirm() { let ov = document.getElementById('cfm-dialog'); ov.classList.remove('show'); setTimeout(()=> { ov.style.display = 'none'; cfmCallback = null; updateScrollLock(); }, 200); }
 function executeConfirm() { closeConfirm(); if(cfmCallback) cfmCallback(); }
 
 const MAX_CLS = 8;
-//   FIX v5.0: Added Dedicated Upper Primary Limits (lm_up)
 const CFG = { school: "", udise: "", session: "2025-26", lang: "od", lm: { fa:25, sa:50, wr:10, pr:20 }, lm_up: { fa:25, sa:50, wr:5, pr:15 }, pr: { t1:30, wr:10, pr:20, sa:40 }, up: { t1:30, wr:5, pr:15, sa:50 } };
 const DEF_EN = { 1: "Language (Odia), Mathematics, EVS, Drawing", 3: "Language (Odia), Mathematics, English, EVS, Drawing", 6: "Language (Odia), Mathematics, English, Science, History & Civics, Geography, Hindi, Sanskrit, Drawing", 8: "Language (Odia), Mathematics, English, Science, History & Civics, Geography, Hindi / Sanskrit, Drawing" };
 const DEF_OD = { 1: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ପରିବେଶ ବିଜ୍ଞାନ, ଚିତ୍ରାଙ୍କନ", 3: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ଇଂରାଜୀ, ପରିବେଶ ବିଜ୍ଞାନ, ଚିତ୍ରାଙ୍କନ", 6: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ଇଂରାଜୀ, ବିଜ୍ଞାନ, ଇତିହାସ ଓ ରାଜନୀତି ବିଜ୍ଞାନ, ଭୂଗୋଳ, ହିନ୍ଦୀ, ସଂସ୍କୃତ, ଚିତ୍ରାଙ୍କନ", 8: "ଭାଷା (ଓଡ଼ିଆ), ଗଣିତ, ଇଂରାଜୀ, ବିଜ୍ଞାନ, ଇତିହାସ ଓ ରାଜନୀତି ବିଜ୍ଞାନ, ଭୂଗୋଳ, ହିନ୍ଦୀ / ସଂସ୍କୃତ, ଚିତ୍ରାଙ୍କନ" };
+
 const TR = { 
-    en: { title:"Annual CCE Register", n:"Name Of The Student", s:"Subject", t1:"(FA-1 + FA-2 + SA-1)", wgt:"SCORE @ [x]% weightage", asn:"Assignment", prj:"Project", sa2:"SA-2 / Annual Exam", tot:"TOTAL SCORE (SUBJECT)", gt:"GRAND TOTAL SCORE", pct:"GT SCORE %", best:"Best" }, 
-    od: { title:"ନିରନ୍ତର ଓ ବ୍ୟାପକ ଆକଳନ ଫର୍ଦ୍ଦ", n:"ଶିକ୍ଷାର୍ଥୀର ନାମ", s:"ବିଷୟ", t1:"(FA-1 + FA-2 + SA-1)", wgt:"ପ୍ରାପ୍ତାଙ୍କ @ [x]% ଗୁରୁତ୍ଵ", asn:"ଲିଖିତ କାର୍ଯ୍ୟ", prj:"ପ୍ରକଳ୍ପ କାର୍ଯ୍ୟ", sa2:"SA-2 / ବାର୍ଷିକ ପରୀକ୍ଷା", tot:"ମୋଟ ପ୍ରାପ୍ରାଙ୍କ (ବିଷୟ)", gt:"ସର୍ବମୋଟ ପ୍ରାପ୍ତାଙ୍କ", pct:"% ସର୍ବମୋଟ ପ୍ରାପ୍ତାଙ୍କ", best:"ଶ୍ରେଷ୍ଠ"} };
+    en: { title:"Annual CCE Register", n:"Name Of The Student", s:"Subject", t1:"(FA-1 + FA-2 + SA-1)", wgt:"SCORE @ [x]% weightage", asn:"Assignment", prj:"Project", sa2:"SA-2 / Annual Exam", tot:"TOTAL SCORE", best:"Best", res:"Result (Pass/ Fail)", pass:"Pass", fail:"Fail", intWgt:"Internal Assessment ([x]% weightage)", wrWgt:"Written work ([x]% weightage)", prjWgt:"Project work ([x]% weightage)" }, 
+    od: { title:"ନିରନ୍ତର ଓ ବ୍ୟାପକ ଆକଳନ ଫର୍ଦ୍ଦ", n:"ଶିକ୍ଷାର୍ଥୀର ନାମ", s:"ବିଷୟ", t1:"(FA-1 + FA-2 + SA-1)", wgt:"ପ୍ରାପ୍ତାଙ୍କ @ [x]% ଗୁରୁତ୍ଵ", asn:"ଲିଖିତ କାର୍ଯ୍ୟ", prj:"ପ୍ରକଳ୍ପ କାର୍ଯ୍ୟ", sa2:"SA-2 / ବାର୍ଷିକ ପରୀକ୍ଷା", tot:"ମୋଟ ପ୍ରାପ୍ତାଙ୍କ", best:"ଶ୍ରେଷ୍ଠ", res:"ଫଳାଫଳ ( ପାସ୍ / ଫେଲ )", pass:"ପାସ୍", fail:"ଫେଲ", intWgt:"ଆଭ୍ୟନ୍ତରୀଣ ଆକଳନ ( [x]% ଗୁରୁତ୍ଵ)", wrWgt:"ଲିଖିତ କାର୍ଯ୍ୟ ([x]% ଗୁରୁତ୍ଵ)", prjWgt:"ପ୍ରକଳ୍ପ କାର୍ଯ୍ୟ ([x]% ଗୁରୁତ୍ଵ)" } 
+};
 
-let db = { cf: JSON.parse(JSON.stringify(CFG)), st: {} };
-let cls = "1"; let eIdx = null; let isSelMode = false; let selIds = new Set(); let pendingNext = false; 
-let isDirty = false; 
+let db = { cf: JSON.parse(JSON.stringify(CFG)), st: {} }; let cls = "1"; let eIdx = null; let isSelMode = false; let selIds = new Set(); let pendingNext = false; let isDirty = false; 
 
-//   FIX: Render-only Sanitization (No DB corruption)
 function sanitize(str) { if(!str) return ""; return str.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 function decodeHtml(html) { if(!html) return ""; let txt = document.createElement("textarea"); txt.innerHTML = html; return txt.value; }
 
 function init() {
-    let th = localStorage.getItem("theme"); 
-    if (th === "dark" || (!th && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) { document.body.classList.add("dark"); }
-    updThemeBtn();
-    
-    cls = localStorage.getItem('assess_cls_mem') || "1";
-    
+    let th = localStorage.getItem("theme"); if (th === "dark" || (!th && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) { document.body.classList.add("dark"); }
+    updThemeBtn(); cls = localStorage.getItem('assess_cls_mem') || "1";
     let s = LS.get("assess_v2_gold"); 
     if(s) {
         try {
-            let ld = JSON.parse(s); 
-            db.cf = { ...CFG, ...(ld.cf || {}) };
-            db.cf.lm = { ...CFG.lm, ...(ld.cf?.lm || {}) };
-            //   FIX v4.6: Safely hydrate Upper Primary Limits without data loss
-            db.cf.lm_up = { ...CFG.lm_up, ...(ld.cf?.lm_up || {}) };
-            db.cf.pr = { ...CFG.pr, ...(ld.cf?.pr || {}) };
-            db.cf.up = { ...CFG.up, ...(ld.cf?.up || {}) };
-            if(!db.cf.subEn) db.cf.subEn = ld.cf?.subs ? ld.cf.subs : {...DEF_EN};
-            if(!db.cf.subOd) db.cf.subOd = {...DEF_OD};
-            delete db.cf.subs; // Clean up old legacy keys
-
-            if(!db.cf.subEn[8]) db.cf.subEn[8] = db.cf.subEn[6] || DEF_EN[8]; 
-            if(!db.cf.subOd[8]) db.cf.subOd[8] = db.cf.subOd[6] || DEF_OD[8]; 
-
-            db.st = ld.st || {};
-            for(let i=1; i<=MAX_CLS; i++) if(!Array.isArray(db.st[i])) db.st[i] = [];
-            logEvent("SYS", "DB Hydration Successful");
+            let ld = JSON.parse(s); db.cf = { ...CFG, ...(ld.cf || {}) }; db.cf.lm = { ...CFG.lm, ...(ld.cf?.lm || {}) }; db.cf.lm_up = { ...CFG.lm_up, ...(ld.cf?.lm_up || {}) };
+            db.cf.pr = { ...CFG.pr, ...(ld.cf?.pr || {}) }; db.cf.up = { ...CFG.up, ...(ld.cf?.up || {}) };
+            if(!db.cf.subEn) db.cf.subEn = ld.cf?.subs ? ld.cf.subs : {...DEF_EN}; if(!db.cf.subOd) db.cf.subOd = {...DEF_OD}; delete db.cf.subs; 
+            if(!db.cf.subEn[8]) db.cf.subEn[8] = db.cf.subEn[6] || DEF_EN[8]; if(!db.cf.subOd[8]) db.cf.subOd[8] = db.cf.subOd[6] || DEF_OD[8]; 
+            db.st = ld.st || {}; for(let i=1; i<=MAX_CLS; i++) if(!Array.isArray(db.st[i])) db.st[i] = [];
         } catch(e) { 
-            logEvent("CRITICAL", "DB Hydration Corrupted");
-            showConfirm("Data Corrupted", "App will reset safely.", "Reset", true, () => { 
-                for(let i=1; i<=MAX_CLS; i++) db.st[i] = []; 
-                db.cf.subEn={...DEF_EN}; db.cf.subOd={...DEF_OD}; 
-                save(); //   FIX: Actually overwrite the corrupted storage
-                setTimeout(()=>location.reload(), 500);
-            }); 
+            showConfirm("Data Corrupted", "App will reset safely.", "Reset", true, () => { for(let i=1; i<=MAX_CLS; i++) db.st[i] = []; db.cf.subEn={...DEF_EN}; db.cf.subOd={...DEF_OD}; save(); setTimeout(()=>location.reload(), 500); }); 
         }
-
-    } else { for(let i=1; i<=MAX_CLS; i++) db.st[i] = []; db.cf.subEn={...DEF_EN}; db.cf.subOd={...DEF_OD}; logEvent("SYS", "New DB Created");}
+    } else { for(let i=1; i<=MAX_CLS; i++) db.st[i] = []; db.cf.subEn={...DEF_EN}; db.cf.subOd={...DEF_OD}; }
     try { if(document.getElementById('menu-school')) document.getElementById('menu-school').value = db.cf.school || ""; if(document.getElementById('menu-udise')) document.getElementById('menu-udise').value = db.cf.udise || ""; if(document.getElementById('menu-ses')) document.getElementById('menu-ses').value = db.cf.session || ""; } catch(e) {}
     renderMenu(); renderList(); updUI();
 }
 
-function toggleDark() { 
-    document.body.classList.toggle('dark'); 
-    try { localStorage.setItem("theme", document.body.classList.contains('dark') ? "dark" : "light"); } catch(e){} 
-    updThemeBtn(); 
-}
-function updThemeBtn() { 
-    let isDark = document.body.classList.contains('dark'); 
-    let btn = document.getElementById('theme-btn');
-    if(btn) btn.innerHTML = `<span>${isDark ? '☀️ Light Mode' : '🌙 Dark Mode'}</span>`; 
-}
+function toggleDark() { document.body.classList.toggle('dark'); try { localStorage.setItem("theme", document.body.classList.contains('dark') ? "dark" : "light"); } catch(e){} updThemeBtn(); }
+function updThemeBtn() { let isDark = document.body.classList.contains('dark'); let btn = document.getElementById('theme-btn'); if(btn) btn.innerHTML = `<span>${isDark ? '☀️ Light Mode' : '🌙 Dark Mode'}</span>`; }
 
-function save() { 
-    let success = LS.set("assess_v2_gold", JSON.stringify(db));
-    if(success) { renderMenu(); renderList(); }
-    return success;
-} 
+function save() { let success = LS.set("assess_v2_gold", JSON.stringify(db)); if(success) { renderMenu(); renderList(); } return success; } 
 
 let toastTimer;
-function toast(m) { 
-    let b = document.getElementById('toast-box');
-    b.innerHTML = `<span style="font-size:16px;">ℹ️</span> ${m}`; 
-    b.classList.add('show'); 
-    clearTimeout(toastTimer); 
-    toastTimer = setTimeout(() => { b.classList.remove('show'); }, 2500); 
-}
+function toast(m) { let b = document.getElementById('toast-box'); b.innerHTML = `<span style="font-size:16px;">ℹ️</span> ${m}`; b.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => { b.classList.remove('show'); }, 2500); }
 
-let drawTmr; //   FIX: State lock for the animation race condition
+let drawTmr; 
 function showInfo(type, action) {
-    const title = document.getElementById('info-title');
-    const msg = document.getElementById('info-msg');
-    const btn = document.getElementById('info-proceed-btn');
-    const icon = document.getElementById('info-icon');
-    const overlay = document.getElementById('info-overlay');
-
+    const title = document.getElementById('info-title'); const msg = document.getElementById('info-msg'); const btn = document.getElementById('info-proceed-btn'); const icon = document.getElementById('info-icon'); const overlay = document.getElementById('info-overlay');
     const config = {
-        'pdf-single': {
-            icon: '📄', title: 'Print Register',
-            msg: 'Mobile printers can be unpredictable. <br><br>Wait <b>2 seconds</b> for the layout to load. If it fails, use the <b>🔵 Download HTML</b> button on the next screen or <b>📊 Excel Export</b> from the App menu and print via PC.',
-            run: () => prepExport('single')
-        },
-        'pdf-all': {
-            icon: '🖨️', title: 'Print All Classes',
-            msg: 'This generates a massive report.<br><br>For the best A4 formatting, we highly recommend downloading the file and printing it from a <b>Computer</b>.',
-            run: () => prepExport('all')
-        },
-        'excel-single': {
-            icon: '📊', title: 'Export Excel',
-            msg: 'This file is strictly optimized for PCs.<br><br>Open it on a computer using <b>MS Office</b> or <b>WPS</b> for perfect A4 Landscape formatting.',
-            run: () => exportExcel('single')
-        },
-        'excel-all': {
-            icon: '📂', title: 'Export Full Excel',
-            msg: 'This will compile all class data into a multi-sheet file. Open on a PC for best results.',
-            run: () => exportExcel('all')
-        },
-        'backup': {
-            icon: '💾', title: 'Secure Backup',
-            msg: 'This will save your entire database to a file on your phone. Please do this regularly to prevent data loss.',
-            run: () => backupData()
-        },
-        'restore': {
-            icon: '🔄', title: 'Restore Data',
-            msg: '<b>⚠️ Warning:</b> This will overwrite all your current marks with the data from your backup file.',
-            run: () => document.getElementById('file-res').click()
-        }
+        'pdf-single': { icon: '📄', title: 'Print Register', msg: 'Wait <b>2 seconds</b> for the layout to load. If it fails, use the <b>🔵 Download HTML</b> button on the next screen.', run: () => prepExport('single') },
+        'pdf-all': { icon: '🖨️', title: 'Print All Classes', msg: 'For the best A4 formatting, we highly recommend downloading the file and printing it from a <b>Computer</b>.', run: () => prepExport('all') },
+        'excel-single': { icon: '📊', title: 'Export Excel', msg: 'This file is strictly optimized for PCs. Open it on a computer using <b>MS Office</b> or <b>WPS</b>.', run: () => exportExcel('single') },
+        'excel-all': { icon: '📂', title: 'Export Full Excel', msg: 'This will compile all class data into a multi-sheet file. Open on a PC for best results.', run: () => exportExcel('all') },
+        'backup': { icon: '💾', title: 'Secure Backup', msg: 'This will save your database to a file on your phone.', run: () => backupData() },
+        'restore': { icon: '🔄', title: 'Restore Data', msg: '<b>⚠️ Warning:</b> This will overwrite all your current marks with the backup file.', run: () => document.getElementById('file-res').click() }
     };
-
-    // ELITE FIX: Clean target keys
-    const targetKey = action ? `${type}-${action}` : type;
-    const target = config[targetKey];
-    if(!target) return;
-
+    const targetKey = action ? `${type}-${action}` : type; const target = config[targetKey]; if(!target) return;
     if (document.getElementById('drawer').classList.contains('open')) toggleDrawer();
-
-    icon.innerText = target.icon;
-    title.innerText = target.title;
-    msg.innerHTML = target.msg;
-    
-    // ELITE FIX: Synchronous execution prevents browser pop-up blocking
-    btn.onclick = () => { target.run(); closeInfo(); };
-    
-    overlay.style.display = 'flex';
-    requestAnimationFrame(() => overlay.classList.add('show'));
-    updateScrollLock();
+    icon.innerText = target.icon; title.innerText = target.title; msg.innerHTML = target.msg; btn.onclick = () => { target.run(); closeInfo(); };
+    overlay.style.display = 'flex'; requestAnimationFrame(() => overlay.classList.add('show')); updateScrollLock();
 }
 
-function closeInfo() { 
-    const overlay = document.getElementById('info-overlay');
-    overlay.classList.remove('show');
-    setTimeout(() => { overlay.style.display = 'none'; updateScrollLock(); }, 300);
-}
+function closeInfo() { const overlay = document.getElementById('info-overlay'); overlay.classList.remove('show'); setTimeout(() => { overlay.style.display = 'none'; updateScrollLock(); }, 300); }
 function toggleDrawer() { 
-    let d=document.getElementById('drawer'), o=document.getElementById('overlay'); 
-    clearTimeout(drawTmr); // Cancels any rogue background timers
-    if(d.classList.contains('open')){
-        d.classList.remove('open'); 
-        o.style.opacity='0'; 
-        drawTmr = setTimeout(()=>{ o.style.display='none'; updateScrollLock(); }, 300);
-    } else {
-        o.style.display='block'; 
-        drawTmr = setTimeout(()=>{ o.style.opacity='1'; d.classList.add('open'); updateScrollLock(); }, 10);
-    } 
+    let d=document.getElementById('drawer'), o=document.getElementById('overlay'); clearTimeout(drawTmr); 
+    if(d.classList.contains('open')){ d.classList.remove('open'); o.style.opacity='0'; drawTmr = setTimeout(()=>{ o.style.display='none'; updateScrollLock(); }, 300);
+    } else { o.style.display='block'; drawTmr = setTimeout(()=>{ o.style.opacity='1'; d.classList.add('open'); updateScrollLock(); }, 10); } 
 }
-function updCF(k,v) { db.cf[k]=v; save(); updUI(); logEvent("CFG", `Updated ${k}`);}
-function updUI() { 
-    document.getElementById('ui-school').innerText=sanitize(db.cf.school)||"My Govt School"; 
-    document.getElementById('ui-udise-strip').innerText = "UDISE: " + (sanitize(db.cf.udise) || "Not Set");
-    document.getElementById('ui-class-strip').innerText=`CLASS ${cls} REGISTER`; 
-}
+function updCF(k,v) { db.cf[k]=v; save(); updUI(); }
+function updUI() { document.getElementById('ui-school').innerText=sanitize(db.cf.school)||"My Govt School"; document.getElementById('ui-udise-strip').innerText = "UDISE: " + (sanitize(db.cf.udise) || "Not Set"); document.getElementById('ui-class-strip').innerText=`CLASS ${cls} REGISTER`; }
 
 function toggleSelMode() { isSelMode = !isSelMode; selIds.clear(); document.getElementById('sel-toggle').style.color = isSelMode ? 'var(--primary)' : 'var(--text-sec)'; document.body.classList.toggle('sel-mode'); renderList(); updSelUI(); }
 function toggleSel(idx) { if(selIds.has(idx)) selIds.delete(idx); else selIds.add(idx); renderList(); updSelUI(); }
 function updSelUI() { document.getElementById('sel-count').innerText = `${selIds.size} Selected`; }
-
 function deleteSelected() { 
     if(selIds.size===0) return toast("Select students first."); 
     showConfirm("Delete Selected?", `You are about to delete ${selIds.size} student(s).`, "Delete", true, () => {
-        let sorted = Array.from(selIds).sort((a,b)=>b-a); sorted.forEach(idx => db.st[cls].splice(idx, 1)); toggleSelMode(); save(); toast("✅ Records Deleted"); logEvent("DATA", `Deleted ${selIds.size} from Class ${cls}`);
+        let sorted = Array.from(selIds).sort((a,b)=>b-a); sorted.forEach(idx => db.st[cls].splice(idx, 1)); toggleSelMode(); save(); toast("✅ Records Deleted");
     });
 }
-
-//   FIX: Restored delStudent Missing Logic
 function delStudent() {
     if (eIdx === null) return;
-    showConfirm("Delete Student?", "Are you sure you want to delete this record? This cannot be undone.", "DELETE", true, () => {
+    showConfirm("Delete Student?", "Are you sure you want to delete this record?", "DELETE", true, () => {
         db.st[cls].splice(eIdx, 1);
-        if (save()) {
-            logEvent("DATA", `Deleted student at index ${eIdx} from Class ${cls}`);
-            eIdx = null; 
-            isDirty = false;
-            closeModal('mod-edit');
-            toast("✅ Record Deleted");
-        } else {
-            toast("⚠️ Sync Failure. Reloading..."); setTimeout(()=>location.reload(), 1500);
-        }
+        if (save()) { eIdx = null; isDirty = false; closeModal('mod-edit'); toast("✅ Record Deleted"); } else { toast("⚠️ Sync Failure. Reloading..."); setTimeout(()=>location.reload(), 1500); }
     });
 }
-
 function switchClass(newCls) {
     if (document.getElementById('mod-edit').style.display === 'block' && isDirty) {
         showConfirm("Discard changes?", "Unsaved marks will be lost.", "Discard", true, () => {
-            isDirty = false; cls = newCls.toString(); 
-            localStorage.setItem('assess_cls_mem', cls);
-            closeModal('mod-edit'); toggleDrawer(); renderMenu(); renderList(); updUI(); logEvent("UX", `Class switched to ${cls}`);
+            isDirty = false; cls = newCls.toString(); localStorage.setItem('assess_cls_mem', cls); closeModal('mod-edit'); toggleDrawer(); renderMenu(); renderList(); updUI();
         });
-    } else {
-        cls = newCls.toString(); 
-        localStorage.setItem('assess_cls_mem', cls);
-        if (document.getElementById('mod-edit').style.display === 'block') closeModal('mod-edit');
-        toggleDrawer(); renderMenu(); renderList(); updUI();
-    }
+    } else { cls = newCls.toString(); localStorage.setItem('assess_cls_mem', cls); if (document.getElementById('mod-edit').style.display === 'block') closeModal('mod-edit'); toggleDrawer(); renderMenu(); renderList(); updUI(); }
 }
-
 function renderMenu() {
     selIds.clear(); isSelMode=false; document.body.classList.remove('sel-mode'); document.getElementById('sel-toggle').style.color = 'var(--text-sec)';
     let m = document.getElementById('menu-cls-list'); m.innerHTML = "";
@@ -854,240 +719,133 @@ function renderMenu() {
         let d = db.st[i]||[]; let comp = d.filter(s => checkComp(s, i)).length;
         let div = document.createElement('div'); div.className = "menu-item" + (i.toString()===cls ? " active-cls" : "");
         div.innerHTML = `<span>Class ${i}</span><span class="count-badge ${comp===d.length && d.length>0 ? 'done':''}">${comp}/${d.length}</span>`;
-        div.onclick = () => switchClass(i);
-        m.appendChild(div);
+        div.onclick = () => switchClass(i); m.appendChild(div);
     }
 }
-
 function renderList() {
     let l = document.getElementById('list'); l.innerHTML = ""; let data = db.st[cls]||[];
     if(data.length===0) { l.innerHTML=`<div class="empty-state"><div style="font-size:42px; margin-bottom:12px; opacity:0.8">📂</div><div>No students in Class ${cls}.<br>Tap <b style="color:var(--primary)">+ Add Student</b> to start.</div></div>`; return; }
-    
     data.forEach((s, i) => {
         try {
-            let res = calcStudent(s, cls); 
-            let tag = res.complete ? `<span class="tag com">Completed</span>` : `<span class="tag inc">Incomplete</span>`;
-            let d = document.createElement('div'); d.className = "glass-card" + (res.complete ? " pass" : " fail");
-            d.style.animationDelay = `${i * 0.05}s`;
+            let res = calcStudent(s, cls); let tag = res.complete ? `<span class="tag com">Completed</span>` : `<span class="tag inc">Incomplete</span>`;
+            let isPass = parseFloat(res.pct) >= 30; // Global color reflects 30% limit
+            let d = document.createElement('div'); d.className = "glass-card" + (isPass ? " pass" : " fail"); d.style.animationDelay = `${i * 0.05}s`;
             let chkHTML = `<div class="sel-chk ${selIds.has(i)?'checked':''}">✓</div>`;
             d.innerHTML = `${chkHTML}<div class="card-content"><div class="row-top"><div class="st-name">${i+1}. ${sanitize(s.name)}</div><div class="st-score">${res.gt} <span style="font-size:12px;font-weight:700;color:var(--text-sec);font-family:'Premium Mono', monospace;">(${res.pct}%)</span></div></div><div class="tags">${tag}</div></div>`;
-            d.onclick = () => { if(isSelMode) toggleSel(i); else editStudent(i); };
-            l.appendChild(d);
-        } catch(e) {
-            logEvent("ERROR", `Render failure St_ID ${i}`);
-            l.innerHTML += `<div class="glass-card fail" style="color:var(--error); font-family:'Premium Mono', monospace; font-size:13px;">⚠️ Record ${i+1} (${sanitize(s.name||'?')}) has corrupted data.</div>`;
-        }
+            d.onclick = () => { if(isSelMode) toggleSel(i); else editStudent(i); }; l.appendChild(d);
+        } catch(e) { l.innerHTML += `<div class="glass-card fail" style="color:var(--error); font-family:'Premium Mono', monospace; font-size:13px;">⚠️ Record ${i+1} (${sanitize(s.name||'?')}) has corrupted data.</div>`; }
     });
 }
 
 function getSubs(c, langOverride) { 
-    let n = parseInt(c); 
-    let lang = langOverride || db.cf.lang; 
-    let src = (lang === 'od') ? db.cf.subOd : db.cf.subEn; 
-    let list = ""; 
-    if(n>=8) list = src[8]; 
-    else if(n>=6) list = src[6]; 
-    else if(n>=3) list = src[3]; 
-    else list = src[1]; 
+    let n = parseInt(c); let lang = langOverride || db.cf.lang; let src = (lang === 'od') ? db.cf.subOd : db.cf.subEn; 
+    let list = ""; if(n>=8) list = src[8]; else if(n>=6) list = src[6]; else if(n>=3) list = src[3]; else list = src[1]; 
     return (list || "").split(',').map(x=>x.trim()).filter(x=>x); 
 }
-
-//   FIX v4.6: Dynamic router functions based on class
 function getWeights(c) { return parseInt(c)<=5 ? db.cf.pr : db.cf.up; }
 function getLimits(c) { return parseInt(c)<=5 ? db.cf.lm : db.cf.lm_up; }
-
 function checkComp(s, c) { 
-    if(!s.m) return false; 
-    let subs = getSubs(c, 'en'); let L = getLimits(c); 
+    if(!s.m) return false; let subs = getSubs(c, 'en'); let L = getLimits(c); 
     for(let sb of subs) { 
         let mk = s.m?.[sb] ?? {}; let keys = []; 
-        if(L.fa > 0) keys.push('f1','f2'); 
-        if(L.sa > 0) keys.push('s1','s2'); 
-        if(L.wr > 0) keys.push('a1','a2'); 
-        if(L.pr > 0) keys.push('p1','p2'); 
+        if(L.fa > 0) keys.push('f1','f2'); if(L.sa > 0) keys.push('s1','s2'); 
+        if(L.wr > 0) keys.push('a1','a2'); if(L.pr > 0) keys.push('p1','p2'); 
         if(keys.length === 0) return true;
-        for(let k of keys) {
-            let v = mk[k];
-            if(v === "" || v === undefined || v === null || (v !== '-' && isNaN(parseFloat(v)))) return false;
-        }
-    } 
-    return true; 
+        for(let k of keys) { let v = mk[k]; if(v === "" || v === undefined || v === null || (v !== '-' && isNaN(parseFloat(v)))) return false; }
+    } return true; 
 }
 
-//   FIX v4.6: Math Engine Data Clamping logic (Math.min) to prevent legacy data overflows
+// MATH ENGINE (Ceiling Rounding for Government Formats)
 function calcStudent(s, c) {
     let subs = getSubs(c, 'en'); let W = getWeights(c); let L = getLimits(c); let gt = 0, complete = true;
     subs.forEach(sb => {
         let m = s.m?.[sb] ?? {}; if(!checkComp(s,c)) complete=false; 
-        
-        // Data Clamping Hack: Raw DB values are clamped strictly against active configuration
         let n = (v, max) => Math.min(parseFloat(v)||0, max); 
-        
         let maxT1 = (L.fa*2)+L.sa; 
-        let term1 = maxT1>0 ? ((n(m.f1, L.fa)+n(m.f2, L.fa)+n(m.s1, L.sa)) / maxT1) * W.t1 : 0;
-        let assess = L.wr>0 ? (Math.max(n(m.a1, L.wr), n(m.a2, L.wr)) / L.wr) * W.wr : 0;
-        let project = L.pr>0 ? (Math.max(n(m.p1, L.pr), n(m.p2, L.pr)) / L.pr) * W.pr : 0;
-        let term2 = L.sa>0 ? (n(m.s2, L.sa) / L.sa) * W.sa : 0;
-        
+        let term1 = maxT1>0 ? Math.ceil(((n(m.f1, L.fa)+n(m.f2, L.fa)+n(m.s1, L.sa)) / maxT1) * W.t1) : 0;
+        let assess = L.wr>0 ? Math.ceil((Math.max(n(m.a1, L.wr), n(m.a2, L.wr)) / L.wr) * W.wr) : 0;
+        let project = L.pr>0 ? Math.ceil((Math.max(n(m.p1, L.pr), n(m.p2, L.pr)) / L.pr) * W.pr) : 0;
+        let term2 = L.sa>0 ? Math.ceil((n(m.s2, L.sa) / L.sa) * W.sa) : 0;
         let fin = term1 + assess + project + term2;
         if(!isFinite(fin) || isNaN(fin)) { fin = 0; }
-        fin = Math.round(fin); 
         gt += fin;
     });
     let pct = subs.length ? ((gt / (subs.length*100))*100).toFixed(1) : 0; return { gt, pct, complete };
 }
 
-function fmt(el) { 
-    isDirty = true;
-    if(el.value === '.') el.value = '0'; 
-    if(el.value.endsWith('.') && el.value !== '-') el.value = el.value.slice(0, -1);
+function chk(el) { 
+    isDirty = true; let mx = parseFloat(el.dataset.mx); let raw = el.value.toUpperCase();
+    if (raw.includes('..')) raw = '-'; 
+    if (raw === '-') { el.value = '-'; el.style.borderColor = "var(--panel-border)"; return; }
+    let v = raw.replace(/[^0-9]/g, ''); if (el.value !== v) el.value = v; 
+    let n = parseInt(el.value, 10);
+    if (!isNaN(n) && n > mx) { toast(`⚠️ Max mark is ${mx}`); el.value = ''; el.style.borderColor = "var(--error)"; } else { el.style.borderColor = "var(--panel-border)"; }
 }
+function fmt(el) { isDirty = true; } 
 
 function editStudent(idx) {
-    isDirty = false; 
-    eIdx = idx; let s = (idx===null) ? {name:"", m:{}} : db.st[cls][idx];
+    isDirty = false; eIdx = idx; let s = (idx===null) ? {name:"", m:{}} : db.st[cls][idx];
     document.getElementById('edit-title').innerText = idx===null ? "Add Student" : "Edit Student";
-    //   FIX: Render safety bypass for previously sanitized strings
     document.getElementById('inp-name').value = decodeHtml(s.name);
-    
     document.getElementById('mod-edit').style.display = 'block'; updateScrollLock();
     setTimeout(() => document.getElementById('inp-name').focus(), 100); 
-
     document.getElementById('btn-del').style.display = idx===null ? 'none' : 'block';
     let box = document.getElementById('marks-area'); box.innerHTML = "";
-    
-    // Dynamically routing Limits configuration
     let subs = getSubs(cls, 'en'); let L = getLimits(cls);
     
     subs.forEach(sb => {
-        let m = s.m?.[sb] ?? {};
-        let safeSb = sanitize(sb);
-        let safeAttr = sb.replace(/"/g, '&quot;'); 
-
+        let m = s.m?.[sb] ?? {}; let safeSb = sanitize(sb); let safeAttr = sb.replace(/"/g, '&quot;'); 
         let html = `<div class="sub-card"><div class="sub-head">${safeSb}</div><div class="mark-grid">`;
-        if(L.fa > 0) {
-            html += `<div class="mark-cell"><label>FA1 /${L.fa}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.f1||''}" data-s="${safeAttr}" data-k="f1" data-mx="${L.fa}" oninput="chk(this)" onblur="fmt(this)"></div>
-                     <div class="mark-cell"><label>FA2 /${L.fa}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.f2||''}" data-s="${safeAttr}" data-k="f2" data-mx="${L.fa}" oninput="chk(this)" onblur="fmt(this)"></div>`;
-        }
-        if(L.sa > 0) {
-            html += `<div class="mark-cell"><label>SA1 /${L.sa}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.s1||''}" data-s="${safeAttr}" data-k="s1" data-mx="${L.sa}" oninput="chk(this)" onblur="fmt(this)"></div>`;
-        }
-        if(L.wr > 0) { html += `<div class="mark-cell"><label>Assignment 1 /${L.wr}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.a1||''}" data-s="${safeAttr}" data-k="a1" data-mx="${L.wr}" oninput="chk(this)" onblur="fmt(this)"></div><div class="mark-cell"><label>Assignment 2 /${L.wr}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.a2||''}" data-s="${safeAttr}" data-k="a2" data-mx="${L.wr}" oninput="chk(this)" onblur="fmt(this)"></div>`; }
-        if(L.pr > 0) { html += `<div class="mark-cell"><label>Project 1 /${L.pr}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.p1||''}" data-s="${safeAttr}" data-k="p1" data-mx="${L.pr}" oninput="chk(this)" onblur="fmt(this)"></div><div class="mark-cell"><label>Project 2 /${L.pr}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.p2||''}" data-s="${safeAttr}" data-k="p2" data-mx="${L.pr}" oninput="chk(this)" onblur="fmt(this)"></div>`; }
-        if(L.sa > 0) {
-            html += `<div class="mark-cell" style="grid-column: span 2"><label>SA2 (Annual) /${L.sa}</label><input type="text" inputmode="decimal" autocomplete="off" class="mark-inp" value="${m.s2||''}" data-s="${safeAttr}" data-k="s2" data-mx="${L.sa}" oninput="chk(this)" onblur="fmt(this)"></div>`;
-        }
-        html += `</div></div>`;
-        box.innerHTML += html;
+        if(L.fa > 0) html += `<div class="mark-cell"><label>FA1 /${L.fa}</label><input type="text" inputmode="numeric" autocomplete="off" class="mark-inp" value="${m.f1||''}" data-s="${safeAttr}" data-k="f1" data-mx="${L.fa}" oninput="chk(this)" onblur="fmt(this)"></div><div class="mark-cell"><label>FA2 /${L.fa}</label><input type="text" inputmode="numeric" autocomplete="off" class="mark-inp" value="${m.f2||''}" data-s="${safeAttr}" data-k="f2" data-mx="${L.fa}" oninput="chk(this)" onblur="fmt(this)"></div>`;
+        if(L.sa > 0) html += `<div class="mark-cell"><label>SA1 /${L.sa}</label><input type="text" inputmode="numeric" autocomplete="off" class="mark-inp" value="${m.s1||''}" data-s="${safeAttr}" data-k="s1" data-mx="${L.sa}" oninput="chk(this)" onblur="fmt(this)"></div>`;
+        if(L.wr > 0) html += `<div class="mark-cell"><label>Assignment 1 /${L.wr}</label><input type="text" inputmode="numeric" autocomplete="off" class="mark-inp" value="${m.a1||''}" data-s="${safeAttr}" data-k="a1" data-mx="${L.wr}" oninput="chk(this)" onblur="fmt(this)"></div><div class="mark-cell"><label>Assignment 2 /${L.wr}</label><input type="text" inputmode="numeric" autocomplete="off" class="mark-inp" value="${m.a2||''}" data-s="${safeAttr}" data-k="a2" data-mx="${L.wr}" oninput="chk(this)" onblur="fmt(this)"></div>`;
+        if(L.pr > 0) html += `<div class="mark-cell"><label>Project 1 /${L.pr}</label><input type="text" inputmode="numeric" autocomplete="off" class="mark-inp" value="${m.p1||''}" data-s="${safeAttr}" data-k="p1" data-mx="${L.pr}" oninput="chk(this)" onblur="fmt(this)"></div><div class="mark-cell"><label>Project 2 /${L.pr}</label><input type="text" inputmode="numeric" autocomplete="off" class="mark-inp" value="${m.p2||''}" data-s="${safeAttr}" data-k="p2" data-mx="${L.pr}" oninput="chk(this)" onblur="fmt(this)"></div>`;
+        if(L.sa > 0) html += `<div class="mark-cell" style="grid-column: span 2"><label>SA2 (Annual) /${L.sa}</label><input type="text" inputmode="numeric" autocomplete="off" class="mark-inp" value="${m.s2||''}" data-s="${safeAttr}" data-k="s2" data-mx="${L.sa}" oninput="chk(this)" onblur="fmt(this)"></div>`;
+        html += `</div></div>`; box.innerHTML += html;
     });
-}
-
-function chk(el) { 
-    isDirty = true;
-    let mx = parseFloat(el.dataset.mx); 
-    
-    let raw = el.value.replace(/,/g, '.').toUpperCase();
-    if (raw.includes('..')) { raw = '-'; }
-
-    if (raw === '-') {
-        el.value = '-';
-        el.style.borderColor = "var(--panel-border)"; 
-        return;
-    }
-
-    let v = raw.replace(/[^0-9.]/g, ''); 
-    let parts = v.split('.');
-    if (parts.length > 2) { v = parts[0] + '.' + parts.slice(1).join(''); } 
-    if (el.value !== v) { el.value = v; }
-
-    let n = parseFloat(el.value);
-    if (!isNaN(n) && n > mx) { 
-        toast(`⚠️ Max mark is ${mx}`); 
-        el.value = ''; //   FIX: Clears the box entirely instead of auto-filling
-        el.style.borderColor = "var(--error)"; 
-    } else {
-        el.style.borderColor = "var(--panel-border)"; 
-    }
 }
 
 function preSaveCheck(isNext) { 
     pendingNext = isNext; let empty = false; 
     document.querySelectorAll('.mark-inp').forEach(i => { if(i.value==="") empty=true; }); 
-    if(empty) showConfirm("Incomplete Marks", "Empty boxes will cause 'Incomplete' status.", "Save Anyway", false, confirmSave);
-    else confirmSave(); 
+    if(empty) showConfirm("Incomplete Marks", "Empty boxes will cause 'Incomplete' status.", "Save Anyway", false, confirmSave); else confirmSave(); 
 }
 
-//   FIX: Raw Text Storage, removed pre-DB sanitize()
 function confirmSave() {
     let n = document.getElementById('inp-name').value.toUpperCase().trim(); 
     if(n.length < 2) return toast("⚠️ Name must be ≥ 2 characters");
-    
-    let dup = db.st[cls].some((s, i) => s.name === n && i !== eIdx);
-    let dupMsg = dup ? " (⚠️ Duplicate Name)" : ""; 
-
+    let dup = db.st[cls].some((s, i) => s.name === n && i !== eIdx); let dupMsg = dup ? " (⚠️ Duplicate Name)" : ""; 
     let marks = {}; document.querySelectorAll('.mark-inp').forEach(i => { let s = i.dataset.s, k = i.dataset.k; if(!marks[s]) marks[s] = {}; marks[s][k] = i.value; });
-    
-    let obj = { name:n, m:marks }; 
-    if(eIdx===null) db.st[cls].push(obj); else db.st[cls][eIdx] = obj;
-    
+    let obj = { name:n, m:marks }; if(eIdx===null) db.st[cls].push(obj); else db.st[cls][eIdx] = obj;
     if (save()) {
-        logEvent("DATA", `Saved student ${n}`);
         isDirty = false;
         if(pendingNext) { 
             toast("✅ Saved." + dupMsg + " Next Student."); 
-            if (eIdx !== null && eIdx < db.st[cls].length - 1) {
-                editStudent(eIdx + 1); 
-            } else {
-                eIdx = null; 
-                document.getElementById('edit-title').innerText = "Add Student"; 
-                document.getElementById('inp-name').value = ""; 
-                document.querySelectorAll('.mark-inp').forEach(i => i.value=""); 
-                document.getElementById('inp-name').focus(); 
-                document.getElementById('btn-del').style.display = 'none'; 
-            }
-        } else { 
-            closeModal('mod-edit'); toast("✅ Record Saved" + dupMsg); 
-        }
-    } else {
-        toast("⚠️ Sync Failure. Reloading..."); setTimeout(()=>location.reload(), 1500);
-    }
+            if (eIdx !== null && eIdx < db.st[cls].length - 1) { editStudent(eIdx + 1); } 
+            else { eIdx = null; document.getElementById('edit-title').innerText = "Add Student"; document.getElementById('inp-name').value = ""; document.querySelectorAll('.mark-inp').forEach(i => i.value=""); document.getElementById('inp-name').focus(); document.getElementById('btn-del').style.display = 'none'; }
+        } else { closeModal('mod-edit'); toast("✅ Record Saved" + dupMsg); }
+    } else { toast("⚠️ Sync Failure. Reloading..."); setTimeout(()=>location.reload(), 1500); }
 }
 
-function checkUnsaved() { 
-    if(isDirty) {
-        showConfirm("Discard changes?", "Unsaved marks will be lost.", "Discard", true, () => { isDirty=false; closeModal('mod-edit'); });
-    } else {
-        closeModal('mod-edit');
-    }
-}
-
+function checkUnsaved() { if(isDirty) { showConfirm("Discard changes?", "Unsaved marks will be lost.", "Discard", true, () => { isDirty=false; closeModal('mod-edit'); }); } else { closeModal('mod-edit'); } }
 function openSettings() {
     try {
         if (!db.cf.subEn || !db.cf.subOd) { db.cf.subEn = db.cf.subEn || {...DEF_EN}; db.cf.subOd = db.cf.subOd || {...DEF_OD}; save(); }
-        const sv = (id, v) => { let el = document.getElementById(id); if(el) el.value = v; };
-        sv('cfg-lang', db.cf.lang);
-        
-        let L = db.cf.lm || { fa:25, sa:50, wr:10, pr:20 }; 
-        let L_UP = db.cf.lm_up || { fa:25, sa:50, wr:5, pr:15 };
-        let P = db.cf.pr || { t1:30, wr:10, pr:20, sa:40 }; 
-        let U = db.cf.up || { t1:30, wr:5, pr:15, sa:50 };
-        
+        const sv = (id, v) => { let el = document.getElementById(id); if(el) el.value = v; }; sv('cfg-lang', db.cf.lang);
+        let L = db.cf.lm || { fa:25, sa:50, wr:10, pr:20 }; let L_UP = db.cf.lm_up || { fa:25, sa:50, wr:5, pr:15 };
+        let P = db.cf.pr || { t1:30, wr:10, pr:20, sa:40 }; let U = db.cf.up || { t1:30, wr:5, pr:15, sa:50 };
         if(document.getElementById('lm-fa')) {
             sv('lm-fa', L.fa); sv('lm-sa', L.sa); sv('lm-wr', L.wr); sv('lm-pr', L.pr);
             sv('lm-up-fa', L_UP.fa); sv('lm-up-sa', L_UP.sa); sv('lm-up-wr', L_UP.wr); sv('lm-up-pr', L_UP.pr);
-            
             sv('pr-t1', P.t1); sv('pr-wr', P.wr); sv('pr-pr', P.pr); sv('pr-sa', P.sa);
             sv('up-t1', U.t1); sv('up-wr', U.wr); sv('up-pr', U.pr); sv('up-sa', U.sa);
-            [1,3,6,8].forEach(k => {
-                let enTxt = (db.cf.subEn && db.cf.subEn[k]) ? db.cf.subEn[k] : ""; let odTxt = (db.cf.subOd && db.cf.subOd[k]) ? db.cf.subOd[k] : "";
-                sv('sub-en-'+k, enTxt); sv('sub-od-'+k, odTxt);
-                if(document.getElementById('sub-en-'+k)) chkSubMatch(k); 
-            });
+            [1,3,6,8].forEach(k => { let enTxt = (db.cf.subEn && db.cf.subEn[k]) ? db.cf.subEn[k] : ""; let odTxt = (db.cf.subOd && db.cf.subOd[k]) ? db.cf.subOd[k] : ""; sv('sub-en-'+k, enTxt); sv('sub-od-'+k, odTxt); if(document.getElementById('sub-en-'+k)) chkSubMatch(k); });
         }
         if(document.getElementById('drawer').classList.contains('open')) toggleDrawer();
         document.getElementById('mod-set').style.display='block'; updateScrollLock();
-    } catch(e) { logEvent("ERROR", "Settings Load Fail"); alert("Settings Error: " + e.message); }
+    } catch(e) { alert("Settings Error: " + e.message); }
 }
+
 function chkSubMatch(k) {
     try {
         let elEn = document.getElementById('sub-en-'+k); let elOd = document.getElementById('sub-od-'+k); if(!elEn || !elOd) return;
@@ -1097,15 +855,10 @@ function chkSubMatch(k) {
     } catch(e) {}
 }
 
-//   FIX: Raw Text Storage, removed pre-DB sanitize()
 function saveSettings() {
     let p=(id)=> Math.max(0, parseInt(document.getElementById(id).value)||0); 
-    
-    let Lfa=p('lm-fa'), Lsa=p('lm-sa'), Lwr=p('lm-wr'), Lpr=p('lm-pr');
-    let LUPfa=p('lm-up-fa'), LUPsa=p('lm-up-sa'), LUPwr=p('lm-up-wr'), LUPpr=p('lm-up-pr');
-    
-    let Pt1=p('pr-t1'), Pwr=p('pr-wr'), Ppr=p('pr-pr'), Psa=p('pr-sa');
-    let Ut1=p('up-t1'), Uwr=p('up-wr'), Upr=p('up-pr'), Usa=p('up-sa');
+    let Lfa=p('lm-fa'), Lsa=p('lm-sa'), Lwr=p('lm-wr'), Lpr=p('lm-pr'); let LUPfa=p('lm-up-fa'), LUPsa=p('lm-up-sa'), LUPwr=p('lm-up-wr'), LUPpr=p('lm-up-pr');
+    let Pt1=p('pr-t1'), Pwr=p('pr-wr'), Ppr=p('pr-pr'), Psa=p('pr-sa'); let Ut1=p('up-t1'), Uwr=p('up-wr'), Upr=p('up-pr'), Usa=p('up-sa');
 
     let activePSum = (Lfa>0||Lsa>0 ? Pt1 : 0) + (Lwr>0 ? Pwr : 0) + (Lpr>0 ? Ppr : 0) + (Lsa>0 ? Psa : 0);
     let activeUSum = (LUPfa>0||LUPsa>0 ? Ut1 : 0) + (LUPwr>0 ? Uwr : 0) + (LUPpr>0 ? Upr : 0) + (LUPsa>0 ? Usa : 0);
@@ -1118,56 +871,35 @@ function saveSettings() {
 
     if(!sE1 || !sO1 || !sE3 || !sO3 || !sE6 || !sO6 || !sE8 || !sO8) return toast("⚠️ Subjects cannot be entirely empty!");
     
-    let enArr = [sE1, sE3, sE6, sE8]; let odArr = [sO1, sO3, sO6, sO8];
-    let grpLabels = ['1 & 2', '3 to 5', '6 & 7', '8'];
+    let enArr = [sE1, sE3, sE6, sE8]; let odArr = [sO1, sO3, sO6, sO8]; let grpLabels = ['1 & 2', '3 to 5', '6 & 7', '8'];
     for(let i=0; i<4; i++) {
-        let enList = enArr[i].split(',').map(x=>x.trim()).filter(x=>x);
-        let odList = odArr[i].split(',').map(x=>x.trim()).filter(x=>x);
-        
+        let enList = enArr[i].split(',').map(x=>x.trim()).filter(x=>x); let odList = odArr[i].split(',').map(x=>x.trim()).filter(x=>x);
         if(enList.length !== odList.length) return toast(`⚠️ Mismatch in Class ${grpLabels[i]} subjects.`);
         if(enList.length > 10) return toast(`⚠️ Max 10 subjects allowed (Class ${grpLabels[i]}). Print layout will break.`);
         if(new Set(enList).size !== enList.length) return toast(`⚠️ Duplicate English subject in Class ${grpLabels[i]}.`);
         if(new Set(odList).size !== odList.length) return toast(`⚠️ Duplicate Odia subject in Class ${grpLabels[i]}.`);
     }
 
-    db.cf.lang = document.getElementById('cfg-lang').value;
-    let L=db.cf.lm, P=db.cf.pr, U=db.cf.up;
+    db.cf.lang = document.getElementById('cfg-lang').value; let L=db.cf.lm, P=db.cf.pr, U=db.cf.up;
     if(document.getElementById('lm-fa')) {
         L.fa=Lfa; L.sa=Lsa; L.wr=Lwr; L.pr=Lpr;
-        
-        if(!db.cf.lm_up) db.cf.lm_up = {};
-        db.cf.lm_up.fa=LUPfa; db.cf.lm_up.sa=LUPsa; db.cf.lm_up.wr=LUPwr; db.cf.lm_up.pr=LUPpr;
-
-        P.t1=Pt1; P.wr=Pwr; P.pr=Ppr; P.sa=Psa;
-        U.t1=Ut1; U.wr=Uwr; U.pr=Upr; U.sa=Usa;
-        db.cf.subEn[1] = sE1; db.cf.subOd[1] = sO1;
-        db.cf.subEn[3] = sE3; db.cf.subOd[3] = sO3;
-        db.cf.subEn[6] = sE6; db.cf.subOd[6] = sO6;
-        db.cf.subEn[8] = sE8; db.cf.subOd[8] = sO8;
+        if(!db.cf.lm_up) db.cf.lm_up = {}; db.cf.lm_up.fa=LUPfa; db.cf.lm_up.sa=LUPsa; db.cf.lm_up.wr=LUPwr; db.cf.lm_up.pr=LUPpr;
+        P.t1=Pt1; P.wr=Pwr; P.pr=Ppr; P.sa=Psa; U.t1=Ut1; U.wr=Uwr; U.pr=Upr; U.sa=Usa;
+        db.cf.subEn[1] = sE1; db.cf.subOd[1] = sO1; db.cf.subEn[3] = sE3; db.cf.subOd[3] = sO3; db.cf.subEn[6] = sE6; db.cf.subOd[6] = sO6; db.cf.subEn[8] = sE8; db.cf.subOd[8] = sO8;
     }
-    if (save()) {
-        closeModal('mod-set'); toast("✅ Configuration Updated"); logEvent("SYS", "Settings globally updated");
-    } else {
-        toast("⚠️ Settings Sync Failed");
-    }
+    if (save()) { closeModal('mod-set'); toast("✅ Configuration Updated"); } else { toast("⚠️ Settings Sync Failed"); }
 }
+
 function closeModal(id) { document.getElementById(id).style.display='none'; updateScrollLock(); }
 function openGuide() { if(document.getElementById('drawer').classList.contains('open')) toggleDrawer(); document.getElementById('mod-guide').style.display='block'; updateScrollLock(); }
 function openAbout() { if(document.getElementById('drawer').classList.contains('open')) toggleDrawer(); document.getElementById('mod-abt').style.display='block'; updateScrollLock(); }
 
 function backupData() { 
     try {
-        let str = JSON.stringify(db);
-        const isIOS = /iP(ad|hone|od)/.test(navigator.userAgent);
-        if(isIOS) {
-            navigator.clipboard.writeText(str).then(() => toast("📋 Copied! Paste to Notes (iOS)"));
-        } else {
-            let d = new Date().toISOString().slice(0,10); let fname = `!_Assess_Backup_${d}.json`; 
-            let a=document.createElement('a'); a.href="data:text/json;charset=utf-8,"+encodeURIComponent(str); a.download=fname; a.click();
-            toast("💾 Backup Downloaded");
-        }
-        logEvent("SYS", "Backup Generated");
-    } catch(e) { logEvent("ERROR", "Backup Fail"); toast("⚠️ Backup Failed"); }
+        let str = JSON.stringify(db); const isIOS = /iP(ad|hone|od)/.test(navigator.userAgent);
+        if(isIOS) { navigator.clipboard.writeText(str).then(() => toast("📋 Copied! Paste to Notes (iOS)")); } 
+        else { let d = new Date().toISOString().slice(0,10); let fname = `!_Assess_Backup_${d}.json`; let a=document.createElement('a'); a.href="data:text/json;charset=utf-8,"+encodeURIComponent(str); a.download=fname; a.click(); toast("💾 Backup Downloaded"); }
+    } catch(e) { toast("⚠️ Backup Failed"); }
 }
 
 function restoreData(i) { 
@@ -1175,31 +907,110 @@ function restoreData(i) {
     r.onload=(e)=>{
         i.value = ""; 
         try {
-            let text = e.target.result.replace(/^\uFEFF/, ''); 
-            let obj = JSON.parse(text);
+            let text = e.target.result.replace(/^\uFEFF/, ''); let obj = JSON.parse(text);
             if(!obj.st) throw new Error("Invalid format missing 'st'");
-            
-            db.cf = { ...CFG, ...(obj.cf || {}) };
-            db.cf.lm = { ...CFG.lm, ...(obj.cf?.lm || {}) };
-            db.cf.lm_up = { ...CFG.lm_up, ...(obj.cf?.lm_up || {}) };
-            db.cf.pr = { ...CFG.pr, ...(obj.cf?.pr || {}) };
-            db.cf.up = { ...CFG.up, ...(obj.cf?.up || {}) };
+            db.cf = { ...CFG, ...(obj.cf || {}) }; db.cf.lm = { ...CFG.lm, ...(obj.cf?.lm || {}) }; db.cf.lm_up = { ...CFG.lm_up, ...(obj.cf?.lm_up || {}) };
+            db.cf.pr = { ...CFG.pr, ...(obj.cf?.pr || {}) }; db.cf.up = { ...CFG.up, ...(obj.cf?.up || {}) };
             if(obj.cf?.subEn) db.cf.subEn = obj.cf.subEn; else if(obj.cf?.subs) db.cf.subEn = obj.cf.subs;
             if(obj.cf?.subOd) db.cf.subOd = obj.cf.subOd;
-            
-            for(let k=1; k<=MAX_CLS; k++) if(!Array.isArray(obj.st[k])) obj.st[k] = [];
-            db.st = obj.st;
-            if(save()) {
-                logEvent("SYS", "Restore Successful"); toast("✅ Restored successfully"); setTimeout(()=>location.reload(), 800);
-            } else { throw new Error("Storage full"); }
-        } catch(err) { logEvent("ERROR", `Restore Fail: ${err.message}`); toast("❌ Error: Invalid Backup File"); }
-    }; 
-    r.readAsText(f); 
+            for(let k=1; k<=MAX_CLS; k++) if(!Array.isArray(obj.st[k])) obj.st[k] = []; db.st = obj.st;
+            if(save()) { toast("✅ Restored successfully"); setTimeout(()=>location.reload(), 800); } else { throw new Error("Storage full"); }
+        } catch(err) { toast("❌ Error: Invalid Backup File"); }
+    }; r.readAsText(f); 
 }
 
 function resetAll() { showConfirm("FACTORY RESET", "ALL data will be permanently lost. Type YES to confirm.", "Factory Reset", true, () => { localStorage.removeItem("assess_v2_gold"); localStorage.removeItem("assess_cls_mem"); location.reload(); }); }
+// ============================================================================
+// ELITE PRINT GENERATOR: PER-SUBJECT PASS/FAIL & 3-TIER HEADERS
+// ============================================================================
 
-// --- ELITE PRINT ENGINE (The "Payload" Sender) ---
+function getHTML(c, header, T) {
+    let d = db.st[c]||[]; if(d.length===0) return "";
+    let sbsEn = getSubs(c, 'en'); let sbsOd = getSubs(c, 'od'); 
+    let W = getWeights(c), L = getLimits(c); let sbs = (db.cf.lang==='od') ? sbsOd : sbsEn; 
+    let intPerc = parseInt(c) <= 5 ? 60 : 50; 
+    
+    let h = header ? `<div class="p-head"><div class="p-school">${sanitize(db.cf.school)}</div><div style="font-size:13pt; font-weight:bold">${T.title} ${sanitize(db.cf.session)} | CLASS: ${c} | UDISE: ${sanitize(db.cf.udise)}</div></div>` : "";
+    
+    h += `<table border="1" style="font-size: 10pt; width: 100%; text-align: center; border-collapse: collapse;"><thead>`;
+    
+    let intColspan = 2; // T1 Total + T1 Wgt
+    if(L.fa > 0) intColspan += 2; if(L.sa > 0) intColspan += 1;
+    if(L.wr > 0) intColspan += 3; if(L.pr > 0) intColspan += 3;
+    
+    // TIER 1
+    h += `<tr>
+    <th rowspan="3" style="width:30px">Sl.</th>
+    <th rowspan="3" class="t-left" style="width:130px">${T.n}</th>
+    <th rowspan="3" class="t-left" style="width:85px">${T.s}</th>
+    <th colspan="${intColspan}">${T.intWgt.replace('[x]', intPerc)}</th>
+    <th rowspan="3" class="v-th"><div class="v-txt">${T.sa2}</div></th>`;
+    if(L.sa > 0) h += `<th rowspan="3" class="v-th"><div class="v-txt">${T.wgt.replace('[x]', W.sa)}</div></th>`;
+    h += `<th rowspan="3" class="v-th"><div class="v-txt">${T.tot}</div></th>
+    <th rowspan="3" class="v-th" style="color: black;"><div class="v-txt">${T.res}</div></th>
+    </tr><tr>`;
+
+    // TIER 2
+    if(L.fa > 0) h += `<th rowspan="2" class="v-th"><div class="v-txt">FA-1</div></th><th rowspan="2" class="v-th"><div class="v-txt">FA-2</div></th>`;
+    if(L.sa > 0) h += `<th rowspan="2" class="v-th"><div class="v-txt">SA-1</div></th>`;
+    h += `<th rowspan="2" class="v-th"><div class="v-txt">${T.t1}</div></th>`;
+    h += `<th rowspan="2" class="v-th"><div class="v-txt">${T.wgt.replace('[x]', W.t1)}</div></th>`;
+    if(L.wr > 0) h += `<th colspan="3">${T.wrWgt.replace('[x]', W.wr)}</th>`;
+    if(L.pr > 0) h += `<th colspan="3">${T.prjWgt.replace('[x]', W.pr)}</th>`;
+    h += `</tr><tr>`;
+
+    // TIER 3
+    if(L.wr > 0) h += `<th class="v-th"><div class="v-txt">${T.asn} 1</div></th><th class="v-th"><div class="v-txt">${T.asn} 2</div></th><th class="v-th"><div class="v-txt">${T.best}</div></th>`;
+    if(L.pr > 0) h += `<th class="v-th"><div class="v-txt">${T.prj} 1</div></th><th class="v-th"><div class="v-txt">${T.prj} 2</div></th><th class="v-th"><div class="v-txt">${T.best}</div></th>`;
+    h += `</tr></thead><tbody>`;
+
+    d.forEach((s, idx) => {
+        let subRows = "", n = (v, max) => Math.min(parseFloat(v)||0, max); 
+        
+        sbsEn.forEach((sbKey, sbIdx) => {
+            let m = s.m?.[sbKey] ?? {};
+            let sumT1 = n(m.f1, L.fa)+n(m.f2, L.fa)+n(m.s1, L.sa); let maxT1 = (L.fa*2)+L.sa; 
+            
+            let term1 = maxT1>0 ? Math.ceil((sumT1/maxT1)*W.t1) : 0;
+            let assess = L.wr>0 ? Math.ceil((Math.max(n(m.a1, L.wr), n(m.a2, L.wr))/L.wr)*W.wr) : 0;
+            let project = L.pr>0 ? Math.ceil((Math.max(n(m.p1, L.pr), n(m.p2, L.pr))/L.pr)*W.pr) : 0;
+            let term2 = L.sa>0 ? Math.ceil((n(m.s2, L.sa)/L.sa)*W.sa) : 0;
+            
+            let fin = term1+assess+project+term2; 
+            if(!isFinite(fin) || isNaN(fin)) fin = 0;
+            
+            let pM = (val, max) => val === '-' ? '-' : (val ? Math.min(parseFloat(val)||0, max) : 0);
+            subRows += `<tr><td class="t-left">${sanitize(sbs[sbIdx]||sbKey)}</td>`;
+            if(L.fa > 0) subRows += `<td>${pM(m.f1, L.fa)}</td><td>${pM(m.f2, L.fa)}</td>`;
+            if(L.sa > 0) subRows += `<td>${pM(m.s1, L.sa)}</td>`;
+            
+            subRows += `<td>${sumT1}</td>`;
+            subRows += `<td style="font-weight:bold; font-size: 11pt;">${term1}</td>`;
+            
+            if(L.wr > 0) subRows += `<td>${pM(m.a1, L.wr)}</td><td>${pM(m.a2, L.wr)}</td><td><b>${Math.max(n(m.a1, L.wr),n(m.a2, L.wr))}</b></td>`;
+            if(L.pr > 0) subRows += `<td>${pM(m.p1, L.pr)}</td><td>${pM(m.p2, L.pr)}</td><td><b>${Math.max(n(m.p1, L.pr),n(m.p2, L.pr))}<b></td>`;
+            if(L.sa > 0) subRows += `<td>${pM(m.s2, L.sa)}</td>`;
+            if(L.sa > 0) subRows += `<td style="font-weight:bold; font-size: 11pt;">${term2}</td>`;
+            
+            subRows += `<td style="font-weight:bold; font-size: 11pt;">${fin}</td>`;
+            
+            // ELITE FIX: Per Subject Pass/Fail
+            let isPass = fin >= 30; 
+            let resTxt = isPass ? T.pass : T.fail;
+            let pfColor = isPass ? "#166534" : "#991b1b"; 
+            subRows += `<td style="font-weight:bold; font-size: 11pt; color:${pfColor}">${resTxt}</td></tr>`;
+        });
+        
+        let rows = subRows.split('</tr>'); rows.pop();
+        rows.forEach((r,ri) => {
+            h += `<tr>`;
+            if(ri===0) h += `<td rowspan="${sbs.length}">${idx+1}</td><td rowspan="${sbs.length}" class="t-left"><b>${sanitize(s.name)}</b></td>`;
+            h += r.replace('<tr>',''); h += `</tr>`;
+        });
+    });
+    return h + "</tbody></table>";
+}
+
 function prepExport(mode) {
     try {
         for(let k of [1,3,6,8]) {
@@ -1215,97 +1026,16 @@ function prepExport(mode) {
         
         let h = (mode==='single') ? getHTML(cls, true, T) : "";
         if(mode!=='single') {
-            for(let i=1; i<=MAX_CLS; i++) {
-                let t = getHTML(i.toString(), true, T);
-                if(t) h += (h ? `<div style="page-break-before: always;"></div>` : "") + t;
-            }
+            for(let i=1; i<=MAX_CLS; i++) { let t = getHTML(i.toString(), true, T); if(t) h += (h ? `<div style="page-break-before: always;"></div>` : "") + t; }
         }
         if(!h) return toast("⚠️ No Data Found");
 
         toast("⏳ Opening Print Spooler...");
-
-        // THE BRIDGE: Save the HTML table and the Title to shared memory
-        localStorage.setItem('print_payload', h);
-        localStorage.setItem('print_title', docTitle);
-
-                // THE BRIDGE: Securely open the print file bypassing pop-up blockers
-        const link = document.createElement('a');
-        link.href = 'print.html';
-        link.target = '_blank';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
+        localStorage.setItem('print_payload', h); localStorage.setItem('print_title', docTitle);
+        const link = document.createElement('a'); link.href = 'print.html'; link.target = '_blank'; document.body.appendChild(link); link.click(); document.body.removeChild(link);
     } catch(e) { toast("❌ Error: " + e.message); }
 }
 
-//  FIX v5.0: Data Clamping replicated in the Print Generator safely
-function getHTML(c, header, T) {
-    let d = db.st[c]||[]; if(d.length===0) return "";
-    let sbsEn = getSubs(c, 'en'); let sbsOd = getSubs(c, 'od'); 
-    let W = getWeights(c), L = getLimits(c);
-    let sbs = (db.cf.lang==='od') ? sbsOd : sbsEn; 
-    let hT1=T.wgt.replace('[x]',W.t1), hWr=T.wgt.replace('[x]',W.wr);
-    let hPr=T.wgt.replace('[x]',W.pr), hSa=T.wgt.replace('[x]',W.sa);
-    let h = header ? `<div class="p-head"><div class="p-school">${sanitize(db.cf.school)}</div><div style="font-size:12pt; font-weight:bold">${T.title || 'MARK REGISTER'} ${sanitize(db.cf.session)} | CLASS: ${c} | UDISE: ${sanitize(db.cf.udise)}</div></div>` : "";
-    h += `<table border="1"><thead><tr>
-    <th rowspan="2" style="width:30px">Sl.</th><th rowspan="2" class="t-left" style="width:120px">${T.n}</th><th rowspan="2" class="t-left" style="width:80px">${T.s}</th>`;
-    if(L.fa > 0) h += `<th class="v-th"><div class="v-txt">FA-1</div></th><th class="v-th"><div class="v-txt">FA-2</div></th>`;
-    if(L.sa > 0) h += `<th class="v-th"><div class="v-txt">SA-1</div></th>`;
-    h += `<th class="v-th"><div class="v-txt">${T.t1}</div></th><th class="v-th"><div class="v-txt">${hT1}</div></th>`;
-    if(L.wr > 0) h += `<th class="v-th"><div class="v-txt">${T.asn} 1</div></th><th class="v-th"><div class="v-txt">${T.asn} 2</div></th><th class="v-th"><div class="v-txt">${T.best}</div></th><th class="v-th"><div class="v-txt">${hWr}</div></th>`;
-    if(L.pr > 0) h += `<th class="v-th"><div class="v-txt">${T.prj} 1</div></th><th class="v-th"><div class="v-txt">${T.prj} 2</div></th><th class="v-th"><div class="v-txt">${T.best}</div></th><th class="v-th"><div class="v-txt">${hPr}</div></th>`;
-    if(L.sa > 0) h += `<th class="v-th"><div class="v-txt">${T.sa2}</div></th><th class="v-th"><div class="v-txt">${hSa}</div></th>`;
-    h += `<th class="v-th"><div class="v-txt">${T.tot}</div></th>
-    <th rowspan="2"><div class="v-txt" style="font-size:10pt; font-weight:bold">${T.gt}</div></th><th rowspan="2"><div class="v-txt" style="font-size:10pt; font-weight:bold">${T.pct}</div></th>
-    </tr><tr>`;
-    if(L.fa > 0) h += `<th>${L.fa}</th><th>${L.fa}</th>`;
-    if(L.sa > 0) h += `<th>${L.sa}</th>`;
-    h += `<th>${(L.fa*2)+L.sa}</th><th>${W.t1}%</th>`;
-    if(L.wr > 0) h += `<th>${L.wr}</th><th>${L.wr}</th><th>${L.wr}</th><th>${W.wr}%</th>`;
-    if(L.pr > 0) h += `<th>${L.pr}</th><th>${L.pr}</th><th>${L.pr}</th><th>${W.pr}%</th>`;
-    if(L.sa > 0) h += `<th>${L.sa}</th><th>${W.sa}%</th>`;
-    h += `<th>100</th></tr></thead><tbody>`;
-
-    d.forEach((s, idx) => {
-        let gt = 0, subRows = "", n = (v, max) => Math.min(parseFloat(v)||0, max); 
-        sbsEn.forEach((sbKey, sbIdx) => {
-            let m = s.m?.[sbKey] ?? {};
-            let sumT1 = n(m.f1, L.fa)+n(m.f2, L.fa)+n(m.s1, L.sa); 
-            let maxT1 = (L.fa*2)+L.sa; 
-            let term1 = maxT1>0 ? (sumT1/maxT1)*W.t1 : 0;
-            let assess = L.wr>0 ? (Math.max(n(m.a1, L.wr), n(m.a2, L.wr))/L.wr)*W.wr : 0;
-            let project = L.pr>0 ? (Math.max(n(m.p1, L.pr), n(m.p2, L.pr))/L.pr)*W.pr : 0;
-            let term2 = L.sa>0 ? (n(m.s2, L.sa)/L.sa)*W.sa : 0;
-            
-            let fin = term1+assess+project+term2; 
-            if(!isFinite(fin) || isNaN(fin)) fin = 0;
-            fin = Math.round(fin); 
-            gt += fin;
-            
-            let pM = (val, max) => val === '-' ? '-' : (val ? Math.min(parseFloat(val)||0, max) : 0);
-            subRows += `<tr><td class="t-left">${sanitize(sbs[sbIdx]||sbKey)}</td>`;
-            if(L.fa > 0) subRows += `<td>${pM(m.f1, L.fa)}</td><td>${pM(m.f2, L.fa)}</td>`;
-            if(L.sa > 0) subRows += `<td>${pM(m.s1, L.sa)}</td>`;
-            subRows += `<td><b>${sumT1}</b></td><td>${term1.toFixed(1)}</td>`;
-            if(L.wr > 0) subRows += `<td>${pM(m.a1, L.wr)}</td><td>${pM(m.a2, L.wr)}</td><td>${Math.max(n(m.a1, L.wr),n(m.a2, L.wr))}</td><td>${assess.toFixed(1)}</td>`;
-            if(L.pr > 0) subRows += `<td>${pM(m.p1, L.pr)}</td><td>${pM(m.p2, L.pr)}</td><td>${Math.max(n(m.p1, L.pr),n(m.p2, L.pr))}</td><td>${project.toFixed(1)}</td>`;
-            if(L.sa > 0) subRows += `<td>${pM(m.s2, L.sa)}</td><td>${term2.toFixed(1)}</td>`;
-            subRows += `<td style="font-weight:bold">${fin}</td></tr>`;
-        });
-        let rows = subRows.split('</tr>'); rows.pop();
-        rows.forEach((r,ri) => {
-            h += `<tr>`;
-            if(ri===0) h += `<td rowspan="${sbs.length}">${idx+1}</td><td rowspan="${sbs.length}" class="t-left"><b>${sanitize(s.name)}</b></td>`;
-            h += r.replace('<tr>','');
-            if(ri===0) { let pct = sbs.length ? ((gt/(sbs.length*100))*100).toFixed(1) : 0; h += `<td rowspan="${sbs.length}" class="gt-cell">${gt}</td><td rowspan="${sbs.length}" class="gt-cell">${pct}%</td>`; }
-            h += `</tr>`;
-        });
-    });
-    return h + "</tbody></table>";
-}
-
-// --- ELITE PREMIUM .XLSX ENGINE ---
 function exportExcel(mode) {
     try {
         for(let k of [1,3,6,8]) {
@@ -1320,7 +1050,8 @@ function exportExcel(mode) {
         const schoolName = sanitize(db.cf.school).toUpperCase();
         const udise = sanitize(db.cf.udise) ? `UDISE: ${sanitize(db.cf.udise)}` : "UDISE: N/A";
         
-        let classesToExport = mode === 'all' ? [1, 3, 6, 8].filter(c => db.st[c] && db.st[c].length > 0) : [cls];
+        // ELITE BUG FIX: Array expanded to check ALL classes [1, 2, 3, 4, 5, 6, 7, 8]
+        let classesToExport = mode === 'all' ? [1, 2, 3, 4, 5, 6, 7, 8].filter(c => db.st[c] && db.st[c].length > 0) : [cls];
         let d = db.st[cls]||[];
         
         if(mode === 'single' && d.length === 0) return toast(`⚠️ No students in Class ${cls}`);
@@ -1338,17 +1069,17 @@ function exportExcel(mode) {
             let tempDiv = document.createElement('div');
             tempDiv.innerHTML = tableHtml;
             let tableEl = tempDiv.querySelector('table');
-
-            let tr0 = tableEl.insertRow(0); let td0 = tr0.insertCell(0);
-            td0.colSpan = 30; td0.innerText = schoolName;
-
-            let tr1 = tableEl.insertRow(1); let td1 = tr1.insertCell(0);
-            td1.colSpan = 30; td1.innerText = `CLASS ${c} MARK REGISTER (${session}) | ${udise}`;
+            
+            // INJECTING THE 2 BLANK ROWS
+            let tr0 = tableEl.insertRow(0); let td0 = tr0.insertCell(0); td0.colSpan = 25; td0.innerText = schoolName;
+            let tr1 = tableEl.insertRow(1); let td1 = tr1.insertCell(0); td1.colSpan = 25; td1.innerText = `CLASS ${c} MARK REGISTER (${session}) | ${udise}`;
+            let tr2 = tableEl.insertRow(2); let td2 = tr2.insertCell(0); td2.colSpan = 25; td2.innerText = ""; 
+            let tr3 = tableEl.insertRow(3); let td3 = tr3.insertCell(0); td3.colSpan = 25; td3.innerText = ""; 
 
             let ws = XLSX.utils.table_to_sheet(tableEl, {raw: true});
 
-            ws['!rows'] = [{hpt: 30}, {hpt: 25}, {hpt: 120}, {hpt: 25}]; 
-            ws['!printHeader'] = [0, 3]; 
+            ws['!rows'] = [{hpt: 30}, {hpt: 25}, {hpt: 15}, {hpt: 15}, {hpt: 60}, {hpt: 60}, {hpt: 60}]; 
+            ws['!printHeader'] = [0, 6]; 
             ws['!pageSetup'] = { orientation: 'landscape', paperSize: 9, fitToWidth: 1, fitToHeight: 999, margins: { left: 0.2, right: 0.2, top: 0.4, bottom: 0.6, header: 0.2, footer: 0.2 } };
             ws['!printOptions'] = { horizontalCentered: true, verticalCentered: false };
             ws['!headerFooter'] = { oddFooter: "&C&8&IGenerated via Assess Offline (Digital CCE Register) | Developed by Sahil Kumar Rout" };
@@ -1361,6 +1092,8 @@ function exportExcel(mode) {
             let subsPerStudent = getSubs(c, 'en').length;
             let totalCols = range.e.c;
 
+            let rot90 = ["FA-1", "FA-2", "SA-1", T.t1, T.wgt.replace('[x]', getWeights(c).t1), T.asn+" 1", T.asn+" 2", T.best, T.prj+" 1", T.prj+" 2", T.sa2, T.wgt.replace('[x]', getWeights(c).sa), T.tot, T.res];
+
             for(let R = range.s.r; R <= range.e.r; R++) {
                 for(let C = range.s.c; C <= range.e.c; C++) {
                     let cellAddress = XLSX.utils.encode_cell({r:R, c:C});
@@ -1371,20 +1104,22 @@ function exportExcel(mode) {
 
                     if(R === 0) { cell.s.font.sz = 16; cell.s.font.bold = true; } 
                     else if(R === 1) { cell.s.font.sz = 11; cell.s.font.bold = true; } 
-                    else if(R === 2 || R === 3) {
+                    else if(R >= 4 && R <= 6) { 
                         cell.s.font.bold = true; cell.s.fill = { fgColor: {rgb: "F8F9FA"} };
                         cell.s.border = { top: {style: "thin", color:{rgb:"000000"}}, bottom: {style: "thin", color:{rgb:"000000"}}, left: {style: "thin", color:{rgb:"000000"}}, right: {style: "thin", color:{rgb:"000000"}} };
-                        if(R === 2 && C > 2) { cell.s.alignment.textRotation = 90; }
-                    } else {
+                        let val = cell.v ? cell.v.toString().trim() : "";
+                        if(C > 2) cell.s.alignment.textRotation = rot90.includes(val) ? 90 : 0;
+                    } 
+                    else if (R > 6) { 
                         cell.s.border = { top: {style: "thin", color:{rgb:"000000"}}, bottom: {style: "thin", color:{rgb:"000000"}}, left: {style: "thin", color:{rgb:"000000"}}, right: {style: "thin", color:{rgb:"000000"}} };
                         if(C === 1 || C === 2) cell.s.alignment.horizontal = "left";
                         if(C >= totalCols - 1) { cell.s.fill = { fgColor: {rgb: "F8F9FA"} }; cell.s.font.bold = true; }
-                        let dataRowIdx = R - 3; 
+                        
+                        let dataRowIdx = R - 6; 
                         if(dataRowIdx > 0 && (dataRowIdx % subsPerStudent === 0)) cell.s.border.bottom = {style: "medium", color:{rgb:"000000"}};
                     }
                 }
             }
-
             let endRow = range.e.r + 3; 
             XLSX.utils.sheet_add_aoa(ws, [["Signature of Class Teacher", "", "", "", "", "", "", "", "", "", "", "Signature of Headmaster"]], {origin: {r: endRow, c: 1}});
             let sigTeacherCell = ws[XLSX.utils.encode_cell({r: endRow, c: 1})];
@@ -1403,7 +1138,6 @@ function exportExcel(mode) {
     } catch(e) { toast("❌ Export Failed: " + e.message); }
 }
 
-// --- FLAW 4 FIX: ANDROID HARDWARE BACK-BUTTON TRAP ---
 history.pushState({page: 1}, "", "");
 window.onpopstate = function(e) {
     let closedSomething = false;
@@ -1413,13 +1147,9 @@ window.onpopstate = function(e) {
     else if (document.getElementById('mod-abt').style.display === 'block') { closeModal('mod-abt'); closedSomething = true; }
     else if (document.getElementById('mod-guide').style.display === 'block') { closeModal('mod-guide'); closedSomething = true; }
     else if (document.getElementById('drawer').classList.contains('open')) { toggleDrawer(); closedSomething = true; }
-    
-    if (closedSomething) {
-        history.pushState({page: 1}, "", ""); 
-    } else {
-        history.back(); 
-    }
+    if (closedSomething) history.pushState({page: 1}, "", ""); else history.back(); 
 };
+
 init();
 </script>
 </body>

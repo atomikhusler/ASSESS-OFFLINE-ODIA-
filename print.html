@@ -18,7 +18,7 @@
         width: 100%;
         table-layout: fixed; /* PRO FIX: Forces all columns to fit without cutting off */
         border-collapse: collapse;
-        font-size: 8pt; 
+        font-size: 10pt; 
     }
     th, td {
         border: 1pt solid #000;
@@ -35,7 +35,7 @@
     
     .t-left { text-align: left; padding-left: 5px; font-weight: bold; }
     .v-th { height: 110px; vertical-align: bottom; padding-bottom: 5px; }
-    .v-txt { writing-mode: vertical-rl; transform: rotate(180deg); display: inline-block; font-size: 7pt; font-weight: bold; white-space: nowrap; }
+    .v-txt { writing-mode: vertical-rl; transform: rotate(180deg); display: inline-block; font-size: 9pt; font-weight: bold; white-space: nowrap; }
 
     /* --- 3. HEADER & BRANDING POSITIONING --- */
     .p-head {
@@ -103,9 +103,9 @@
     
     <button class="dl-btn" id="dl-btn" onclick="downloadPureHTML()" style="display:none;">🔵 Download HTML File</button>
 
-    <script>
-        // --- 1. THE RECEIVER ENGINE ---
-        window.onload = function() {
+       <script>
+        // --- 1. THE BULLETPROOF RECEIVER ENGINE ---
+        document.addEventListener("DOMContentLoaded", () => {
             const payload = localStorage.getItem('print_payload');
             const title = localStorage.getItem('print_title');
 
@@ -116,22 +116,23 @@
                 document.getElementById('dl-btn').style.display = 'block';
                 if (title) document.title = title;
 
-                // Trigger print spooler safely after 1 second
-                setTimeout(function() {
-                    window.print();
-                }, 1000);
+                // ELITE FIX: Wait for DOM painting and layout calculations before opening spooler
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        setTimeout(() => window.print(), 350); 
+                    });
+                });
             } else {
                 document.getElementById('print-content').innerHTML = "<h2 style='text-align:center; margin-top:50px; font-family:sans-serif;'>No data found. Please export from the main Assess Offline app.</h2>";
             }
-        };
+        });
 
-        // --- 2. THE BULLETPROOF DOWNLOADER ---
+        // --- 2. THE OFFLINE DOWNLOADER ---
         function downloadPureHTML() {
             const title = document.title || 'Mark_Register';
-            const payload = localStorage.getItem('print_payload') || document.getElementById('print-content').innerHTML;
+            const payload = document.getElementById('print-content').innerHTML;
             const pageStyles = document.getElementById('core-styles').innerHTML;
 
-            // Using pure string concatenation to guarantee it never breaks in your editor or browser
             const pureHTML = '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n' +
                 '<title>' + title + '</title>\n<style>\n' + pageStyles + '\n</style>\n</head>\n<body>\n' +
                 payload + '\n<div class="sig-block">Signature of Headmaster</div>\n' +
@@ -146,7 +147,7 @@
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            setTimeout(() => URL.revokeObjectURL(url), 100);
         }
     </script>
 </body>
