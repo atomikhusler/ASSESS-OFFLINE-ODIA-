@@ -111,6 +111,29 @@ For developers and auditors reviewing the source:
 * **Scalability:** The codebase uses `const MAX_CLS = 8`, making it trivial to upgrade the app to support Class 9 or 10 in a single line change.
 
 ---
+# 📜 Changelog
+
+## [v6.0] — Elite Edition (2026-03-19)
+
+### 🚀 Core Engine Upgrades
+* **Government-Compliant Math**: Integrated a strict **Ceiling Engine** (`Math.ceil`) to ensure all weightage percentages round up to the next whole number per official guidelines.
+* **Numeral-Only Sanitization**: Locked input fields to digits `0-9` only, instantly stripping decimals and non-numeric characters for cleaner data entry.
+* **Subject-Wise Evaluation**: Re-engineered the result logic to provide **Per-Subject Pass/Fail** status based on the $\ge 30\%$ threshold.
+
+### 📄 Document Architecture (PDF & Excel)
+* **3-Tier Super Headers**: Implemented a dynamic "Internal Assessment" umbrella header that perfectly groups Term 1, Written, and Project work.
+* **Surgical Column Removal**: Optimized the register layout by permanently deleting legacy weightage and grand total columns (L, P, T, U).
+* **A4 Print Optimization**: 
+    * Bumped base font size to **10pt** for physical readability.
+    * Matched vertical and horizontal header sizes for visual symmetry.
+    * Forced **Bold Black Ink** for Pass/Fail results to ensure high-contrast printing.
+* **Bulk Export Logic**: Patched the class selection array to properly iterate through ALL classes `1` through `8` during multi-sheet Excel generation.
+
+### 🛠️ Stability & Security
+* **Spooler Protection**: Eliminated the print race condition by using `requestAnimationFrame` to verify the DOM has painted before opening the system spooler.
+* **Excel Grid Alignment**: Added 2 metadata rows at the top of spreadsheets and adjusted header-style offsets for flawless MS Office and WPS compatibility.
+
+---
 
 # 📜 Changelog
 ## [v5.0] - 2026-03-13
