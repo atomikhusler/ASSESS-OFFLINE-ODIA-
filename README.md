@@ -115,6 +115,12 @@ For developers and auditors reviewing the source:
 
 ## [v6.0] — Elite Edition (2026-03-19)
 
+* **Added:** Dynamic "Max Marks" reference row (Tier-4 header) that automatically syncs with limits configuration.
+* **Added:** Dual-signature architecture (Class Teacher & Headmaster) for PDF and offline HTML exports.
+* **Fixed:** Excel export engine now dynamically calculates the Headmaster signature placement to sit perfectly at the right edge of the table.
+* **Fixed:** Adjusted print header height (`v-th` to 95px) to prevent layout breaks and data cut-offs on A4 landscape multi-page prints.
+* **UI/UX:** Applied monospace styling and distinct backgrounds to the Max Marks row for better visual separation from student data.
+
 ### 🚀 Core Engine Upgrades
 * **Government-Compliant Math**: Integrated a strict **Ceiling Engine** (`Math.ceil`) to ensure all weightage percentages round up to the next whole number per official guidelines.
 * **Numeral-Only Sanitization**: Locked input fields to digits `0-9` only, instantly stripping decimals and non-numeric characters for cleaner data entry.
