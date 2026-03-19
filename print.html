@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1200"> <title>Official CCE Register</title>
 <style id="core-styles">
+
+    thead tr:last-child th {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 11pt;
+        background: #fff !important;
+    }
+    
     /* --- 1. BASE STYLES (Clean White Look) --- */
     body {
         font-family: 'Times New Roman', serif;
@@ -34,7 +41,7 @@
     thead th { background: #f0f0f0 !important; font-weight: bold; color: #000; }
     
     .t-left { text-align: left; padding-left: 5px; font-weight: bold; }
-    .v-th { height: 110px; vertical-align: bottom; padding-bottom: 5px; }
+    .v-th { height: 95px; vertical-align: bottom; padding-bottom: 5px; }
     .v-txt { writing-mode: vertical-rl; transform: rotate(180deg); display: inline-block; font-size: 9pt; font-weight: bold; white-space: nowrap; }
 
     /* --- 3. HEADER & BRANDING POSITIONING --- */
@@ -53,12 +60,15 @@
         margin-bottom: 6px;
     }
     .p-head > div:nth-child(2) { font-size: 11pt !important; font-weight: bold; }
-
+    
     .sig-block {
-        margin-top: 50px;
-        text-align: right;
-        padding-right: 40px;
-        font-size: 13pt;
+        margin-top: 60px;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0 60px;
+        font-size: 12pt;
         font-weight: bold;
         color: #000;
         page-break-inside: avoid;
@@ -98,7 +108,7 @@
 </head>
 <body>
     <div id="print-content"></div>
-    <div class="sig-block" id="sig" style="display:none;">Signature of Headmaster</div>
+    <div class="sig-block" id="sig" style="display:none;">     <span>Signature of Class Teacher</span>     <span>Signature of Headmaster</span> </div>
     <div class="pdf-footer" id="ftr" style="display:none;">Generated via Assess Offline (Digital CCE Register) | Developed by Sahil Kumar Rout</div>
     
     <button class="dl-btn" id="dl-btn" onclick="downloadPureHTML()" style="display:none;">🔵 Download HTML File</button>
@@ -111,7 +121,7 @@
 
             if (payload) {
                 document.getElementById('print-content').innerHTML = payload;
-                document.getElementById('sig').style.display = 'block';
+                document.getElementById('sig').style.display = 'flex';
                 document.getElementById('ftr').style.display = 'block';
                 document.getElementById('dl-btn').style.display = 'block';
                 if (title) document.title = title;
@@ -135,7 +145,7 @@
 
             const pureHTML = '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n' +
                 '<title>' + title + '</title>\n<style>\n' + pageStyles + '\n</style>\n</head>\n<body>\n' +
-                payload + '\n<div class="sig-block">Signature of Headmaster</div>\n' +
+                payload + '\n<div class="sig-block"><span>Signature of Class Teacher</span><span>Signature of Headmaster</span></div>\n' +
                 '<div class="pdf-footer">Generated via Assess Offline (Digital CCE Register) | Developed by Sahil Kumar Rout</div>\n' +
                 '</body>\n</html>';
 
